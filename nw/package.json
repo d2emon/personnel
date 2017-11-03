@@ -16,8 +16,10 @@
   "author": "Dmitry Kutsenko <d2emonium@gmail.com>",
   "license": "GPL-3.0",
   "window": {
-    "toolbar": true,
-    "width": 500,
-    "height": 200
+    "width": 800,
+    "height": 600
+  },
+  "dependencies": {
+    "pretty-bytes": "^4.0.2"
   }
 }
