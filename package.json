@@ -2,7 +2,7 @@
   "name": "personnel",
   "version": "0.1.0",
   "description": "Personnal mangement app",
-  "main": "index.html",
+  "main": "src/index.js",
   "scripts": {
     "test": "test"
   },
@@ -21,6 +21,8 @@
     "height": 600
   },
   "dependencies": {
+    "jquery": "^3.2.1",
+    "jquery.flipster": "^1.1.2",
     "pretty-bytes": "^4.0.2"
   }
 }
