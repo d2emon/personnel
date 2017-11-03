@@ -2,6 +2,52 @@ var gui =require('nw.gui');
 var os = require('os');
 var prettyBytes = require('pretty-bytes');
 
+var mainMenu = new gui.Menu({type: 'menubar'});
+
+var firstMenu = new gui.Menu();
+firstMenu.append(new gui.MenuItem({
+  label: 'First menu',
+  click: function(){
+    alert('First menu');
+  }
+}));
+mainMenu.append(new gui.MenuItem({
+  label: 'First Menu',
+  submenu: firstMenu
+}));
+	
+var mmenu1 = new gui.Menu();
+mmenu1.append(new gui.MenuItem({label: 'Item 1'}));
+mainMenu.append(new gui.MenuItem({
+  label: 'Menu 1',
+  submenu: mmenu1
+}));
+
+var mmenu2 = new gui.Menu();
+mmenu2.append(new gui.MenuItem({
+  label: 'Item 1',
+  click: function(){
+    alert('Item 1');
+  }
+}));
+mmenu1.append(new gui.MenuItem({
+  label: 'Submenu 1',
+  submenu: mmenu2
+}));
+
+var submmenu1 = new gui.Menu();
+submmenu1.append(new gui.MenuItem({
+  label: 'Item 2',
+  click: function(){
+    alert('Item 2');
+  }
+}));
+mmenu2.append(new gui.MenuItem({
+  label: 'Submenu 1',
+  submenu: submmenu1
+}));
+
+gui.Window.get().menu = mainMenu
 
 var menu1 = new gui.Menu();
 menu1.append(new gui.MenuItem({label: 'Item 1'}));
@@ -46,8 +92,6 @@ $(function(){
 
       // Fetch the first image of the article
       var imageSource = content.match(urlRegex)[5];
-      alert(content);
-      alert(imageSource);
 
       // Create a li item for every article, and append it to the unordered list
       var li = $('<li><img /><a target="_blank"></a></li>');
