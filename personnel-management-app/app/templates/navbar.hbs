@@ -1,0 +1,25 @@
+<!-- Navigation -->
+<nav class="navbar navbar-fixed-top und" role="navigation">
+
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand right" href="#">{{#link-to 'main'}}<span class="glyphicon glyphicon-home"></span>{{/link-to}}</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              {{#link-to 'personnel' tagName="li"}}<a href="">Personnel</a>{{/link-to}}
+              {{#link-to 'insights' tagName="li"}}<a href="">Insights</a>{{/link-to}}
+
+            </ul>
+        </div>
+
+
+
+</nav>
