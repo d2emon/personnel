@@ -4,6 +4,7 @@
   "description": "Personnal mangement app",
   "main": "src/index.js",
   "scripts": {
+    "start": "electron .",
     "test": "test"
   },
   "repository": {
