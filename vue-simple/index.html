@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Vue</title>
+  <link rel="stylesheet" type="text/css" href="http://w2ui.com/src/w2ui-1.4.min.css" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://w2ui.com/src/w2ui-1.4.min.js"></script>  
+</head>
+<body>
+  <div id="myToolbar"></div>
+  <div id="myLayout" style="height: 400px"></div>
+  <div id="app">
+    <img src="https://vuejs.org/images/logo.png" alt="Vue logo">
+    <h1>{{ greeting }}</h1>
+    <ul>
+      <li>
+        To learn more about Vue, visit
+        <a :href="docsURL" target="_blank">
+          {{ humanizeURL(docsURL) }}
+        </a>
+      </li>
+      <li>
+        For live help with simple questions, check out
+        <a :href="gitterURL" target="_blank">
+          the Gitter chat
+        </a>
+      </li>
+      <li>
+        For more complex questions, post to
+        <a :href="forumURL" target="_blank">
+          the forum
+        </a>
+      </li>
+    </ul>
+  </div>
+  <script>
+  $(function () {
+    $('#myToolbar').w2toolbar({
+      name : 'myToolbar',
+      items: [
+        { type: 'button',  id: 'item01',  caption: 'Item 5', img: 'icon-save' },
+        { type: 'button',  id: 'item02',  caption: 'Item 5', img: 'icon-save' },
+        { type: 'break' },
+        { type: 'button',  id: 'item03',  caption: 'Item 5', img: 'icon-save' },
+        { type: 'break' },
+        { type: 'button',  id: 'item04',  caption: 'Item 5', img: 'icon-save' },
+        { type: 'button',  id: 'item05',  caption: 'Item 5', img: 'icon-save' },
+        { type: 'button',  id: 'item06',  caption: 'Item 5', img: 'icon-save' },
+        { type: 'break' },
+        { type: 'button',  id: 'item07',  caption: 'Item 5', img: 'icon-save' },
+        { type: 'break' },
+
+        { type: 'check',  id: 'item1', caption: 'Check', img: 'icon-add', checked: true },
+        { type: 'break' },
+        { type: 'menu',   id: 'item2', caption: 'Drop Down', img: 'icon-folder', 
+          items: [
+            { text: 'Item 1', img: 'icon-page' }, 
+            { text: 'Item 2', img: 'icon-page' }, 
+            { text: 'Item 3', img: 'icon-page' }
+          ]
+        },
+        { type: 'break' },
+        { type: 'radio',  id: 'item3',  group: '1', caption: 'Radio 1', img: 'icon-page' },
+        { type: 'radio',  id: 'item4',  group: '1', caption: 'Radio 2', img: 'icon-page' },
+        { type: 'spacer' },
+        { type: 'button',  id: 'item5',  caption: 'Item 5', img: 'icon-save' }
+      ]
+    });
+    $('#myLayout').w2layout({
+      name: 'myLayout',
+      panels: [
+        { type: 'top', size: 60 },
+        { type: 'left', size: 150, resizable: true },
+        { type: 'right', size: 150, resizable: true }
+      ]
+    });
+  });
+  </script>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
