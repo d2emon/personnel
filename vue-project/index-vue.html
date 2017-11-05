@@ -3,10 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" href="style-vue.css">
   </head>
   <body>
     <div id="app">
-      <h1>{{message}}</h1>
+      <ul>
+        <li v-for="bear in bears" :class="{ 'strike': bear.status }">{{ bear.name }}</li>
+      </ul>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -15,7 +18,24 @@
       new Vue({
         el: "#app",
         data: {
-          message: "Hello world!"
+          bears: [
+            {
+              name: 'гризли',
+              status: false
+            },
+            {
+              name: 'белый',
+              status: false
+            },
+            {
+              name: 'панда',
+              status: true
+            },
+            {
+              name: 'барибал',
+              status: false
+            },
+          ]
         }
       })
     </script>
