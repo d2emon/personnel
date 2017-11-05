@@ -27,3 +27,9 @@ li:last-child {
   text-decoration: line-through;
   color: #aaa;
 }
+
+.box {
+  background-color: pink;
+  width: 250px;
+  height: 250px;
+}
