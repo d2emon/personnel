@@ -3,11 +3,19 @@
   <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="style-vue.css">
   </head>
   <body>
     <div id="app">
-      <div class="box" v-show="false"></div>
+      <header>
+        <button @click.prevent="show = !show">
+          <i class="ion-navicon"></i>
+        </button>
+      </header>
+      <transition name="slide">
+        <aside v-show="show"></aside>
+      </transition>
       <button @click.prevent="buttonClick">Button</button>
       <input type="text" v-model="message" @keyup.enter="keyPressed">
       <ul>
@@ -21,6 +29,7 @@
       new Vue({
         el: "#app",
         data: {
+          show: false,
           message: '',
           bears: [
             {
@@ -45,6 +54,7 @@
           buttonClick: function() {
             console.log('Some text')
             this.bears[0].status = !this.bears[0].status
+            this.show = !this.show
           },
           keyPressed: function() {
             console.log(this.message)
