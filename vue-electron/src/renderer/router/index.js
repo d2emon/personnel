@@ -10,7 +10,12 @@ export default new Router({
       path: '/',
       name: 'landing-page',
       component: require('@/components/LandingPage').default
-      // name: 'Hello',
+      // component: HelloWorld
+    },
+    {
+      path: '/departments',
+      name: 'Departments',
+      component: require('@/components/Departments').default
       // component: HelloWorld
     },
     {

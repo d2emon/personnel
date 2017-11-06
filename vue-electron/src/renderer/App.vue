@@ -8,7 +8,7 @@
 
         <b-nav is-nav-bar class="mr-auto">
           <b-nav-item active href="#">Home <span class="sr-only">(current)</span></b-nav-item>
-          <b-nav-item href="#">Link</b-nav-item>
+          <b-nav-item to="/departments">Отделы</b-nav-item>
           <b-nav-item-dropdown text="Dropdown">
             <b-dropdown-item href="#">Action</b-dropdown-item>
             <b-dropdown-item href="#">Another action</b-dropdown-item>
@@ -44,8 +44,14 @@
 
   /* CSS */
   body {
-    padding-top: 55px;
+    padding-top: 60px;
     /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    background:
+      radial-gradient(
+        ellipse at top left,
+        rgba(255, 255, 255, 1) 40%,
+        rgba(229, 229, 229, .9) 100%
+      );
   }
 
 #app {
