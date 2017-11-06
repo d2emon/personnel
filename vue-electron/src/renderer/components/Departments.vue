@@ -1,7 +1,5 @@
 <template>
   <div>
-
-    <div id="wrapper">
       <main>
         <b-container>
           <b-row>
@@ -70,7 +68,6 @@
           </b-row> 
         </b-container>
       </main>
-    </div>
   </div>
 </template>
 

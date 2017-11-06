@@ -97,12 +97,12 @@
     width: 420px;
   }
 
-  main {
+  #wrapper main {
     display: flex;
     justify-content: space-between;
   }
 
-  main > div { flex-basis: 50%; }
+  #wrapper main > div { flex-basis: 50%; }
 
   .left-side {
     display: flex;
@@ -152,8 +152,21 @@
   }
 
 
+  #wrapper h1, h2 {
+    font-weight: normal;
+  }
 
-  a {
+  #wrapper ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #wrapper li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  #wrapper a {
     color: #42b983;
   }
 </style>

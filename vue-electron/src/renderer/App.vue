@@ -24,6 +24,19 @@
             </template>
             <b-dropdown-item href="#"><i class="fa fa-tty"></i></b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-nav-item-dropdown text="Dropdown" title="User">
+            <b-dropdown-item to="/departments"><i class="fa fa-sitemap"></i> Отделы</b-dropdown-item>
+            <b-dropdown-item href="#"><i class="fa fa-id-card-o"></i> Личные карточки</b-dropdown-item>
+            <b-dropdown-item href="#">Фильтры</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item href="#">Подразделения</b-dropdown-item>
+            <b-dropdown-item href="#">Личные карточки</b-dropdown-item>
+            <b-dropdown-item href="#">Фильтры</b-dropdown-item>
+            <!-- Using button-content slot -->
+            <template slot="button-content">
+              Справочники
+            </template>
+          </b-nav-item-dropdown>
           <b-nav-item href="#" disabled title="Disabled"><i class="fa fa-trash"></i></b-nav-item>
 
           <b-nav-form>
@@ -123,20 +136,4 @@
 .search-query:focus + button {
   z-index: 3;
 }
-
-
-
-  h1, h2 {
-    font-weight: normal;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
 </style>
