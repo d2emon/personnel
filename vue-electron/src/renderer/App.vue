@@ -1,39 +1,63 @@
 <template>
   <div id="app">
-    <h1>{{ message }}</h1>
+    <b-navbar toggleable="md" type="light" fixed="top" variant="light">
+      <b-nav-toggle target="nav_collapse"></b-nav-toggle>
+      <b-navbar-brand href="/">Personnel</b-navbar-brand>
+
+      <b-collapse is-nav id="nav_collapse">
+
+        <b-nav is-nav-bar class="mr-auto">
+          <b-nav-item active href="#">Home <span class="sr-only">(current)</span></b-nav-item>
+          <b-nav-item href="#">Link</b-nav-item>
+          <b-nav-item-dropdown text="Dropdown">
+            <b-dropdown-item href="#">Action</b-dropdown-item>
+            <b-dropdown-item href="#">Another action</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <!-- Using button-content slot -->
+            <template slot="button-content">
+              <em>User</em>
+            </template>
+            <b-dropdown-item href="#">Something else here</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item href="#" disabled>Disabled</b-nav-item>
+
+          <b-nav-form>
+            <b-form-input size="sm" class="mr-sm-2" type="search" placeholder="Search"/>
+            <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+          </b-nav-form>
+        </b-nav>
+      </b-collapse>
+    </b-navbar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'vue-electron',
-    data: function () {
-      return {
-        message: 'Hello world!'
-      }
-    }
+    name: 'vue-electron'
   }
 </script>
 
 <style>
+  @import './assets/bootstrap/css/bootstrap.css';
+  @import './assets/css/navbar-fixed-side.css';
+
   /* CSS */
+  body {
+    padding-top: 55px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+  }
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 .right {
   border-right: 1px solid #ccc;
-}
-
-body {
-  padding-top: 30px;
-  /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
 .bs-example{
