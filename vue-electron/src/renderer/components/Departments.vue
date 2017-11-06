@@ -3,7 +3,7 @@
 
     <div id="wrapper">
       <main>
-        <b-container fluid>
+        <b-container>
           <b-row>
             <b-col md="3" class="well">
               <b-card>
@@ -18,7 +18,7 @@
                 <h2>{{ selectedDepartment }}</h2>
                 <b-card no-body>
                   <b-tabs small card ref="tabs" v-model="tabIndex">
-                    <b-tab title="General">
+                    <b-tab title="Личные карточки">
                       <b-navbar type="dark" variant="primary" toggleable>
                         <b-nav-toggle target="nav_dropdown_collapse"></b-nav-toggle>
                         <b-collapse is-nav id="nav_dropdown_collapse">
@@ -41,12 +41,12 @@
                       </b-navbar>
                       <b-table striped hover :items="items" :fields="fields"></b-table>
                     </b-tab>
-                    <b-tab title="Edit profile">
+                    <b-tab title="Штат">
                       I'm the second tab
                       <b-card>I'm the card in tab</b-card>
                       <b-table striped hover :items="items" :fields="fields"></b-table>
                     </b-tab>
-                    <b-tab title="Info">
+                    <b-tab title="Контракт">
                       <b-navbar type="dark" variant="primary" toggleable>
                         <b-nav-toggle target="nav_dropdown_collapse"></b-nav-toggle>
                         <b-collapse is-nav id="nav_dropdown_collapse">
