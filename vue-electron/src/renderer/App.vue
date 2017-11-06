@@ -2,24 +2,23 @@
   <div id="app">
     <b-navbar toggleable="md" type="light" fixed="top" variant="light">
       <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-      <b-navbar-brand href="/">Personnel</b-navbar-brand>
+      <b-navbar-brand to="/" title="Кадры"><i class="fa fa-home"></i></b-navbar-brand>
 
       <b-collapse is-nav id="nav_collapse">
 
         <b-nav is-nav-bar class="mr-auto">
-          <b-nav-item active href="#">Home <span class="sr-only">(current)</span></b-nav-item>
-          <b-nav-item to="/departments">Отделы</b-nav-item>
-          <b-nav-item-dropdown text="Dropdown">
+          <b-nav-item to="/departments" title="Отделы"><i class="fa fa-sitemap"></i></b-nav-item>
+          <b-nav-item-dropdown text="Dropdown" title="User">
             <b-dropdown-item href="#">Action</b-dropdown-item>
             <b-dropdown-item href="#">Another action</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <!-- Using button-content slot -->
             <template slot="button-content">
-              <em>User</em>
+              <i class="fa fa-user"></i>
             </template>
-            <b-dropdown-item href="#">Something else here</b-dropdown-item>
+            <b-dropdown-item href="#"><i class="fa fa-tty"></i></b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item href="#" disabled>Disabled</b-nav-item>
+          <b-nav-item href="#" disabled title="Disabled"><i class="fa fa-trash"></i></b-nav-item>
 
           <b-nav-form>
             <b-form-input size="sm" class="mr-sm-2" type="search" placeholder="Search"/>
@@ -39,8 +38,8 @@
 </script>
 
 <style>
+  @import './assets/font-awesome/css/font-awesome.min.css';
   @import './assets/bootstrap/css/bootstrap.css';
-  @import './assets/css/navbar-fixed-side.css';
 
   /* CSS */
   body {
