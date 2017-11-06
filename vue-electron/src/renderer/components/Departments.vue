@@ -5,40 +5,34 @@
       <main>
         <b-container>
           <b-row>
-            <b-col md="3" class="well">
-              <b-card>
-                <b-nav vertical>
-                  <b-nav-item @click="selectedDepartment='Все'" active="selectedDepartment == 'Все'">Все</b-nav-item> 
-                  <b-nav-item v-for="department in departments" @click="selectedDepartment=department">{{ department }}</b-nav-item> 
+            <b-col md="3">
+              <b-card no-body class="departments">
+                <div class="toolbar">
+                  <b-button size="sm" variant="outline-primary" title="Добавить"><i class="fa fa-sm fa-plus"></i></b-button>
+                </div>
+                <b-nav vertical pills>
+                  <b-nav-item @click="selectedDepartment='Все'" :active="selectedDepartment == 'Все'">Все</b-nav-item> 
+                  <b-nav-item v-for="department in departments" @click="selectedDepartment=department" :active="selectedDepartment == department">{{ department }}</b-nav-item> 
                 </b-nav>
               </b-card>
             </b-col>
             <b-col md="9">
               <b-card>
-                <h2>{{ selectedDepartment }}</h2>
+                <b-row>
+                  <b-col md="9">
+                    <h2>{{ selectedDepartment }}</h2>
+                  </b-col>
+                  <b-col md="3" class="text-sm-right">
+                    <b-button size="sm" variant="outline-primary" title="Изменить"><i class="fa fa-sm fa-edit"></i></b-button>
+                    <b-button size="sm" variant="outline-primary" title="Удалить"><i class="fa fa-sm fa-trash"></i></b-button>
+                  </b-col>
+                </b-row>
                 <b-card no-body>
                   <b-tabs small card ref="tabs" v-model="tabIndex">
                     <b-tab title="Личные карточки">
-                      <b-navbar type="dark" variant="primary" toggleable>
-                        <b-nav-toggle target="nav_dropdown_collapse"></b-nav-toggle>
-                        <b-collapse is-nav id="nav_dropdown_collapse">
-                          <b-nav is-nav-bar>
-                            <b-nav-item href="#">Home</b-nav-item>
-                            <b-nav-item href="#">Link</b-nav-item>
-                            <!-- Navbar dropdowns -->
-                            <b-nav-item-dropdown text="Lang" right>
-                              <b-dropdown-item href="#">EN</b-dropdown-item>
-                              <b-dropdown-item href="#">ES</b-dropdown-item>
-                              <b-dropdown-item href="#">RU</b-dropdown-item>
-                              <b-dropdown-item href="#">FA</b-dropdown-item>
-                            </b-nav-item-dropdown>
-                            <b-nav-item-dropdown text="User" right>
-                              <b-dropdown-item href="#">Account</b-dropdown-item>
-                              <b-dropdown-item href="#">Settings</b-dropdown-item>
-                            </b-nav-item-dropdown>
-                          </b-nav>
-                        </b-collapse>
-                      </b-navbar>
+                      <div class="toolbar">
+                        <b-button size="sm" variant="outline-primary"><i class="fa fa-sm fa-plus"></i></b-button>
+                      </div>
                       <b-table striped hover :items="items" :fields="fields"></b-table>
                     </b-tab>
                     <b-tab title="Штат">
@@ -133,4 +127,15 @@
 </script>
 
 <style>
+.toolbar {
+  padding: 2px 10px;
+}
+.departments {
+  font-size: 14px;
+  padding: 5px;
+  height: 500px;
+}
+.departments .nav-link {
+  padding: 2px;
+}
 </style>

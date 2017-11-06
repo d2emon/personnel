@@ -150,4 +150,10 @@
     color: #42b983;
     background-color: transparent;
   }
+
+
+
+  a {
+    color: #42b983;
+  }
 </style>
