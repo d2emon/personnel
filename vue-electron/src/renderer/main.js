@@ -23,6 +23,15 @@ Vue.component = function (name, definition) {
 Vue.use(BootstrapVue)
 Vue.component = originalVueComponent
 
+// var fs = require('fs')
+// var sql = require('sql.js')
+// var bfr = fs.readFileSync('/tmp/db.sqlite')
+// var db = new sql.Database(bfr)
+// var db = new sql.Database()
+/* db.each('SELECT * FROM test', function (row) {
+  console.log(row)
+}) */
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },

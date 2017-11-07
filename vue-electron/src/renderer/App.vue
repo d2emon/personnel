@@ -29,9 +29,23 @@
             <b-dropdown-item href="#"><i class="fa fa-id-card-o"></i> Личные карточки</b-dropdown-item>
             <b-dropdown-item href="#">Фильтры</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#">Подразделения</b-dropdown-item>
-            <b-dropdown-item href="#">Личные карточки</b-dropdown-item>
-            <b-dropdown-item href="#">Фильтры</b-dropdown-item>
+            <b-dropdown-item href="#">Должности</b-dropdown-item>
+            <b-dropdown-item href="#">Гражданства</b-dropdown-item>
+            <b-dropdown-item href="#">Ветераны</b-dropdown-item>
+            <b-dropdown-item href="#">Диагнозы</b-dropdown-item>
+            <b-dropdown-item href="#">Проценты б/листа</b-dropdown-item>
+            <b-dropdown-item href="#">Специальности</b-dropdown-item>
+            <b-dropdown-item href="#">Отпуска</b-dropdown-item>
+            <b-dropdown-item href="#">Обучение</b-dropdown-item>
+            <b-dropdown-item href="#">Инвалидность</b-dropdown-item>
+            <b-dropdown-item href="#">Образование</b-dropdown-item>
+            <b-dropdown-item href="#">Причина увольнения</b-dropdown-item>
+            <b-dropdown-item href="#">Семейное положение</b-dropdown-item>
+            <b-dropdown-item href="#">Члены семьи</b-dropdown-item>
+            <b-dropdown-item href="#">Категории персонала</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item href="#">Режим работы</b-dropdown-item>
+            <b-dropdown-item href="#">Реквизиты предприятия</b-dropdown-item>
             <!-- Using button-content slot -->
             <template slot="button-content">
               Справочники

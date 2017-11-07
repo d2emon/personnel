@@ -19,6 +19,12 @@ export default new Router({
       // component: HelloWorld
     },
     {
+      path: '/department/edit',
+      name: 'EditDepartment',
+      component: require('@/components/EditDepartment').default
+      // component: HelloWorld
+    },
+    {
       path: '*',
       redirect: '/'
     }
