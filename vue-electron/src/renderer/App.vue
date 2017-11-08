@@ -76,7 +76,7 @@
 
   /* CSS */
   body {
-    padding-top: 60px;
+    margin-top: 60px;
     /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     background:
       radial-gradient(

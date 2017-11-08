@@ -10,7 +10,7 @@
                 </div>
                 <b-nav vertical pills>
                   <b-nav-item @click="selectedDepartment='Все'" :active="selectedDepartment == 'Все'">Все</b-nav-item> 
-                  <b-nav-item v-for="department in departments" @click="selectedDepartment=department" :active="selectedDepartment == department">{{ department }}</b-nav-item> 
+                  <b-nav-item v-for="department in departments" @click="selectedDepartment=department" :active="selectedDepartment == department">{{ department.title }}</b-nav-item> 
                 </b-nav>
               </b-card>
             </b-col>
@@ -18,7 +18,8 @@
               <b-card>
                 <b-row>
                   <b-col md="9">
-                    <h2>{{ selectedDepartment }}</h2>
+                    <h2 v-if="selectedDepartment.title">{{ selectedDepartment.title }}</h2>
+                    <h2 v-else>Все</h2>
                   </b-col>
                   <b-col md="3" class="text-sm-right">
                     <b-button size="sm" variant="outline-primary" title="Изменить" to="/department/edit"><i class="fa fa-sm fa-edit"></i></b-button>
@@ -81,6 +82,8 @@
 <script>
   import SystemInformation from './LandingPage/SystemInformation'
 
+  var Db = require('../db.js')
+
   export default {
     name: 'landing-page',
     // name: 'HelloWorld',
@@ -88,12 +91,13 @@
     data () {
       return {
         msg: 'Departments list',
-        departments: [
-          'Отдел кадров',
-          'Отдел снабжения',
-          'Бухгалтерия',
-          'Руководство'
+        basic_departments: [
+          { title: 'Отдел кадров' },
+          { title: 'Отдел снабжения' },
+          { title: 'Бухгалтерия' },
+          { title: 'Руководство' }
         ],
+        departments: [],
         selectedDepartment: 'Все',
         tabIndex: 0,
         fields: [
@@ -280,7 +284,22 @@
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
+      },
+      loadDepartments () {
+        let c = this
+        Db.DepartmentModel.find({}, function (err, departments) {
+          if (!err) {
+            // c.departments = c.basic_departments + departments
+            c.departments = departments
+            console.log('Departments reloaded')
+          } else {
+            alert(err)
+          }
+        })
       }
+    },
+    created: function () {
+      this.loadDepartments()
     }
   }
 </script>
@@ -292,7 +311,7 @@
 .departments {
   font-size: 14px;
   padding: 5px;
-  height: 500px;
+  overflow: auto;
 }
 .departments .nav-link {
   padding: 2px;

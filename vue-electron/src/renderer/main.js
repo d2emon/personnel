@@ -6,6 +6,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+// var Db = require('./db.js')
+
 // require('./assets/bootstrap/js/bootstrap.js')
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
@@ -22,15 +24,6 @@ Vue.component = function (name, definition) {
 
 Vue.use(BootstrapVue)
 Vue.component = originalVueComponent
-
-// var fs = require('fs')
-// var sql = require('sql.js')
-// var bfr = fs.readFileSync('/tmp/db.sqlite')
-// var db = new sql.Database(bfr)
-// var db = new sql.Database()
-/* db.each('SELECT * FROM test', function (row) {
-  console.log(row)
-}) */
 
 /* eslint-disable no-new */
 new Vue({

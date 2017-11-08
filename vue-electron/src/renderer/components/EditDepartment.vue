@@ -10,24 +10,26 @@
                   <b-row>
                     <b-col md="4">
                       Наименование
+                      {{ department_comments }} 
                     </b-col>
                     <b-col md="8">
-                      <input type="text" :value="name">
+                      <input type="text" v-model="department_title">
                     </b-col>
                   </b-row>
                   <b-row>
                     <b-col md="4">
                       Комментарий
+                      {{ department_title }}
                     </b-col>
                     <b-col md="8">
-                      <textarea>{{ comment }}</textarea>
+                      <textarea v-model="department_comments">{{ department_comments }}</textarea>
                     </b-col>
                   </b-row>
                   <b-row>
                     <b-col md="4">
                     </b-col>
                     <b-col md="8">
-                      <input type="submit" value="Ок" class="btn btn-success">                
+                      <input type="submit" value="Ок" class="btn btn-sm btn-success" @click="addDepartment">                
                     </b-col>
                   </b-row>
                 </b-container>
@@ -49,111 +51,124 @@
 </template>
 
 <script>
-  export default {
-    name: 'department',
-    data () {
-      return {
-        name: '',
-        comment: '',
-        tabIndex: 0,
-        staff_fields: [
-          {
-            key: 'job_code',
-            label: 'Код',
-            sortable: true
-          },
-          {
-            key: 'job_name',
-            label: 'Должность',
-            sortable: true
-          },
-          {
-            key: 'vacancy_total',
-            label: 'Всего вакансий',
-            sortable: true
-          },
-          {
-            key: 'vacancy_filled',
-            label: 'Занятых вакансий',
-            sortable: true
-          },
-          {
-            key: 'category_code',
-            label: 'Код',
-            sortable: true
-          },
-          {
-            key: 'category_title',
-            label: 'Категория',
-            sortable: true
-          },
-          {
-            key: 'level',
-            label: 'Разряд',
-            sortable: true
-          },
-          {
-            key: 'wages',
-            label: 'Тарифная ставка',
-            sortable: true
-          },
-          {
-            key: 'salary_min',
-            label: 'Мин. оклад',
-            sortable: true
-          },
-          {
-            key: 'salary_max',
-            label: 'Макс. оклад',
-            sortable: true
-          }
-        ],
-        staff: [
-          {
-            job_code: '02000000',
-            job_name: 'Начальник отдела кадров',
-            vacancy_total: 3.0,
-            vacancy_filled: 2.25,
-            category_code: 1,
-            category_title: 'итр',
-            level: '',
-            wages: 0.0,
-            salary_min: 0.0,
-            salary_max: 0.0
-          },
-          {
-            job_code: '0201000',
-            job_name: 'Специалист по работе с кадрами',
-            vacancy_total: 2.0,
-            vacancy_filled: 1.0,
-            category_code: 3,
-            category_title: 'МОП',
-            level: '',
-            wages: 0.0,
-            salary_min: 100.0,
-            salary_max: 200.0
-          },
-          {
-            job_code: '02020000',
-            job_name: 'Инспектор отдела кадров',
-            vacancy_total: 15.0,
-            vacancy_filled: 9.5,
-            category_code: 2,
-            category_title: 'служащие',
-            level: '',
-            wages: 0,
-            salary_min: 0,
-            salary_max: 0
-          }
-        ]
-      }
+var Db = require('../db.js')
+
+export default {
+  name: 'department',
+  data () {
+    return {
+      tabIndex: 0,
+      db: Db,
+      departments: [],
+      department_title: 'iii',
+      department_comments: '',
+      staff_fields: [
+        {
+          key: 'job_code',
+          label: 'Код',
+          sortable: true
+        },
+        {
+          key: 'job_name',
+          label: 'Должность',
+          sortable: true
+        },
+        {
+          key: 'vacancy_total',
+          label: 'Всего вакансий',
+          sortable: true
+        },
+        {
+          key: 'vacancy_filled',
+          label: 'Занятых вакансий',
+          sortable: true
+        },
+        {
+          key: 'category_code',
+          label: 'Код',
+          sortable: true
+        },
+        {
+          key: 'category_title',
+          label: 'Категория',
+          sortable: true
+        },
+        {
+          key: 'level',
+          label: 'Разряд',
+          sortable: true
+        },
+        {
+          key: 'wages',
+          label: 'Тарифная ставка',
+          sortable: true
+        },
+        {
+          key: 'salary_min',
+          label: 'Мин. оклад',
+          sortable: true
+        },
+        {
+          key: 'salary_max',
+          label: 'Макс. оклад',
+          sortable: true
+        }
+      ],
+      staff: [
+        {
+          job_code: '02000000',
+          job_name: 'Начальник отдела кадров',
+          vacancy_total: 3.0,
+          vacancy_filled: 2.25,
+          category_code: 1,
+          category_title: 'итр',
+          level: '',
+          wages: 0.0,
+          salary_min: 0.0,
+          salary_max: 0.0
+        },
+        {
+          job_code: '0201000',
+          job_name: 'Специалист по работе с кадрами',
+          vacancy_total: 2.0,
+          vacancy_filled: 1.0,
+          category_code: 3,
+          category_title: 'МОП',
+          level: '',
+          wages: 0.0,
+          salary_min: 100.0,
+          salary_max: 200.0
+        },
+        {
+          job_code: '02020000',
+          job_name: 'Инспектор отдела кадров',
+          vacancy_total: 15.0,
+          vacancy_filled: 9.5,
+          category_code: 2,
+          category_title: 'служащие',
+          level: '',
+          wages: 0,
+          salary_min: 0,
+          salary_max: 0
+        }
+      ]
+    }
+  },
+  methods: {
+    open (link) {
+      this.$electron.shell.openExternal(link)
     },
-    methods: {
-      open (link) {
-        this.$electron.shell.openExternal(link)
-      }
+    addDepartment (e) {
+      e.preventDefault()
+
+      let d = new Db.DepartmentModel({
+        title: this.department_title,
+        comments: this.department_comments
+      })
+      d.save()
     }
   }
+}
 </script>
 
 <style>
