@@ -45,9 +45,33 @@ var Schema = mongoose.Schema
  * });
  */
 
+var JobCategory = new Schema({
+  title: { type: String, required: true }
+})
+
+var Job = new Schema({
+  job_code: { type: String, required: true },
+  title: { type: String, required: true },
+  category: JobCategory
+})
+
+var Vacancy = new Schema({
+  job: Job,
+  rank: String,
+  /*
+  wages: Integer,
+  vacancy_total: Integer,
+  vacancy_filled: Currency,
+  salary_min: Currency,
+  salary_max: Currency,
+  */
+  comment: { type: String }
+})
+
 var Department = new Schema({
   title: { type: String, required: true },
-  description: { type: String }
+  comment: { type: String },
+  vacancies: [Vacancy]
 })
 
 // validation
