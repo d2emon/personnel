@@ -9,8 +9,8 @@
                   <b-button size="sm" variant="outline-primary" title="Добавить" to="/department/edit"><i class="fa fa-sm fa-plus"></i></b-button>
                 </div>
                 <b-nav vertical pills>
-                  <b-nav-item @click="selectedDepartment='Все'" :active="selectedDepartment == 'Все'">Все</b-nav-item> 
-                  <b-nav-item v-for="department in departments" @click="selectedDepartment=department" :active="selectedDepartment == department">{{ department.title }}</b-nav-item> 
+                  <b-nav-item @click="selectedDepartment='Все'" :active="selectedDepartment == 'Все'">Все</b-nav-item>
+                  <b-nav-item v-for="department in departments" @click="selectedDepartment=department" :active="selectedDepartment == department">{{ department.title }}</b-nav-item>
                 </b-nav>
               </b-card>
             </b-col>
@@ -73,7 +73,7 @@
                 </b-card>
               </b-card>
             </b-col>
-          </b-row> 
+          </b-row>
         </b-container>
       </main>
   </div>
@@ -89,6 +89,33 @@
     // name: 'HelloWorld',
     components: { SystemInformation },
     data () {
+      let category = {
+        title: 'итр'
+      }
+      let job = {
+        job_code: '02000000',
+        title: 'Начальник отдела кадров',
+        category: category
+      }
+      let staff = {
+        job: job,
+        rank: '',
+        wages: 0.0,
+        vacancy_total: 3.0,
+        vacancy_filled: 2.25,
+        salary_min: 0.0,
+        salary_max: 0.0,
+
+        category_title: job.category.title,
+        job_code: job.job_code,
+        job_title: job.title
+      }
+      let staffTable = [
+        staff,
+        staff,
+        staff
+      ]
+
       return {
         msg: 'Departments list',
         basic_departments: [
@@ -147,7 +174,8 @@
             sortable: true
           }
         ],
-        items: [
+        items: staffTable,
+        items1: [
           {
             isFulltime: 'Постоянный',
             tabN: 1543,
