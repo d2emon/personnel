@@ -4,7 +4,7 @@
         <b-container>
           <b-row>
             <b-col md="3">
-              <b-card no-body class="departments">
+              <b-card no-body class="full-h departments">
                 <div class="toolbar">
                   <b-button size="sm" variant="outline-primary" title="Добавить" to="/department/edit"><i class="fa fa-sm fa-plus"></i></b-button>
                 </div>
@@ -15,7 +15,7 @@
               </b-card>
             </b-col>
             <b-col md="9">
-              <b-card>
+              <b-card no-body class="full-h main-part">
                 <b-row>
                   <b-col md="9">
                     <h2 v-if="selectedDepartment.title">{{ selectedDepartment.title }}</h2>
@@ -339,10 +339,13 @@
 .departments {
   font-size: 14px;
   padding: 5px;
-  overflow: auto;
 }
 .departments .nav-link {
   padding: 2px;
+}
+.main-part {
+  padding: 5px;
+  overflow: hidden;
 }
 .overtab {
   overflow: auto;

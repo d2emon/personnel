@@ -95,6 +95,11 @@
     color: #2c3e50;
   }
 
+.full-h {
+  overflow: auto;
+  height: calc(100vh - 70px);
+}  
+
 .right {
   border-right: 1px solid #ccc;
 }
