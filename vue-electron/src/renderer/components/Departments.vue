@@ -174,8 +174,7 @@
             sortable: true
           }
         ],
-        items: staffTable,
-        items1: [
+        items: [
           {
             isFulltime: 'Постоянный',
             tabN: 1543,
@@ -245,7 +244,8 @@
             sortable: true
           }
         ],
-        staff: [
+        staff: staffTable,
+        staff1: [
           {
             job_code: '02000000',
             job_name: 'Начальник отдела кадров',
