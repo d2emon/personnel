@@ -14,6 +14,7 @@
           <b-nav-item to="/departments" title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
           <b-nav-item to="/departments" title="Рабочая дата"><i class="fa fa-calendar-check-o"></i></b-nav-item>
           <b-nav-item to="/departments" title="Настройки"><i class="fa fa-cog"></i></b-nav-item>
+          <b-nav-item @click="reconnect" title="Переподключить БД"><i class="fa fa-refresh"></i></b-nav-item>
           <b-nav-item-dropdown text="Dropdown" title="User">
             <b-dropdown-item href="#">Action</b-dropdown-item>
             <b-dropdown-item href="#">Another action</b-dropdown-item>
@@ -60,14 +61,50 @@
         </b-nav>
       </b-collapse>
     </b-navbar>
+    <b-modal ref="dbError" title="Ошибка" header-bg-variant="warning">
+      <p class="my-4">{{ dbErrorText }}</p>
+    </b-modal>
+    <b-modal ref="dbInfo" title="База Данных" header-bg-variant="info">
+      <p class="my-4">{{ dbInfoText }}</p>
+    </b-modal>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'vue-electron'
+var Db = require('./db.js')
+var connection = Db.connection
+
+export default {
+  name: 'vue-electron',
+  data () {
+    return {
+      dbInfoText: '',
+      dbErrorText: 'Неизвестная ошибка'
+    }
+  },
+  methods: {
+    reconnect () {
+      var doc = this
+      connection.once('disconnected', function () {
+        Db.connect()
+      })
+      connection.once('open', function callback () {
+        doc.dbInfoText = 'БД подключена!'
+        doc.$refs.dbInfo.show()
+      })
+      Db.disconnect()
+    }
+  },
+  created: function () {
+    var doc = this
+    connection.on('error', function (err) {
+      doc.dbErrorText = err.message
+      doc.$refs.dbError.show()
+      console.log(err.message)
+    })
   }
+}
 </script>
 
 <style>

@@ -10,16 +10,20 @@
 var mongoose = require('mongoose')
 // var log         = require('./log')(module);
 
-mongoose.connect('mongodb://localhost/test1')
-var db = mongoose.connection
+var db = null
 
-db.on('error', function (err) {
-  alert(['connection error:', err.message])
-})
+function connect () {
+  mongoose.connect('mongodb://localhost/personnel')
+  var db = mongoose.connection
+  return db
+}
 
-db.once('open', function callback () {
-  console.log('Connected to DB!')
-})
+function disconnect () {
+  mongoose.disconnect()
+  console.log('Connection closed!')
+}
+
+db = connect()
 
 var Schema = mongoose.Schema
 
@@ -83,3 +87,6 @@ var Department = new Schema({
 
 var DepartmentModel = mongoose.model('Department', Department)
 module.exports.DepartmentModel = DepartmentModel
+module.exports.connection = db
+module.exports.connect = connect
+module.exports.disconnect = disconnect
