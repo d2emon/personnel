@@ -1,16 +1,20 @@
 <template>
   <div>
+      <b-modal ref="editDepartment" :title="selectedDepartmentTitle">
+        <edit-department v-model="selectedDepartment"></edit-department>
+      </b-modal>
+
       <main>
         <b-container>
           <b-row>
             <b-col md="3">
               <b-card no-body class="full-h departments">
                 <div class="toolbar">
-                  <b-button size="sm" variant="outline-primary" title="Добавить" to="/department/edit"><i class="fa fa-sm fa-plus"></i></b-button>
+                  <b-button size="sm" variant="outline-primary" title="Добавить" @click="editDepartment(null)"><i class="fa fa-sm fa-plus"></i></b-button>
                 </div>
                 <b-nav vertical pills>
-                  <b-nav-item @click="selectedDepartment='Все'" :active="selectedDepartment == 'Все'">Все</b-nav-item>
-                  <b-nav-item v-for="department in departments" @click="selectedDepartment=department" :active="selectedDepartment == department">{{ department.title }}</b-nav-item>
+                  <b-nav-item @click="viewDepartment(null)" :active="!selectedDepartmentId">Все</b-nav-item>
+                  <b-nav-item v-for="department in departments" @click="viewDepartment(department)" :active="selectedDepartmentId == department.id">{{ department.title }}</b-nav-item>
                 </b-nav>
               </b-card>
             </b-col>
@@ -18,11 +22,11 @@
               <b-card no-body class="full-h main-part">
                 <b-row>
                   <b-col md="9">
-                    <h2 v-if="selectedDepartment.title">{{ selectedDepartment.title }}</h2>
+                    <h2 v-if="selectedDepartmentId">{{ selectedDepartment.title }}</h2>
                     <h2 v-else>Все</h2>
                   </b-col>
-                  <b-col md="3" class="text-sm-right">
-                    <b-button size="sm" variant="outline-primary" title="Изменить" to="/department/edit"><i class="fa fa-sm fa-edit"></i></b-button>
+                  <b-col md="3" class="text-sm-right" v-if="selectedDepartmentId">
+                    <b-button size="sm" variant="outline-primary" title="Изменить" @click="editDepartment(selectedDepartment)"><i class="fa fa-sm fa-edit"></i></b-button>
                     <b-button size="sm" variant="outline-primary" title="Удалить"><i class="fa fa-sm fa-trash"></i></b-button>
                   </b-col>
                 </b-row>
@@ -80,14 +84,30 @@
 </template>
 
 <script>
-  import SystemInformation from './LandingPage/SystemInformation'
+  import EditDepartment from './EditDepartment'
 
   var Db = require('../db.js')
 
   export default {
-    name: 'landing-page',
+    name: 'departments',
     // name: 'HelloWorld',
-    components: { SystemInformation },
+    components: { EditDepartment },
+    computed: {
+      selectedDepartmentTitle: function () {
+        if (this.selectedDepartment) {
+          return this.selectedDepartment.title
+        } else {
+          return 'Новый отдел'
+        }
+      },
+      selectedDepartmentId: function () {
+        if (this.selectedDepartment) {
+          return this.selectedDepartment.id
+        } else {
+          return 0
+        }
+      }
+    },
     data () {
       let category = {
         title: 'итр'
@@ -115,15 +135,10 @@
         staff,
         staff
       ]
-
+      // let selectedDepartmentId = this.$route.params.id
+  
       return {
         msg: 'Departments list',
-        basic_departments: [
-          { title: 'Отдел кадров' },
-          { title: 'Отдел снабжения' },
-          { title: 'Бухгалтерия' },
-          { title: 'Руководство' }
-        ],
         departments: [],
         selectedDepartment: 'Все',
         tabIndex: 0,
@@ -324,6 +339,16 @@
             alert(err)
           }
         })
+      },
+      viewDepartment: function (department) {
+        if (department) {
+          this.selectedDepartment = department
+        } else {
+          this.selectedDepartment = null
+        }
+      },
+      editDepartment: function (department) {
+        this.$refs.editDepartment.show()
       }
     },
     created: function () {

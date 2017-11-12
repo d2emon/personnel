@@ -4,36 +4,17 @@
       <b-card no-body>
         <b-tabs small card ref="tabs" v-model="tabIndex">
           <b-tab title="Отдел">
-            <div class="overtab">
-              <form>
-                <b-container>
-                  <b-row>
-                    <b-col md="4">
-                      Наименование
-                      {{ department_comments }}
-                    </b-col>
-                    <b-col md="8">
-                      <input type="text" v-model="department_title">
-                    </b-col>
-                  </b-row>
-                  <b-row>
-                    <b-col md="4">
-                      Комментарий
-                      {{ department_title }}
-                    </b-col>
-                    <b-col md="8">
-                      <textarea v-model="department_comments">{{ department_comments }}</textarea>
-                    </b-col>
-                  </b-row>
-                  <b-row>
-                    <b-col md="4">
-                    </b-col>
-                    <b-col md="8">
-                      <input type="submit" value="Ок" class="btn btn-sm btn-success" @click="addDepartment">
-                    </b-col>
-                  </b-row>
-                </b-container>
-              </form>
+            <div>
+              <b-form @submit="addDepartment">
+                <b-form-group label="Название:" label-for="departmentTitle">
+                  <b-form-input id="departmentTitle" type="text" v-model="department.title" required placeholder="Название отдела"></b-form-input>
+                </b-form-group>
+                <b-form-group label="Комментарии:" label-for="departmentComment">
+                  <b-form-textarea id="departmentComment" :rows="3" v-model="department.comment"></b-form-textarea>
+                </b-form-group>
+                <b-button type="submit" variant="primary">Сохранить</b-button>
+                <b-button type="reset" variant="secondary" @click="closeDepartmentEditor">Отмена</b-button>
+              </b-form>
             </div>
           </b-tab>
           <b-tab title="Вакансии">
@@ -55,7 +36,18 @@ var Db = require('../db.js')
 
 export default {
   name: 'department',
+  props: [
+    'value'
+  ],
   data () {
+    let department = null
+    // this.departmentId = this.$route.params.id
+    if (this.value) {
+      department = this.value
+    } else {
+      department = new Db.DepartmentModel()
+    }
+
     let category = {
       title: 'итр'
     }
@@ -87,8 +79,7 @@ export default {
       tabIndex: 0,
       db: Db,
       departments: [],
-      department_title: '',
-      department_comments: '',
+      department: department,
       staff_fields: [
         {
           key: 'job_code',
@@ -145,13 +136,41 @@ export default {
     },
     addDepartment (e) {
       e.preventDefault()
-
-      let d = new Db.DepartmentModel({
-        title: this.department_title,
-        comments: this.department_comments
+      this.department.save()
+      // this.$router.push('/departments')
+    },
+    closeDepartmentEditor (e) {
+      e.preventDefault()
+      console.log('Cancel')
+      console.log(this.value)
+      console.log(this.departmentId)
+      alert(this.value)
+      // this.$router.push('/departments')
+    },
+    loadDepartment: function (id) {
+      let c = this
+      Db.DepartmentModel.findById(id, function (err, department) {
+        if (!err) {
+          c.value = department
+          console.log(department)
+          console.log(department.title)
+        } else {
+          alert(err)
+        }
       })
-      d.save()
     }
+  },
+  watch: {
+    value: function (newValue) {
+      if (newValue) {
+        this.department = newValue
+      } else {
+        this.department = new Db.DepartmentModel()
+      }
+    }
+  },
+  updated: function () {
+    // this.loadDepartment(this.departmentId)
   }
 }
 </script>
