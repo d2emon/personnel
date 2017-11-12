@@ -27,7 +27,7 @@
                   </b-col>
                   <b-col md="3" class="text-sm-right" v-if="selectedDepartmentId">
                     <b-button size="sm" variant="outline-primary" title="Изменить" @click="editDepartment(selectedDepartment)"><i class="fa fa-sm fa-edit"></i></b-button>
-                    <b-button size="sm" variant="outline-primary" title="Удалить"><i class="fa fa-sm fa-trash"></i></b-button>
+                    <b-button size="sm" variant="outline-primary" title="Удалить" @click="delDepartment(selectedDepartment)"><i class="fa fa-sm fa-trash"></i></b-button>
                   </b-col>
                 </b-row>
                 <b-card no-body>
@@ -349,6 +349,19 @@
       },
       editDepartment: function (department) {
         this.$refs.editDepartment.show()
+      },
+      delDepartment: function (department) {
+        if (department) {
+          let doc = this
+          Db.DepartmentModel.findByIdAndRemove(department.id, function (err) {
+            if (!err) {
+              alert('Запись удалена')
+              doc.loadDepartments()
+            } else {
+              alert(err)
+            }
+          })
+        }
       }
     },
     created: function () {
