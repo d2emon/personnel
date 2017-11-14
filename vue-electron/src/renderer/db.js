@@ -85,6 +85,7 @@ var Department = new Schema({
  * });
  */
 
+module.exports.JobCategoryModel = mongoose.model('JobCategory', Department)
 var DepartmentModel = mongoose.model('Department', Department)
 module.exports.DepartmentModel = DepartmentModel
 module.exports.connection = db

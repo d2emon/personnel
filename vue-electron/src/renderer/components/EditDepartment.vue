@@ -162,6 +162,8 @@ export default {
   },
   watch: {
     value: function (newValue) {
+      console.log('watch')
+      console.log(newValue)
       if (newValue) {
         this.department = newValue
       } else {

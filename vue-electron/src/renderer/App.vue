@@ -43,7 +43,7 @@
             <b-dropdown-item href="#">Причина увольнения</b-dropdown-item>
             <b-dropdown-item href="#">Семейное положение</b-dropdown-item>
             <b-dropdown-item href="#">Члены семьи</b-dropdown-item>
-            <b-dropdown-item href="#">Категории персонала</b-dropdown-item>
+            <b-dropdown-item href="#" @click="listJobCategories()">Категории персонала</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item href="#">Режим работы</b-dropdown-item>
             <b-dropdown-item href="#">Реквизиты предприятия</b-dropdown-item>
@@ -52,31 +52,36 @@
               Справочники
             </template>
           </b-nav-item-dropdown>
-          <b-nav-item href="#" disabled title="Disabled"><i class="fa fa-trash"></i></b-nav-item>
-
-          <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" type="search" placeholder="Search"/>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-          </b-nav-form>
         </b-nav>
       </b-collapse>
     </b-navbar>
     <b-modal ref="dbError" title="Ошибка" header-bg-variant="warning">
       <p class="my-4">{{ dbErrorText }}</p>
     </b-modal>
+
     <b-modal ref="dbInfo" title="База Данных" header-bg-variant="info">
       <p class="my-4">{{ dbInfoText }}</p>
     </b-modal>
+
+    <b-modal ref="listJobCategories" title="selectedDepartmentTitle">
+      <job-categories></job-categories>
+    </b-modal>
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import JobCategories from './components/JobCategory/JobCategories'
+
 var Db = require('./db.js')
 var connection = Db.connection
 
 export default {
   name: 'vue-electron',
+  components: {
+    JobCategories
+  },
   data () {
     return {
       dbInfoText: '',
@@ -94,6 +99,9 @@ export default {
         doc.$refs.dbInfo.show()
       })
       Db.disconnect()
+    },
+    listJobCategories: function () {
+      this.$refs.listJobCategories.show()
     }
   },
   created: function () {
@@ -135,7 +143,7 @@ export default {
 .full-h {
   overflow: auto;
   height: calc(100vh - 70px);
-}  
+}
 
 .right {
   border-right: 1px solid #ccc;

@@ -91,7 +91,9 @@
   export default {
     name: 'departments',
     // name: 'HelloWorld',
-    components: { EditDepartment },
+    components: [
+      EditDepartment
+    ],
     computed: {
       selectedDepartmentTitle: function () {
         if (this.selectedDepartment) {
@@ -136,7 +138,7 @@
         staff
       ]
       // let selectedDepartmentId = this.$route.params.id
-  
+
       return {
         msg: 'Departments list',
         departments: [],
@@ -348,6 +350,7 @@
         }
       },
       editDepartment: function (department) {
+        this.viewDepartment(department)
         this.$refs.editDepartment.show()
       },
       delDepartment: function (department) {
