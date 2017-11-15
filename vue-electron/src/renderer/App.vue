@@ -43,7 +43,7 @@
             <b-dropdown-item href="#">Причина увольнения</b-dropdown-item>
             <b-dropdown-item href="#">Семейное положение</b-dropdown-item>
             <b-dropdown-item href="#">Члены семьи</b-dropdown-item>
-            <b-dropdown-item href="#" @click="listJobCategories()">Категории персонала</b-dropdown-item>
+            <b-dropdown-item href="#" to="/job-categories">Категории персонала</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item href="#">Режим работы</b-dropdown-item>
             <b-dropdown-item href="#">Реквизиты предприятия</b-dropdown-item>

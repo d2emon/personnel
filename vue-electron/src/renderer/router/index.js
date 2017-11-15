@@ -26,13 +26,30 @@ export default new Router({
     {
       path: '/department/edit/:id',
       name: 'edit-department',
-      component: require('@/components/EditDepartment').default
+      redirect: '/department/new'
+      // component: require('@/components/EditDepartment').default
       // component: HelloWorld
     },
     {
       path: '/department/:id',
       name: 'Department',
       component: require('@/components/Departments').default
+    },
+    {
+      path: '/job-categories',
+      name: 'Job Categories',
+      component: require('@/components/JobCategory/JobCategories').default
+    },
+    {
+      path: '/job-category/new',
+      name: 'New Category',
+      component: require('@/components/JobCategory/EditJobCategory').default
+    },
+    {
+      path: '/job-category/edit/:id',
+      name: 'Edit Category',
+      redirect: '/job-category/new'
+      // component: require('@/components/JobCategory/EditJobCategory').default
     },
     {
       path: '*',

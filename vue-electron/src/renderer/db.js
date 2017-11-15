@@ -9,11 +9,20 @@
 
 var mongoose = require('mongoose')
 // var log         = require('./log')(module);
+var mongoUrl = 'mongodb://localhost:27017/personnel'
 
 var db = null
 
 function connect () {
-  mongoose.connect('mongodb://localhost/personnel')
+  // mongoose.connect('mongodb://localhost/personnel')
+  mongoose.connect(mongoUrl, function (err) {
+    if (err) {
+      console.error('Failed to connect to mongo on startup - retrying in 5 sec', err)
+      setTimeout(connect, 5000)
+    }
+  })
+  // mongoose.connect(uri, { server: { reconnectTries: Number.MAX_VALUE } })
+
   var db = mongoose.connection
   return db
 }
