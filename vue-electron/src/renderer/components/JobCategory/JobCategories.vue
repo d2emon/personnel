@@ -18,7 +18,7 @@
         <template slot="show_details" scope="row" sm="3">
           <b-button-group>
             <b-btn size="sm" variant="primary" title="Изменить" @click.stop="details(row.item, row.index, $event.target)"><i class="fa fa-sm fa-edit"></i></b-btn>
-            <b-btn size="sm" variant="primary" title="Удалить" @click.stop="details(row.item, row.index, $event.target)"><i class="fa fa-sm fa-trash"></i></b-btn>
+            <b-btn size="sm" variant="primary" title="Удалить" @click.stop="delCategory(row.item.id)"><i class="fa fa-sm fa-trash"></i></b-btn>
           </b-button-group>
         </template>
         <template slot="category" scope="row">{{ row.item.title }}</template>
@@ -92,6 +92,19 @@ export default {
       this.$refs.editJobCategory.show()
       console.log('show category')
       // this.loadItems()
+    },
+    delCategory: function (categoryId) {
+      if (!categoryId) { return false }
+
+      let doc = this
+      Db.JobCategoryModel.findByIdAndRemove(categoryId, function (err) {
+        if (!err) {
+          alert('Запись удалена')
+          doc.loadItems()
+        } else {
+          alert(err)
+        }
+      })
     },
     details: function (item, index, button) {
       item._showDetails = !item._showDetails
