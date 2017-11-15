@@ -41,15 +41,10 @@ export default new Router({
       component: require('@/components/JobCategory/JobCategories').default
     },
     {
-      path: '/job-category/new',
-      name: 'New Category',
-      component: require('@/components/JobCategory/EditJobCategory').default
-    },
-    {
       path: '/job-category/edit/:id',
+      // alias: '/job-category/new',
       name: 'Edit Category',
-      redirect: '/job-category/new'
-      // component: require('@/components/JobCategory/EditJobCategory').default
+      component: require('@/components/JobCategory/EditJobCategory').default
     },
     {
       path: '*',

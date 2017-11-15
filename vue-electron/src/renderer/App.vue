@@ -55,7 +55,7 @@
         </b-nav>
       </b-collapse>
     </b-navbar>
-    <b-modal ref="dbError" title="Ошибка" header-bg-variant="warning">
+    <b-modal ref="dbError" id="dbError" title="Ошибка" header-bg-variant="warning">
       <p class="my-4">{{ dbErrorText }}</p>
     </b-modal>
 
