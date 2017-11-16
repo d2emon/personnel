@@ -32,7 +32,6 @@
     <div v-else>
       <b-jumbotron header="Данные отсутствуют" lead="Вы еще не добавили ни одной категории персонала" >
         <b-btn size="lg" variant="primary" title="Добавить" to="/job-category/edit/0">Добавить</b-btn>
-        <b-button size="lg" variant="primary" title="Обновить"  @click="fetchData">Обновить</b-button>
       </b-jumbotron>
     </div>
   </b-container>

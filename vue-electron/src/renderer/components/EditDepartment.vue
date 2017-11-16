@@ -1,34 +1,38 @@
 <template>
-  <div>
+  <b-container>
     <main>
       <b-card no-body>
         <b-tabs small card ref="tabs" v-model="tabIndex">
           <b-tab title="Отдел">
             <div>
-              <b-form @submit="addDepartment">
+              <b-form @submit="addModel">
                 <b-form-group label="Название:" label-for="departmentTitle">
-                  <b-form-input id="departmentTitle" type="text" v-model="department.title" required placeholder="Название отдела"></b-form-input>
+                  <b-form-input id="departmentTitle" type="text" v-model="model.title" required placeholder="Название отдела"></b-form-input>
                 </b-form-group>
                 <b-form-group label="Комментарии:" label-for="departmentComment">
-                  <b-form-textarea id="departmentComment" :rows="3" v-model="department.comment"></b-form-textarea>
+                  <b-form-textarea id="departmentComment" :rows="3" v-model="model.comment"></b-form-textarea>
                 </b-form-group>
                 <b-button type="submit" variant="primary">Сохранить</b-button>
-                <b-button type="reset" variant="secondary" @click="closeDepartmentEditor">Отмена</b-button>
+                <b-button type="reset" variant="secondary" @click="closeEditor">Отмена</b-button>
               </b-form>
             </div>
           </b-tab>
           <b-tab title="Вакансии">
             <div class="toolbar">
-              <b-button size="sm" variant="outline-primary"><i class="fa fa-sm fa-plus"></i></b-button>
+              <b-button size="sm" variant="outline-primary" :to="'/vacancy/' + model.id + '/0'"><i class="fa fa-sm fa-plus"></i></b-button>
             </div>
             <div class="overtab">
-              <b-table striped hover :items="staff" :fields="staff_fields"></b-table>
+              <b-table striped hover :items="staff" :fields="staff_fields">
+                <template slot="job_id" scope="row">{{ row.item.job.job_code }}</template>
+                <template slot="job_title" scope="row">{{ row.item.job.title }}</template>
+                <template slot="category_title" scope="row">{{ row.item.job.category.title }}</template>
+              </b-table>
             </div>
           </b-tab>
         </b-tabs>
       </b-card>
     </main>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -40,22 +44,16 @@ export default {
     'value'
   ],
   data () {
+    console.log('Forming data')
+
     let department = null
     // this.departmentId = this.$route.params.id
-    if (this.value) {
-      department = this.value
-    } else {
-      department = new Db.DepartmentModel()
-    }
 
-    let category = {
-      title: 'итр'
-    }
-    let job = {
+    let job = new Db.JobModel({
       job_code: '02000000',
       title: 'Начальник отдела кадров',
-      category: category
-    }
+      category: new Db.JobCategoryModel({ title: 'итр' })
+    })
     let staff = {
       job: job,
       rank: '',
@@ -74,15 +72,46 @@ export default {
       staff,
       staff
     ]
+    console.log(staffTable)
+
+    // this.departmentId = this.$route.params.id
+
+    if (this.value) {
+      department = this.value
+    } else {
+      department = new Db.DepartmentModel()
+    }
+
+    if (this.$route.params.id !== '0') {
+      var doc = this
+      Db.DepartmentModel.findById(this.$route.params.id, function (err, model) {
+        if (err) {
+          alert(err)
+          return
+        }
+
+        doc.model = model
+      })
+    }
+
+    Db.VacancyModel.find({}, function (err, models) {
+      if (err) {
+        alert(err)
+        return
+      }
+
+      doc.staff = models
+      console.log(models)
+    })
 
     return {
       tabIndex: 0,
       db: Db,
       departments: [],
-      department: department,
+      model: department,
       staff_fields: [
         {
-          key: 'job_code',
+          key: 'job_id',
           label: 'Код',
           sortable: true
         },
@@ -107,7 +136,7 @@ export default {
           sortable: true
         },
         {
-          key: 'level',
+          key: 'rank',
           label: 'Разряд',
           sortable: true
         },
@@ -127,7 +156,7 @@ export default {
           sortable: true
         }
       ],
-      staff: staffTable
+      staff: []
     }
   },
   methods: {
@@ -136,15 +165,7 @@ export default {
     },
     addDepartment (e) {
       e.preventDefault()
-      this.department.save()
-      // this.$router.push('/departments')
-    },
-    closeDepartmentEditor (e) {
-      e.preventDefault()
-      console.log('Cancel')
-      console.log(this.value)
-      console.log(this.departmentId)
-      alert(this.value)
+      this.model.save()
       // this.$router.push('/departments')
     },
     loadDepartment: function (id) {
@@ -158,6 +179,15 @@ export default {
           alert(err)
         }
       })
+    },
+    addModel: function (e) {
+      e.preventDefault()
+      this.model.save()
+      this.$router.push('/departments')
+    },
+    closeEditor: function (e) {
+      e.preventDefault()
+      this.$router.go(-1)
     }
   },
   watch: {
@@ -165,9 +195,9 @@ export default {
       console.log('watch')
       console.log(newValue)
       if (newValue) {
-        this.department = newValue
+        this.model = newValue
       } else {
-        this.department = new Db.DepartmentModel()
+        this.model = new Db.DepartmentModel()
       }
     }
   },

@@ -6,7 +6,7 @@
 
     <b-modal id="editModal" ref="editJobCategory" :title="modalDetails.title" @hide="resetModal" ok-only>
       <!-- h1 class="my-1 py-1" slot="modal-header">Index: {{ modalDetails.title }}</h1 -->
-      <edit-job-category v-model="modalDetails.data"></edit-job-category>
+      <edit-job v-model="modalDetails.data"></edit-job>
     </b-modal>
 
     <b-modal id="delQuery" title="Вы уверены?" @ok="delModel(modalDetails)" header-bg-variant="danger" ok-title="Да" cancel-title="Нет">
@@ -16,13 +16,13 @@
 
     <div v-if="items.length > 0">
       <div class="toolbar">
-        <b-button size="sm" variant="primary" title="Добавить"  to="/job-category/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
+        <b-button size="sm" variant="primary" title="Добавить"  to="/job/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
         <b-button size="sm" variant="primary" title="Обновить"  @click="fetchData"><i class="fa fa-sm fa-refresh"></i></b-button>
       </div>
       <b-table striped hover id="items-table" :busy.sync="isBusy" :items="items" :fields="fields">
         <template slot="show_details" scope="row" sm="3">
           <b-button-group>
-            <b-btn size="sm" variant="primary" title="Изменить" :to="'/job-category/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+            <b-btn size="sm" variant="primary" title="Изменить" :to="'/job/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
             <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
           </b-button-group>
         </template>
@@ -30,8 +30,8 @@
       </b-table>
     </div>
     <div v-else>
-      <b-jumbotron header="Данные отсутствуют" lead="Вы еще не добавили ни одной категории персонала" >
-        <b-btn size="lg" variant="primary" title="Добавить" to="/job-category/edit/0">Добавить</b-btn>
+      <b-jumbotron header="Данные отсутствуют" lead="Вы еще не добавили ни одной должности" >
+        <b-btn size="lg" variant="primary" title="Добавить" to="/job/edit/0">Добавить</b-btn>
         <b-button size="lg" variant="primary" title="Обновить"  @click="fetchData">Обновить</b-button>
       </b-jumbotron>
     </div>
@@ -39,16 +39,16 @@
 </template>
 
 <script>
-import EditJobCategory from './EditJobCategory'
+import EditJob from './EditJob'
 
 var Db = require('../../db.js')
 
 var items = []
 
 export default {
-  name: 'job-categories',
+  name: 'jobs',
   components: {
-    EditJobCategory
+    EditJob
   },
   data: function () {
     return {
@@ -78,7 +78,7 @@ export default {
     fetchData: function () {
       let doc = this
       this.isBusy = true
-      Db.JobCategoryModel.find({}, function (err, categories) {
+      Db.JobModel.find({}, function (err, categories) {
         doc.isBusy = false
 
         if (err) {
@@ -115,8 +115,7 @@ export default {
     delModel: function (model) {
       let doc = this
       this.isBusy = true
-      Db.JobCategoryModel.findByIdAndRemove(model.id, function (err) {
-        // Db.JobCategoryModel.findById(model.id, function (err) {
+      Db.JobModel.findByIdAndRemove(model.id, function (err) {
         doc.isBusy = false
 
         if (err) {

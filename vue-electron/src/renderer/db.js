@@ -59,7 +59,8 @@ var Schema = mongoose.Schema
  */
 
 var JobCategory = new Schema({
-  title: { type: String, required: true }
+  title: { type: String, required: true, default: '' },
+  comment: { type: String }
 })
 
 var Job = new Schema({
@@ -71,9 +72,9 @@ var Job = new Schema({
 var Vacancy = new Schema({
   job: Job,
   rank: String,
+  wages: Number,
   /*
-  wages: Integer,
-  vacancy_total: Integer,
+  vacancy_total: Number,
   vacancy_filled: Currency,
   salary_min: Currency,
   salary_max: Currency,
@@ -94,9 +95,10 @@ var Department = new Schema({
  * });
  */
 
-module.exports.JobCategoryModel = mongoose.model('JobCategory', Department)
-var DepartmentModel = mongoose.model('Department', Department)
-module.exports.DepartmentModel = DepartmentModel
+module.exports.JobCategoryModel = mongoose.model('JobCategory', JobCategory)
+module.exports.JobModel = mongoose.model('Job', Job)
+module.exports.VacancyModel = mongoose.model('Vacancy', Vacancy)
+module.exports.DepartmentModel = mongoose.model('Department', Department)
 module.exports.connection = db
 module.exports.connect = connect
 module.exports.disconnect = disconnect

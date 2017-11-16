@@ -26,27 +26,27 @@
             <b-dropdown-item href="#"><i class="fa fa-tty"></i></b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="Dropdown" title="User">
-            <b-dropdown-item to="/departments"><i class="fa fa-sitemap"></i> Отделы</b-dropdown-item>
-            <b-dropdown-item href="#"><i class="fa fa-id-card-o"></i> Личные карточки</b-dropdown-item>
-            <b-dropdown-item href="#">Фильтры</b-dropdown-item>
+            <b-dropdown-item href="#" to="/departments"><i class="fa fa-sitemap"></i> Отделы</b-dropdown-item>
+            <b-dropdown-item href="#" disabled><i class="fa fa-id-card-o"></i> Личные карточки</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Фильтры</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#">Должности</b-dropdown-item>
-            <b-dropdown-item href="#">Гражданства</b-dropdown-item>
-            <b-dropdown-item href="#">Ветераны</b-dropdown-item>
-            <b-dropdown-item href="#">Диагнозы</b-dropdown-item>
-            <b-dropdown-item href="#">Проценты б/листа</b-dropdown-item>
-            <b-dropdown-item href="#">Специальности</b-dropdown-item>
-            <b-dropdown-item href="#">Отпуска</b-dropdown-item>
-            <b-dropdown-item href="#">Обучение</b-dropdown-item>
-            <b-dropdown-item href="#">Инвалидность</b-dropdown-item>
-            <b-dropdown-item href="#">Образование</b-dropdown-item>
-            <b-dropdown-item href="#">Причина увольнения</b-dropdown-item>
-            <b-dropdown-item href="#">Семейное положение</b-dropdown-item>
-            <b-dropdown-item href="#">Члены семьи</b-dropdown-item>
+            <b-dropdown-item href="#" to="/jobs">Должности</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Гражданства</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Ветераны</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Диагнозы</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Проценты б/листа</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Специальности</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Отпуска</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Обучение</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Инвалидность</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Образование</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Причина увольнения</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Семейное положение</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Члены семьи</b-dropdown-item>
             <b-dropdown-item href="#" to="/job-categories">Категории персонала</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#">Режим работы</b-dropdown-item>
-            <b-dropdown-item href="#">Реквизиты предприятия</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Режим работы</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>Реквизиты предприятия</b-dropdown-item>
             <!-- Using button-content slot -->
             <template slot="button-content">
               Справочники
