@@ -9,13 +9,25 @@
           </b-form-select>
         </b-form-group>
         <div v-if="model.job">
-          Категория: {{ job.category.title }}
+          Категория: {{ model.job.category.title }}
         </div>
         <b-form-group label="Разряд:" label-for="vacancyRank">
-          <b-form-input id="vacancyRank" type="text" v-model="model.rank"></b-form-input>
+          <b-form-input id="vacancyRank" type="number" v-model="model.rank"></b-form-input>
         </b-form-group>
         <b-form-group label="Тарифная ставка:" label-for="vacancyWages">
-          <b-form-input id="vacancyWages" type="text" v-model="model.wages"></b-form-input>
+          <b-form-input id="vacancyWages" type="number" step="0.25" v-model="model.wages"></b-form-input>
+        </b-form-group>
+        <b-form-group label="Вакансий всего:" label-for="vacancyTotal">
+          <b-form-input id="vacancyTotal" type="number" step="0.25" v-model="model.vacancy_total"></b-form-input>
+        </b-form-group>
+        <b-form-group label="Занятых вакансий:" label-for="vacancyFilled">
+          <b-form-input id="vacancyFilled" type="number" step="0.25" v-model="model.vacancy_filled"></b-form-input>
+        </b-form-group>
+        <b-form-group label="Оклад (мин.):" label-for="salaryMin">
+          <b-form-input id="salaryMin" type="number" step="0.25" v-model="model.salary_min"></b-form-input>
+        </b-form-group>
+        <b-form-group label="Оклад (макс.):" label-for="salaryMax">
+          <b-form-input id="salaryMax" type="number" step="0.25" v-model="model.salary_max"></b-form-input>
         </b-form-group>
         <b-form-group label="Комментарии:" label-for="departmentComment">
           <b-form-textarea id="departmentComment" :rows="3" v-model="model.comment"></b-form-textarea>
@@ -64,6 +76,8 @@ export default {
             return
           }
 
+          console.log('Vacancy')
+          console.log(model)
           doc.model = model
 
           let job = model.job
@@ -105,7 +119,11 @@ export default {
 
         doc.model.job = job
         doc.model.save()
-        doc.$router.push('/jobs')
+
+        doc.department.vacancies.push(doc.model)
+        doc.department.save()
+
+        doc.$router.push('/department/edit/' + doc.department.id)
       })
     },
     closeEditor: function (e) {

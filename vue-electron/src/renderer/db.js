@@ -71,14 +71,13 @@ var Job = new Schema({
 
 var Vacancy = new Schema({
   job: Job,
+  // department: Department,
   rank: String,
-  wages: Number,
-  /*
-  vacancy_total: Number,
-  vacancy_filled: Currency,
-  salary_min: Currency,
-  salary_max: Currency,
-  */
+  wages: { type: Number, default: 0.00 },
+  vacancy_total: { type: Number, default: 0.00 },
+  vacancy_filled: { type: Number, default: 0.00 },
+  salary_min: { type: Number, default: 0.00 },
+  salary_max: { type: Number, default: 0.00 },
   comment: { type: String }
 })
 

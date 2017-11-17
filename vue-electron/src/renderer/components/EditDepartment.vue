@@ -23,6 +23,9 @@
             </div>
             <div class="overtab">
               <b-table striped hover :items="staff" :fields="staff_fields">
+                <template slot="actions" scope="row">
+                  <b-button size="sm" variant="outline-primary" :to="'/vacancy/' + model.id + '/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-button>
+                </template>
                 <template slot="job_id" scope="row">{{ row.item.job.job_code }}</template>
                 <template slot="job_title" scope="row">{{ row.item.job.title }}</template>
                 <template slot="category_title" scope="row">{{ row.item.job.category.title }}</template>
@@ -110,6 +113,10 @@ export default {
       departments: [],
       model: department,
       staff_fields: [
+        {
+          key: 'actions',
+          label: '&nbsp;'
+        },
         {
           key: 'job_id',
           label: 'Код',

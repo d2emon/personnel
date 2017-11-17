@@ -62,10 +62,20 @@
                     </b-tab>
                     <b-tab title="Штат">
                       <div class="toolbar">
-                        <b-button size="sm" variant="outline-primary"><i class="fa fa-sm fa-plus"></i></b-button>
+                        <b-button size="sm" variant="primary"><i class="fa fa-sm fa-plus"></i></b-button>
                       </div>
                       <div class="overtab">
-                        <b-table striped hover :items="staff" :fields="staff_fields"></b-table>
+                        <b-table striped hover :items="selectedDepartment.vacancies" :fields="staff_fields">
+                          <template slot="actions" scope="row">
+                            <b-button-group>
+                              <b-btn size="sm" variant="primary" title="Изменить" :to="'/vacancy/' + selectedDepartment.id + '/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+                              <b-btn size="sm" variant="primary" title="Удалить" href="#"><i class="fa fa-sm fa-trash"></i></b-btn>
+                            </b-button-group>
+                          </template>
+                          <template slot="job_id" scope="row">{{ row.item.job.job_code }}</template>
+                          <template slot="job_title" scope="row">{{ row.item.job.title }}</template>
+                          <template slot="category_title" scope="row">{{ row.item.job.category.title }}</template>
+                        </b-table>
                       </div>
                     </b-tab>
                     <b-tab title="Контракт" class="overtab" :disabled="true">
@@ -125,29 +135,6 @@ export default {
     }
   },
   data: function () {
-    let job = {
-      job_code: '02000000',
-      title: 'Начальник отдела кадров',
-      category: new Db.JobCategoryModel({ title: 'итр' })
-    }
-    let staff = {
-      job: job,
-      rank: '',
-      wages: 0.0,
-      vacancy_total: 3.0,
-      vacancy_filled: 2.25,
-      salary_min: 0.0,
-      salary_max: 0.0,
-
-      category_title: job.category.title,
-      job_code: job.job_code,
-      job_title: job.title
-    }
-    let staffTable = [
-      staff,
-      staff,
-      staff
-    ]
     // let selectedDepartmentId = this.$route.params.id
 
     return {
@@ -239,12 +226,16 @@ export default {
       ],
       staff_fields: [
         {
-          key: 'job_code',
+          key: 'actions',
+          label: '&nbsp;'
+        },
+        {
+          key: 'job_id',
           label: 'Код',
           sortable: true
         },
         {
-          key: 'job_name',
+          key: 'job_title',
           label: 'Должность',
           sortable: true
         },
@@ -259,17 +250,12 @@ export default {
           sortable: true
         },
         {
-          key: 'category_code',
-          label: 'Код',
-          sortable: true
-        },
-        {
           key: 'category_title',
           label: 'Категория',
           sortable: true
         },
         {
-          key: 'level',
+          key: 'rank',
           label: 'Разряд',
           sortable: true
         },
@@ -287,45 +273,6 @@ export default {
           key: 'salary_max',
           label: 'Макс. оклад',
           sortable: true
-        }
-      ],
-      staff: staffTable,
-      staff1: [
-        {
-          job_code: '02000000',
-          job_name: 'Начальник отдела кадров',
-          vacancy_total: 3.0,
-          vacancy_filled: 2.25,
-          category_code: 1,
-          category_title: 'итр',
-          level: '',
-          wages: 0.0,
-          salary_min: 0.0,
-          salary_max: 0.0
-        },
-        {
-          job_code: '0201000',
-          job_name: 'Специалист по работе с кадрами',
-          vacancy_total: 2.0,
-          vacancy_filled: 1.0,
-          category_code: 3,
-          category_title: 'МОП',
-          level: '',
-          wages: 0.0,
-          salary_min: 100.0,
-          salary_max: 200.0
-        },
-        {
-          job_code: '02020000',
-          job_name: 'Инспектор отдела кадров',
-          vacancy_total: 15.0,
-          vacancy_filled: 9.5,
-          category_code: 2,
-          category_title: 'служащие',
-          level: '',
-          wages: 0,
-          salary_min: 0,
-          salary_max: 0
         }
       ],
       contract_fields: [
