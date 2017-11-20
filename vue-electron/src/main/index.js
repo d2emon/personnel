@@ -1,6 +1,10 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+// const {app, Menu, BrowserWindow} = require('electron');
+import { app, Menu, MenuItem, BrowserWindow } from 'electron'
+import { template } from './menu.js'
+
+// Menu.setApplicationMenu(mainMenu)
 
 /**
  * Set `__static` path to static files in production
@@ -10,7 +14,10 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+// Menu.setApplicationMenu(menu.main_menu);
+
 let mainWindow
+// const htmlLocation = 'file://' + __dirname + '/html/index.html';
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
@@ -26,6 +33,15 @@ function createWindow () {
   })
 
   mainWindow.loadURL(winURL)
+
+  template[1].submenu.push(
+    new MenuItem({
+      label: 'Отделы',
+      click: function (menuItem, win) { win.loadURL(winURL + '#/departments') }
+    })
+  )
+  var mainMenu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(mainMenu)
 
   mainWindow.on('closed', () => {
     mainWindow = null
