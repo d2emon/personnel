@@ -8,23 +8,13 @@
 
         <b-nav is-nav-bar class="mr-auto">
           <b-nav-item to="/departments" title="Отделы"><i class="fa fa-sitemap"></i></b-nav-item>
-          <b-nav-item to="/departments" title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
-          <b-nav-item to="/departments" title="Бланки"><i class="fa fa-file-text-o"></i></b-nav-item>
-          <b-nav-item to="/departments" title="Калькулятор"><i class="fa fa-calculator"></i></b-nav-item>
-          <b-nav-item to="/departments" title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
-          <b-nav-item to="/departments" title="Рабочая дата"><i class="fa fa-calendar-check-o"></i></b-nav-item>
-          <b-nav-item to="/departments" title="Настройки"><i class="fa fa-cog"></i></b-nav-item>
+          <b-nav-item to="/departments" disabled title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
+          <b-nav-item to="/departments" disabled title="Бланки"><i class="fa fa-file-text-o"></i></b-nav-item>
+          <b-nav-item to="/departments" disabled title="Калькулятор"><i class="fa fa-calculator"></i></b-nav-item>
+          <b-nav-item to="/departments" disabled title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
+          <b-nav-item to="/departments" disabled title="Рабочая дата"><i class="fa fa-calendar-check-o"></i></b-nav-item>
+          <b-nav-item to="/departments" disabled title="Настройки"><i class="fa fa-cog"></i></b-nav-item>
           <b-nav-item @click="reconnect" title="Переподключить БД"><i class="fa fa-refresh"></i></b-nav-item>
-          <b-nav-item-dropdown text="Dropdown" title="User">
-            <b-dropdown-item href="#">Action</b-dropdown-item>
-            <b-dropdown-item href="#">Another action</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <!-- Using button-content slot -->
-            <template slot="button-content">
-              <i class="fa fa-user"></i>
-            </template>
-            <b-dropdown-item href="#"><i class="fa fa-tty"></i></b-dropdown-item>
-          </b-nav-item-dropdown>
           <b-nav-item-dropdown text="Dropdown" title="User">
             <b-dropdown-item href="#" to="/departments"><i class="fa fa-sitemap"></i> Отделы</b-dropdown-item>
             <b-dropdown-item href="#" disabled><i class="fa fa-id-card-o"></i> Личные карточки</b-dropdown-item>
