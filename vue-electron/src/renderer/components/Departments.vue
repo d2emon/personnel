@@ -18,18 +18,10 @@
       <b-container>
         <b-row>
           <b-col md="3">
-            <b-card no-body class="full-h departments">
-              <div class="toolbar">
-                <b-button size="sm" variant="primary" title="Добавить"  to="/department/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
-                <b-button size="sm" variant="primary" title="Обновить"  @click="fetchData"><i class="fa fa-sm fa-refresh"></i></b-button>
-              </div>
-              <b-nav vertical pills>
-                <b-nav-item @click="selectModel(null)" :active="!modalDetails.id">Все</b-nav-item>
-                <b-nav-item v-for="department in items" @click="selectModel(department)" :active="modalDetails.id == department.id">{{ department.title }}</b-nav-item>
-              </b-nav>
-            </b-card>
+            <departments-list @select="selectModel"></departments-list>
           </b-col>
           <b-col md="9">
+            <department-details :model="selectedDepartment"></department-details>
             <b-card no-body class="full-h main-part">
               <b-row>
                 <b-col md="9">
@@ -115,6 +107,8 @@
 
 <script>
 import EditDepartment from './EditDepartment'
+import DepartmentsList from './Departments/DepartmentsList'
+import DepartmentDetails from './Departments/DepartmentDetails'
 
 var Db = require('../db.js')
 
@@ -123,6 +117,8 @@ var items = []
 export default {
   name: 'departments',
   components: {
+    DepartmentsList,
+    DepartmentDetails,
     EditDepartment
   },
   computed: {
@@ -327,6 +323,7 @@ export default {
       })
     },
     selectModel: function (model) {
+      alert(model)
       this.selectedDepartment = model
 
       if (!model) {
