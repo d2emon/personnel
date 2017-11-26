@@ -21,7 +21,9 @@
             <departments-list @select="selectModel"></departments-list>
           </b-col>
           <b-col md="9">
+            <h2>1 Details</h2>
             <department-details :model="selectedDepartment"></department-details>
+            <h2>2 Details</h2>
             <b-card no-body class="full-h main-part">
               <b-row>
                 <b-col md="9">
@@ -56,7 +58,7 @@
                       <div class="toolbar">
                         <b-button size="sm" variant="primary"><i class="fa fa-sm fa-plus"></i></b-button>
                       </div>
-                      <div class="overtab">
+                      <div class="overtab" v-if="selectedDepartment">
                         <b-table striped hover :items="selectedDepartment.vacancies" :fields="staff_fields">
                           <template slot="actions" scope="row">
                             <b-button-group>
@@ -74,7 +76,7 @@
                       <b-navbar type="dark" variant="primary" toggleable>
                         <b-nav-toggle target="nav_dropdown_collapse"></b-nav-toggle>
                         <b-collapse is-nav id="nav_dropdown_collapse">
-                          <b-nav is-nav-bar>
+                          <b-navbar-nav>
                             <b-nav-item href="#">Home</b-nav-item>
                             <b-nav-item href="#">Link</b-nav-item>
                             <!-- Navbar dropdowns -->
@@ -88,7 +90,7 @@
                               <b-dropdown-item href="#">Account</b-dropdown-item>
                               <b-dropdown-item href="#">Settings</b-dropdown-item>
                             </b-nav-item-dropdown>
-                          </b-nav>
+                          </b-navbar-nav>
                         </b-collapse>
                       </b-navbar>
                       <div class="overtab">

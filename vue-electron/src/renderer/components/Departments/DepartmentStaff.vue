@@ -3,7 +3,7 @@
             <div class="toolbar">
               <b-button size="sm" variant="primary"><i class="fa fa-sm fa-plus"></i></b-button>
             </div>
-            <div class="overtab">
+            <div class="overtab" v-if="selectedDepartment">
               <b-table striped hover :items="selectedDepartment.vacancies" :fields="staff_fields">
                 <template slot="actions" scope="row">
                   <b-button-group>

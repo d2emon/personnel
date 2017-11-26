@@ -3,7 +3,7 @@
             <b-navbar type="dark" variant="primary" toggleable>
               <b-nav-toggle target="nav_dropdown_collapse"></b-nav-toggle>
               <b-collapse is-nav id="nav_dropdown_collapse">
-                <b-nav is-nav-bar>
+                <b-navbar-nav>
                   <b-nav-item href="#">Home</b-nav-item>
                   <b-nav-item href="#">Link</b-nav-item>
                   <!-- Navbar dropdowns -->
@@ -17,7 +17,7 @@
                     <b-dropdown-item href="#">Account</b-dropdown-item>
                     <b-dropdown-item href="#">Settings</b-dropdown-item>
                   </b-nav-item-dropdown>
-                </b-nav>
+                </b-navbar-nav>
               </b-collapse>
             </b-navbar>
             <div class="overtab">

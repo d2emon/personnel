@@ -6,8 +6,8 @@
         <h2 v-else>Все</h2>
       </b-col>
       <b-col md="3" class="text-sm-right" v-if="model">
-        <b-button size="sm" variant="outline-primary" title="Изменить" :to="'/department/edit/' + selectedDepartment.id"><i class="fa fa-sm fa-edit"></i></b-button>
-        <b-button size="sm" variant="outline-primary" title="Удалить" @click="delModel(selectedDepartment)"><i class="fa fa-sm fa-trash"></i></b-button>
+        <b-button size="sm" variant="outline-primary" title="Изменить" :to="'/department/edit/' + model.id"><i class="fa fa-sm fa-edit"></i></b-button>
+        <b-button size="sm" variant="outline-primary" title="Удалить" @click="delModel(model)"><i class="fa fa-sm fa-trash"></i></b-button>
       </b-col>
     </b-row>
     {{ model }}
@@ -44,7 +44,7 @@ export default {
     DepartmentContracts
   },
   props: [
-    // 'model'
+    'model'
   ],
   computed: {
     selectedDepartmentId: function () {

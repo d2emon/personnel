@@ -4,7 +4,7 @@
       <b-card no-body>
         <b-tabs small card ref="tabs" v-model="tabIndex">
           <b-tab title="Отдел">
-            <div>
+            <div v-if="model">
               <b-form @submit="addModel">
                 <b-form-group label="Название:" label-for="departmentTitle">
                   <b-form-input id="departmentTitle" type="text" v-model="model.title" required placeholder="Название отдела"></b-form-input>
@@ -17,7 +17,7 @@
               </b-form>
             </div>
           </b-tab>
-          <b-tab title="Вакансии">
+          <b-tab title="Вакансии" v-if="model">
             <div class="toolbar">
               <b-button size="sm" variant="outline-primary" :to="'/vacancy/' + model.id + '/0'"><i class="fa fa-sm fa-plus"></i></b-button>
             </div>

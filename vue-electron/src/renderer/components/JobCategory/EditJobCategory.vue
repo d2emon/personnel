@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <main>
-      <b-form @submit="addCategory">
+      <b-form @submit="addCategory" v-if="category">
         <b-form-group label="Название:" label-for="categoryTitle">
           <b-form-input id="categoryTitle" type="text" v-model="category.title" required placeholder="Категория персонала"></b-form-input>
         </b-form-group>
