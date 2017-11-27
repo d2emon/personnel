@@ -1,6 +1,9 @@
 <template>
   <b-container>
     <main>
+      <p>P:{{ $route.params }}</p>
+      <p>D:{{ department }}</p>
+      <p>M:{{ model }}</p>
       <b-form @submit="addModel">
         <b-form-group label="Должность:" label-for="job">
           <b-row>
@@ -9,32 +12,34 @@
                 <option v-for="job in jobs" :value="job.id">{{job.title}}</option>
               </b-form-select>
             </b-col>
-            <b-button variant="primary" to="/jobs/edit/0" class="col-2">Новая</b-button>
+            <b-button variant="primary" to="/job/edit/0" class="col-2">Новая</b-button>
             <b-button variant="primary" to="/jobs" class="col-2">Справочник</b-button>
           </b-row>
+          <b-row v-if="model">
+            <div v-if="model.job">
+              Категория: {{ model.job.category.title }}
+            </div>
+          </b-row>
         </b-form-group>
-        <div v-if="model.job">
-          Категория: {{ model.job.category.title }}
-        </div>
-        <b-form-group label="Разряд:" label-for="vacancyRank">
+        <b-form-group label="Разряд:" label-for="vacancyRank" v-if="model">
           <b-form-input id="vacancyRank" type="number" v-model="model.rank"></b-form-input>
         </b-form-group>
-        <b-form-group label="Тарифная ставка:" label-for="vacancyWages">
+        <b-form-group label="Тарифная ставка:" label-for="vacancyWages" v-if="model">
           <b-form-input id="vacancyWages" type="number" step="0.25" v-model="model.wages"></b-form-input>
         </b-form-group>
-        <b-form-group label="Вакансий всего:" label-for="vacancyTotal">
+        <b-form-group label="Вакансий всего:" label-for="vacancyTotal" v-if="model">
           <b-form-input id="vacancyTotal" type="number" step="0.25" v-model="model.vacancy_total"></b-form-input>
         </b-form-group>
-        <b-form-group label="Занятых вакансий:" label-for="vacancyFilled">
+        <b-form-group label="Занятых вакансий:" label-for="vacancyFilled" v-if="model">
           <b-form-input id="vacancyFilled" type="number" step="0.25" v-model="model.vacancy_filled"></b-form-input>
         </b-form-group>
-        <b-form-group label="Оклад (мин.):" label-for="salaryMin">
+        <b-form-group label="Оклад (мин.):" label-for="salaryMin" v-if="model">
           <b-form-input id="salaryMin" type="number" step="0.25" v-model="model.salary_min"></b-form-input>
         </b-form-group>
-        <b-form-group label="Оклад (макс.):" label-for="salaryMax">
+        <b-form-group label="Оклад (макс.):" label-for="salaryMax" v-if="model">
           <b-form-input id="salaryMax" type="number" step="0.25" v-model="model.salary_max"></b-form-input>
         </b-form-group>
-        <b-form-group label="Комментарии:" label-for="departmentComment">
+        <b-form-group label="Комментарии:" label-for="departmentComment" v-if="model">
           <b-form-textarea id="departmentComment" :rows="3" v-model="model.comment"></b-form-textarea>
         </b-form-group>
         <b-button type="submit" variant="primary">Сохранить</b-button>
@@ -82,6 +87,10 @@ export default {
           }
 
           console.log('Vacancy')
+          console.log(doc.$route.params.id)
+          if (!model) {
+            model = new Db.VacancyModel()
+          }
           console.log(model)
           doc.model = model
 
@@ -128,7 +137,8 @@ export default {
         doc.department.vacancies.push(doc.model)
         doc.department.save()
 
-        doc.$router.push('/department/edit/' + doc.department.id)
+        // doc.$router.push('/department/edit/' + doc.department.id)
+        doc.$router.go(-1)
       })
     },
     closeEditor: function (e) {

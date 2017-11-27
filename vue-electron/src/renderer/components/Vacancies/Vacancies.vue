@@ -12,12 +12,15 @@
         <div class="overtab">
           <b-table striped hover :items="vacancies" :fields="staff_fields">
             <template slot="actions" scope="row">
-              <b-button-group>
-                <b-btn size="sm" variant="primary" title="Изменить" :to="'/vacancy/0/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+              <b-button-group v-if="department">
+                <b-btn size="sm" variant="primary" title="Изменить" :to="'/vacancy/' + department.id + '/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+                <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+              </b-button-group>
+              <b-button-group v-else>
                 <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
               </b-button-group>
             </template>
-            <template slot="job_id" scope="row">id {{ row.item.job.job_code }}</template>
+            <template slot="job_id" scope="row">{{ row.item.job.job_code }}</template>
             <template slot="job_title" scope="row">{{ row.item.job.title }}</template>
             <template slot="category_title" scope="row">{{ row.item.job.category.title }}</template>
           </b-table>

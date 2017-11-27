@@ -15,7 +15,7 @@
                 <option v-for="category in categories" :value="category.id">{{category.title}}</option>
               </b-form-select>
             </b-col>
-            <b-button variant="primary" to="/job-categories/edit/0" class="col-2">Новая</b-button>
+            <b-button variant="primary" to="/job-category/edit/0" class="col-2">Новая</b-button>
             <b-button variant="primary" to="/job-categories" class="col-2">Справочник</b-button>
           </b-row>
         </b-form-group>
@@ -90,7 +90,7 @@ export default {
 
         doc.model.category = category
         doc.model.save()
-        doc.$router.push('/jobs')
+        doc.$router.go(-1)
       })
     },
     closeEditor: function (e) {

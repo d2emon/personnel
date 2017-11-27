@@ -53,7 +53,7 @@ export default {
     addCategory: function (e) {
       e.preventDefault()
       this.category.save()
-      this.$router.push('/job-categories')
+      this.$router.push(-1)
     },
     closeEditor: function (e) {
       e.preventDefault()
