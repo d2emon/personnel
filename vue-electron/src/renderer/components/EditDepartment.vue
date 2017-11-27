@@ -85,8 +85,8 @@ export default {
       department = new Db.DepartmentModel()
     }
 
+    var doc = this
     if (this.$route.params.id !== '0') {
-      var doc = this
       Db.DepartmentModel.findById(this.$route.params.id, function (err, model) {
         if (err) {
           alert(err)
@@ -104,7 +104,7 @@ export default {
       }
 
       doc.staff = models
-      console.log(models)
+      // console.log(models)
     })
 
     return {
@@ -167,9 +167,6 @@ export default {
     }
   },
   methods: {
-    open (link) {
-      this.$electron.shell.openExternal(link)
-    },
     addDepartment (e) {
       e.preventDefault()
       this.model.save()
@@ -199,8 +196,8 @@ export default {
   },
   watch: {
     value: function (newValue) {
-      console.log('watch')
-      console.log(newValue)
+      // console.log('watch')
+      // console.log(newValue)
       if (newValue) {
         this.model = newValue
       } else {

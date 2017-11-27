@@ -8,7 +8,7 @@
       <b-nav vertical pills>
         <b-nav-item @click="selectModel(null)" :active="!selectedDepartmentId">Все</b-nav-item>
       </b-nav>
-      <h3>Загрузка...</h3>
+      <h5>Загрузка данных...</h5>
     </div>
     <div v-else>
       <b-nav vertical pills>
@@ -34,8 +34,6 @@ export default {
     }
   },
   data: function () {
-    // let selectedDepartmentId = this.$route.params.id
-
     return {
       departments: [],
       selectedDepartment: null,
