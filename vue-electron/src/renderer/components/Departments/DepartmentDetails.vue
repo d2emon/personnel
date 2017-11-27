@@ -20,7 +20,7 @@
             <department-cards></department-cards>
           </b-tab>
           <b-tab title="Штат">
-            <department-staff></department-staff>
+            <vacancies :department="selectedDepartment" @refresh="refreshModels"></vacancies>
           </b-tab>
           <b-tab title="Контракт" class="overtab" :disabled="true">
             <department-contracts></department-contracts>
@@ -34,6 +34,7 @@
 import DepartmentCards from './DepartmentCards'
 import DepartmentStaff from './DepartmentStaff'
 import DepartmentContracts from './DepartmentContracts'
+import Vacancies from '../Vacancies/Vacancies'
 
 var Db = require('../../db.js')
 
@@ -42,7 +43,8 @@ export default {
   components: {
     DepartmentCards,
     DepartmentStaff,
-    DepartmentContracts
+    DepartmentContracts,
+    Vacancies
   },
   props: [
     'model'
@@ -70,17 +72,20 @@ export default {
       // this.$root.$emit('bv::show::modal', 'delQuery')
     },
     delModel: function (model) {
-      // let doc = this
+      var doc = this
       this.isBusy = true
       // Db.JobCategoryModel.findById(model.id, function (err) {
-      Db.JobCategoryModel.findByIdAndRemove(model.id, function (err) {
+      Db.DepartmentModel.findByIdAndRemove(model.id, function (err) {
         if (err) {
           alert(err)
           return
         }
 
-        this.$emit('reset')
+        doc.$emit('reset')
       })
+    },
+    refreshModels: function () {
+      this.$emit('reset')
     }
     /*
     resetModal: function () {

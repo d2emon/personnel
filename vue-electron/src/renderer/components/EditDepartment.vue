@@ -18,19 +18,7 @@
             </div>
           </b-tab>
           <b-tab title="Вакансии" v-if="model">
-            <div class="toolbar">
-              <b-button size="sm" variant="outline-primary" :to="'/vacancy/' + model.id + '/0'"><i class="fa fa-sm fa-plus"></i></b-button>
-            </div>
-            <div class="overtab">
-              <b-table striped hover :items="staff" :fields="staff_fields">
-                <template slot="actions" scope="row">
-                  <b-button size="sm" variant="outline-primary" :to="'/vacancy/' + model.id + '/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-button>
-                </template>
-                <template slot="job_id" scope="row">{{ row.item.job.job_code }}</template>
-                <template slot="job_title" scope="row">{{ row.item.job.title }}</template>
-                <template slot="category_title" scope="row">{{ row.item.job.category.title }}</template>
-              </b-table>
-            </div>
+            <vacancies :department="model"></vacancies>
           </b-tab>
         </b-tabs>
       </b-card>
@@ -39,10 +27,15 @@
 </template>
 
 <script>
+import Vacancies from './Vacancies/Vacancies'
+
 var Db = require('../db.js')
 
 export default {
   name: 'department',
+  components: {
+    Vacancies
+  },
   props: [
     'value'
   ],

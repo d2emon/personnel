@@ -2,11 +2,16 @@
   <b-container>
     <main>
       <b-form @submit="addModel">
-        <h2>{{ department.title }}</h2>
         <b-form-group label="Должность:" label-for="job">
-          <b-form-select id="job" type="text" v-model="jobId" placeholder="Должность">
-            <option v-for="job in jobs" :value="job.id">{{job.title}}</option>
-          </b-form-select>
+          <b-row>
+            <b-col md="8">
+              <b-form-select id="job" type="text" v-model="jobId" placeholder="Должность">
+                <option v-for="job in jobs" :value="job.id">{{job.title}}</option>
+              </b-form-select>
+            </b-col>
+            <b-button variant="primary" to="/jobs/edit/0" class="col-2">Новая</b-button>
+            <b-button variant="primary" to="/jobs" class="col-2">Справочник</b-button>
+          </b-row>
         </b-form-group>
         <div v-if="model.job">
           Категория: {{ model.job.category.title }}
@@ -70,7 +75,7 @@ export default {
     fetchData: function () {
       var doc = this
       if (this.$route.params.id !== '0') {
-        Db.VacancyModel.findById(this.$route.params.id, function (err, model) {
+        Db.VacancyModel.findById(this.$route.params.id).exec(function (err, model) {
           if (err) {
             alert(err)
             return

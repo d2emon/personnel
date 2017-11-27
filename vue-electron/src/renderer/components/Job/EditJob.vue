@@ -9,9 +9,15 @@
           <b-form-input id="jobTitle" type="text" v-model="model.title" required placeholder="Название должности"></b-form-input>
         </b-form-group>
         <b-form-group label="Категория:" label-for="jobCategory">
-          <b-form-select id="jobCategorySelect" type="text" v-model="categoryId" placeholder="Категория должности">
-            <option v-for="category in categories" :value="category.id">{{category.title}}</option>
-          </b-form-select>
+          <b-row>
+            <b-col md="8">
+              <b-form-select id="jobCategorySelect" type="text" v-model="categoryId" placeholder="Категория должности">
+                <option v-for="category in categories" :value="category.id">{{category.title}}</option>
+              </b-form-select>
+            </b-col>
+            <b-button variant="primary" to="/job-categories/edit/0" class="col-2">Новая</b-button>
+            <b-button variant="primary" to="/job-categories" class="col-2">Справочник</b-button>
+          </b-row>
         </b-form-group>
         <b-button type="submit" variant="primary">Сохранить</b-button>
         <b-button type="reset" variant="secondary" @click="closeEditor">Отмена</b-button>
