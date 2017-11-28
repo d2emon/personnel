@@ -87,6 +87,19 @@ var Department = new Schema({
   vacancies: [Vacancy]
 })
 
+var Employment = new Schema({
+  department: Department,
+  job: Job,
+  // Sovmeshenie
+  vacancies: { type: Number, default: 0.00 },
+  wages: { type: Number, default: 0.00 },
+  // Schedule
+  orderNo: String,
+  orderFrom: Date,
+  workFrom: Date,
+  base: String
+})
+
 // validation
 /**
  * Article.path('title').validate(function (v) {
@@ -98,6 +111,7 @@ module.exports.JobCategoryModel = mongoose.model('JobCategory', JobCategory)
 module.exports.JobModel = mongoose.model('Job', Job)
 module.exports.VacancyModel = mongoose.model('Vacancy', Vacancy)
 module.exports.DepartmentModel = mongoose.model('Department', Department)
+module.exports.EmploymentModel = mongoose.model('Employment', Employment)
 module.exports.connection = db
 module.exports.connect = connect
 module.exports.disconnect = disconnect

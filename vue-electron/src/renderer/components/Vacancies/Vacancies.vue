@@ -14,13 +14,13 @@
             <template slot="actions" scope="row">
               <b-button-group v-if="department">
                 <b-btn size="sm" variant="primary" title="Изменить" :to="'/vacancy/' + department.id + '/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
-                <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+                <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelByIndex(row.index, row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
               </b-button-group>
               <b-button-group v-else>
                 <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
               </b-button-group>
             </template>
-            <template slot="job_id" scope="row">{{ row.item.job.job_code }}</template>
+            <template slot="job_id" scope="row">{{ row.item.job.job_code }} ({{ row.item.id }})</template>
             <template slot="job_title" scope="row">{{ row.item.job.title }}</template>
             <template slot="category_title" scope="row">{{ row.item.job.category.title }}</template>
           </b-table>
@@ -50,6 +50,7 @@ export default {
     return {
       tabIndex: 0,
       selectedVacancy: null,
+      selectedIndex: -1,
       isBusy: true,
       staff_fields: [
         {
@@ -140,6 +141,14 @@ export default {
       console.log(this.selectedVacancy)
       this.$root.$emit('bv::show::modal', 'delVacancyQuery')
     },
+    queryDelByIndex: function (index, model) {
+      if (!this.department) { return false }
+      if (!model) { return false }
+
+      this.selectedIndex = index
+      this.selectedVacancy = model
+      this.$root.$emit('bv::show::modal', 'delVacancyQuery')
+    },
     delModel: function (model) {
       var doc = this
       this.isBusy = true
@@ -147,8 +156,20 @@ export default {
       console.log(model.id)
       // Db.VacancyModel.findById(model.id, function (err, m) {
       // Db.VacancyModel.findByIdAndRemove(model.id, function (err) {
-      model.remove()
-      model.save(function (err) {
+      alert(this.department)
+
+      var m = null
+      if (this.selectedIndex >= 0) {
+        m = this.department.vacancies[this.selectedIndex]
+      } else {
+        m = model
+      }
+
+      this.selectedIndex = -1
+
+      alert(m)
+      m.remove()
+      m.save(function (err) {
         if (err) {
           alert(err)
           return
@@ -181,7 +202,8 @@ export default {
     addModel: function (e) {
       e.preventDefault()
       this.model.save()
-      this.$router.push('/departments')
+      this.$router.go(-1)
+      // this.$router.push('/departments')
     },
     closeEditor: function (e) {
       e.preventDefault()
@@ -221,5 +243,6 @@ export default {
 .overtab {
   overflow: auto;
   font-size: 12px;
+  height: 400px;
 }
 </style>
