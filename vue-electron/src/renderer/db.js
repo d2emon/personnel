@@ -87,7 +87,7 @@ var Department = new Schema({
   vacancies: [Vacancy]
 })
 
-var Employment = new Schema({
+var Position = new Schema({
   department: Department,
   job: Job,
   // Sovmeshenie
@@ -111,7 +111,7 @@ module.exports.JobCategoryModel = mongoose.model('JobCategory', JobCategory)
 module.exports.JobModel = mongoose.model('Job', Job)
 module.exports.VacancyModel = mongoose.model('Vacancy', Vacancy)
 module.exports.DepartmentModel = mongoose.model('Department', Department)
-module.exports.EmploymentModel = mongoose.model('Employment', Employment)
+module.exports.PositionModel = mongoose.model('Position', Position)
 module.exports.connection = db
 module.exports.connect = connect
 module.exports.disconnect = disconnect
