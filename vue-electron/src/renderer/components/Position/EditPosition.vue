@@ -66,7 +66,7 @@
 </template>
 
 <script>
-var Db = require('../db.js')
+var Db = require('../../db.js')
 
 export default {
   name: 'vacancy',
@@ -106,7 +106,7 @@ export default {
           console.log('Vacancy')
           console.log(doc.$route.params.id)
           if (!model) {
-            model = new Db.EmploymentModel()
+            model = new Db.PositionModel()
           }
           console.log(model)
           doc.model = model

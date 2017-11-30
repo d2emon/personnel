@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="toolbar">
-      <b-button size="sm" variant="outline-primary"><i class="fa fa-sm fa-plus"></i></b-button>
+      <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
     </div>
     <div class="overtab">
       <b-table striped hover :items="items2" :fields="fields2"></b-table>

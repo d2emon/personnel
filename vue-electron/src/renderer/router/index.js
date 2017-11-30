@@ -26,6 +26,15 @@ export default new Router({
       // component: require('@/components/EditDepartment').default
       // component: HelloWorld
     },
+    {
+      path: '/position/edit/:id',
+      // alias: '/department/new',
+      name: 'edit-position',
+      component: require('@/components/Position/EditPosition').default
+      // component: require('@/components/EditDepartment').default
+      // component: HelloWorld
+    },
+
     /**
      * {
      *   path: '/department/:id',
