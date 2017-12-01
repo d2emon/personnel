@@ -1,13 +1,11 @@
 <template>
   <b-container>
     <main>
-      <p>M:{{ model }}</p>
-      <p>B:{{ isBusy }}</p>
       <b-form @submit="addModel" v-if="model">
-        <b-form-group label="Отдел:" label-for="department">
+        <b-form-group v-if="departments.length > 0" label="Отдел:" label-for="department">
           <b-row>
             <b-col md="8">
-              <b-form-select id="department" type="text" v-model="departmentId" placeholder="Отдел">
+              <b-form-select id="department" v-model="departmentId" placeholder="Отдел">
                 <option v-for="department in departments" :value="department.id">{{department.title}}</option>
               </b-form-select>
             </b-col>
@@ -20,7 +18,7 @@
             </div>
           </b-row>
         </b-form-group>
-        <b-form-group label="Должность:" label-for="job">
+        <b-form-group v-if="jobs.length > 0" label="Должность:" label-for="job">
           <b-row>
             <b-col md="8">
               <b-form-select id="job" type="text" v-model="jobId" placeholder="Должность">
@@ -91,28 +89,32 @@ export default {
       model: model,
       departments: [],
       jobs: [],
+      department: null,
       jobId: null,
-      department: null
+      departmentId: null
     }
   },
   methods: {
     fetchData: function () {
       var doc = this
       this.isBusy = true
+
+      console.log('Params data')
+      console.log(this.$route.params)
+      console.log(this.$route.params.id)
+      console.log(this.$route.params.department)
+
       if (this.$route.params.id !== '0') {
-        Db.EmploymentModel.findById(this.$route.params.id).exec(function (err, model) {
-          alert(model)
+        Db.PositionModel.findById(this.$route.params.id).exec(function (err, model) {
           if (err) {
             alert(err)
             return
           }
 
-          console.log('Vacancy')
-          console.log(doc.$route.params.id)
           if (!model) {
             model = new Db.PositionModel()
           }
-          console.log(model)
+
           doc.model = model
           doc.isBusy = false
 
@@ -120,7 +122,14 @@ export default {
           if (job) {
             doc.jobId = job.id
           }
+
+          let department = model.department
+          if (department) {
+            doc.departmentId = department.id
+          }
         })
+      } else {
+        this.model = new Db.PositionModel()
       }
 
       if (this.$route.params.department !== '0') {
@@ -134,13 +143,24 @@ export default {
         })
       }
 
-      Db.JobModel.find({}, function (err, model) {
+      this.departments = []
+      Db.DepartmentModel.find({}, function (err, models) {
         if (err) {
           alert(err)
           return
         }
 
-        doc.jobs = model
+        doc.departments = models
+      })
+
+      this.jobs = []
+      Db.JobModel.find({}, function (err, models) {
+        if (err) {
+          alert(err)
+          return
+        }
+
+        doc.jobs = models
       })
     },
     addModel: function (e) {
@@ -154,13 +174,19 @@ export default {
         }
 
         doc.model.job = job
-        doc.model.save()
 
-        doc.department.vacancies.push(doc.model)
-        doc.department.save()
+        Db.DepartmentModel.findById(doc.departmentId, function (err, department) {
+          if (err) {
+            alert(err)
+            return
+          }
 
-        // doc.$router.push('/department/edit/' + doc.department.id)
-        doc.$router.go(-1)
+          doc.model.department = department
+          doc.model.save()
+
+          // doc.$router.push('/department/edit/' + doc.department.id)
+          doc.$router.go(-1)
+        })
       })
     },
     closeEditor: function (e) {

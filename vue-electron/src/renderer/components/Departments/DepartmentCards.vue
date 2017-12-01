@@ -4,6 +4,25 @@
       <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
     </div>
     <div class="overtab">
+      <b-table striped hover :items="positions" :fields="fields">
+        <template slot="actions" scope="row">
+          <b-button-group v-if="row.item">
+            <b-btn size="sm" variant="primary" title="Изменить" :to="'/position/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+            <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelByIndex(row.index, row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+          </b-button-group>
+          <b-button-group v-else>
+            <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+          </b-button-group>
+        </template>
+        <template slot="isFulltime" scope="row">Постоянный</template>
+        <template slot="tabN" scope="row">1543</template>
+        <template slot="last_name" scope="row">Анохина</template>
+        <template slot="first_name" scope="row">Любовь</template>
+        <template slot="middle_name" scope="row">Валентиновна</template>
+        <template slot="job" scope="row">{{row.item.job.title}}</template>
+        <template slot="department" scope="row">{{row.item.department.title}}</template>
+      </b-table>
+      {{ positions }}
       <b-table striped hover :items="items2" :fields="fields2"></b-table>
       <b-table striped hover id="personal-cards-table" :busy.sync="isBusy" :items="items" :fields="fields">
         <template slot="show_details" scope="row" sm="3">
@@ -19,7 +38,7 @@
 </template>
 
 <script>
-// var Db = require('../../db.js')
+var Db = require('../../db.js')
 
 var items = []
 
@@ -58,6 +77,10 @@ export default {
 
       fields: [
         {
+          key: 'actions',
+          label: '&nbsp;'
+        },
+        {
           key: 'isFulltime',
           label: 'Совместительство',
           sortable: true
@@ -83,7 +106,7 @@ export default {
           sortable: true
         },
         {
-          key: 'date_start',
+          key: 'workFrom',
           label: 'Дата приема',
           sortable: true
         },
@@ -172,31 +195,26 @@ export default {
           sortable: true
         }
       ],
-      contract_fields: [
-        {
-          key: 'contract_id',
-          label: '№ контракта',
-          sortable: true
-        },
-        {
-          key: 'contract',
-          label: 'Наименование',
-          sortable: true
-        },
-        {
-          key: 'date_start',
-          label: 'Дата начала',
-          sortable: true
-        },
-        {
-          key: 'date_end',
-          label: 'Дата окончания',
-          sortable: true
-        }
-      ],
-      contracts: [
-      ]
+      positions: []
     }
+  },
+  methods: {
+    fetchData: function () {
+      var doc = this
+      Db.PositionModel.find({}, function (err, models) {
+        if (err) {
+          alert(err)
+          return
+        }
+
+        console.log('Positions loaded')
+        console.log(models)
+        doc.positions = models
+      })
+    }
+  },
+  created: function () {
+    this.fetchData()
   }
 }
 </script>
