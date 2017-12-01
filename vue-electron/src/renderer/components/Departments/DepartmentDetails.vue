@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body class="full-h main-part">
+  <b-card no-body class="details">
     <b-modal id="departmentDelQuery" title="Вы уверены?"" ok-title="Да" cancel-title="Нет" header-bg-variant="danger" v-if="selectedDepartment" @ok="delModel(selectedDepartment)">
       <p>Вы действительно хотите удалить отдел "{{ selectedDepartment.title }}"?</p>
     </b-modal>
@@ -106,12 +106,9 @@ export default {
 .toolbar {
   padding: 2px 0px;
 }
-.departments {
-  font-size: 14px;
+.details {
   padding: 5px;
-}
-.departments .nav-link {
-  padding: 2px;
+  height: 100%;
 }
 .main-part {
   padding: 5px;

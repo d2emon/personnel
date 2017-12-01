@@ -232,14 +232,6 @@ export default {
 .toolbar {
   padding: 2px 0px;
 }
-.departments {
-  font-size: 14px;
-  padding: 5px;
-  height: 500px;
-}
-.departments .nav-link {
-  padding: 2px;
-}
 .overtab {
   overflow: auto;
   font-size: 12px;

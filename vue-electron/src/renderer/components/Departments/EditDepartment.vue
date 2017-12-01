@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import Vacancies from './Vacancies/Vacancies'
+import Vacancies from '../Vacancies/Vacancies'
 
-var Db = require('../db.js')
+var Db = require('../../db.js')
 
 export default {
   name: 'department',
@@ -207,14 +207,6 @@ export default {
 <style>
 .toolbar {
   padding: 2px 0px;
-}
-.departments {
-  font-size: 14px;
-  padding: 5px;
-  height: 500px;
-}
-.departments .nav-link {
-  padding: 2px;
 }
 .overtab {
   overflow: auto;

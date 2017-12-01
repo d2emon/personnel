@@ -6,58 +6,30 @@
 
       <b-collapse is-nav id="nav_collapse">
 
-        <b-nav is-nav-bar class="mr-auto">
+        <b-navbar-nav class="mr-auto">
           <b-nav-item to="/departments" title="Отделы"><i class="fa fa-sitemap"></i></b-nav-item>
-          <b-nav-item to="/departments" disabled title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
-          <b-nav-item to="/departments" disabled title="Бланки"><i class="fa fa-file-text-o"></i></b-nav-item>
-          <b-nav-item to="/departments" disabled title="Калькулятор"><i class="fa fa-calculator"></i></b-nav-item>
-          <b-nav-item to="/departments" disabled title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
-          <b-nav-item to="/departments" disabled title="Рабочая дата"><i class="fa fa-calendar-check-o"></i></b-nav-item>
-          <b-nav-item to="/departments" disabled title="Настройки"><i class="fa fa-cog"></i></b-nav-item>
+          <b-nav-item to="/cards" disabled title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
+          <b-nav-item to="/documents" disabled title="Бланки"><i class="fa fa-file-text-o"></i></b-nav-item>
+          <b-nav-item to="/calculator" disabled title="Калькулятор"><i class="fa fa-calculator"></i></b-nav-item>
+          <b-nav-item to="/calendar" disabled title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
+          <b-nav-item to="/work-date" disabled title="Рабочая дата"><i class="fa fa-calendar-check-o"></i></b-nav-item>
+          <b-nav-item to="/settings" disabled title="Настройки"><i class="fa fa-cog"></i></b-nav-item>
           <b-nav-item @click="reconnect" title="Переподключить БД"><i class="fa fa-refresh"></i></b-nav-item>
-          <b-nav-item-dropdown text="Dropdown" title="User">
-            <b-dropdown-item href="#" to="/departments"><i class="fa fa-sitemap"></i> Отделы</b-dropdown-item>
-            <b-dropdown-item href="#" disabled><i class="fa fa-id-card-o"></i> Личные карточки</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Фильтры</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#" to="/jobs">Должности</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Гражданства</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Ветераны</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Диагнозы</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Проценты б/листа</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Специальности</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Отпуска</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Обучение</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Инвалидность</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Образование</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Причина увольнения</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Семейное положение</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Члены семьи</b-dropdown-item>
-            <b-dropdown-item href="#" to="/job-categories">Категории персонала</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#" disabled>Режим работы</b-dropdown-item>
-            <b-dropdown-item href="#" disabled>Реквизиты предприятия</b-dropdown-item>
-            <!-- Using button-content slot -->
-            <template slot="button-content">
-              Справочники
-            </template>
-          </b-nav-item-dropdown>
-        </b-nav>
+        </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+
     <b-modal ref="dbError" id="dbError" title="Ошибка" header-bg-variant="warning">
       <p class="my-4">{{ dbErrorText }}</p>
     </b-modal>
 
-    <b-modal ref="dbInfo" title="База Данных" header-bg-variant="info">
+    <b-modal ref="dbInfo" id="dbInfo" title="База Данных" header-bg-variant="info">
       <p class="my-4">{{ dbInfoText }}</p>
     </b-modal>
 
-    <b-modal ref="listJobCategories" title="selectedDepartmentTitle">
-      <job-categories></job-categories>
-    </b-modal>
-
-    <router-view></router-view>
+    <div>
+      <router-view></router-view>    
+    </div>
   </div>
 </template>
 
@@ -68,7 +40,7 @@ var Db = require('./db.js')
 var connection = Db.connection
 
 export default {
-  name: 'vue-electron',
+  name: 'personnel',
   components: {
     JobCategories
   },
@@ -79,26 +51,37 @@ export default {
     }
   },
   methods: {
+    showDbInfo (message) {
+      this.dbInfoText = message
+      this.$refs.dbInfo.show()
+    },
+    showDbError (message) {
+      this.dbErrorText = message
+      this.$refs.dbError.show()
+    },
     reconnect () {
+      console.log('Reconneting')
+
       var doc = this
+
+      if (!connection) {
+        connection = Db.connect()
+        return
+      }
+
       connection.once('disconnected', function () {
         Db.connect()
       })
       connection.once('open', function callback () {
-        doc.dbInfoText = 'БД подключена!'
-        doc.$refs.dbInfo.show()
+        doc.showDbInfo('БД подключена!')
       })
       Db.disconnect()
-    },
-    listJobCategories: function () {
-      this.$refs.listJobCategories.show()
     }
   },
   created: function () {
     var doc = this
     connection.on('error', function (err) {
-      doc.dbErrorText = err.message
-      doc.$refs.dbError.show()
+      doc.showDbError(err.message)
       console.log(err.message)
     })
   }

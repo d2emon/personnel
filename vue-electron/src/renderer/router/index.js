@@ -8,10 +8,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'landing-page',
-      // component: require('@/components/LandingPage').default
       redirect: '/departments'
-      // component: HelloWorld
     },
     {
       path: '/departments',
@@ -22,8 +19,7 @@ export default new Router({
       path: '/department/edit/:id',
       // alias: '/department/new',
       name: 'edit-department',
-      component: require('@/components/EditDepartment').default
-      // component: require('@/components/EditDepartment').default
+      component: require('@/components/Departments/EditDepartment').default
       // component: HelloWorld
     },
     {
@@ -31,7 +27,6 @@ export default new Router({
       // alias: '/department/new',
       name: 'edit-position',
       component: require('@/components/Position/EditPosition').default
-      // component: require('@/components/EditDepartment').default
       // component: HelloWorld
     },
 

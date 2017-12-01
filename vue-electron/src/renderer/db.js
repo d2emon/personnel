@@ -1,30 +1,47 @@
-// var fs = require('fs')
-// var sql = require('sql.js')
-// var bfr = fs.readFileSync('/tmp/db.sqlite')
-// var db = new sql.Database(bfr)
-// var db = new sql.Database()
-/* db.each('SELECT * FROM test', function (row) {
-  console.log(row)
-}) */
-
 var mongoose = require('mongoose')
 // var log         = require('./log')(module);
 var mongoUrl = 'mongodb://localhost:27017/personnel'
 
-var db = null
-
 function connect () {
-  // mongoose.connect('mongodb://localhost/personnel')
-  mongoose.connect(mongoUrl, function (err) {
-    if (err) {
-      console.error('Failed to connect to mongo on startup - retrying in 5 sec', err)
-      setTimeout(connect, 5000)
-    }
-  })
-  // mongoose.connect(uri, { server: { reconnectTries: Number.MAX_VALUE } })
+  console.log('connect()')
+  /**
+   * mongoose.connect(mongoUrl, function (err) {
+   *   if (err) {
+   *     console.error('Failed to connect to mongo on startup - retrying in 5 sec', err)
+   *     setTimeout(connect, 5000)
+   *   }
+   * })
+   * return mongoose.connection
+   */
 
-  var db = mongoose.connection
-  return db
+  /**
+   * mongoose.connect(mongoUrl, { server: { reconnectTries: Number.MAX_VALUE } })
+   * return mongoose.connection
+   */
+
+  // var connection = mongoose.createConnection(mongoUrl, {
+  mongoose.connect(mongoUrl, {
+    server: {
+      useMongoClient: true,
+      reconnectTries: Number.MAX_VALUE,
+      reconnectInterval: 5000
+    }
+  }).then(
+    () => {
+      console.log('Connected to database')
+      // console.log(mongoose.connection)
+      return mongoose.connection
+    },
+    err => {
+      console.log('Connection error')
+      alert('Error Promise ' + err)
+    }
+  )
+
+  // console.log(connection)
+  // console.log(mongoose.connection)
+
+  return mongoose.connection
 }
 
 function disconnect () {
@@ -32,32 +49,18 @@ function disconnect () {
   console.log('Connection closed!')
 }
 
-db = connect()
+var db = connect()
+
+/**
+ * db.on('open', function () {
+ *   console.log('Trying to open')
+ *   alert('Opened')
+ * })
+ */
 
 var Schema = mongoose.Schema
 
 // Schemas
-/**
- * var Images = new Schema({
- *   kind: {
- *     type: String,
- *     enum: ['thumbnail', 'detail'],
- *     required: true
- *   },
- *   url: { type: String, required: true }
- * });
- */
-
-/**
- * var Article = new Schema({
- *   title: { type: String, required: true },
- *   author: { type: String, required: true },
- *   description: { type: String, required: true },
- *   images: [Images],
- *   modified: { type: Date, default: Date.now }
- * });
- */
-
 var JobCategory = new Schema({
   title: { type: String, required: true, default: '' },
   comment: { type: String }

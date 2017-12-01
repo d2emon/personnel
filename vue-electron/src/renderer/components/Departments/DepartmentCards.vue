@@ -205,13 +205,6 @@ export default {
 .toolbar {
   padding: 2px 0px;
 }
-.departments {
-  font-size: 14px;
-  padding: 5px;
-}
-.departments .nav-link {
-  padding: 2px;
-}
 .main-part {
   padding: 5px;
   overflow: hidden;
