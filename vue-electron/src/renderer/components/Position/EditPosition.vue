@@ -99,11 +99,6 @@ export default {
       var doc = this
       this.isBusy = true
 
-      console.log('Params data')
-      console.log(this.$route.params)
-      console.log(this.$route.params.id)
-      console.log(this.$route.params.department)
-
       if (this.$route.params.id !== '0') {
         Db.PositionModel.findById(this.$route.params.id).exec(function (err, model) {
           if (err) {
