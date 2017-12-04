@@ -8,7 +8,7 @@
 
         <b-navbar-nav class="mr-auto">
           <b-nav-item to="/departments" title="Отделы"><i class="fa fa-sitemap"></i></b-nav-item>
-          <b-nav-item to="/cards" disabled title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
+          <b-nav-item to="/positions" title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
           <b-nav-item to="/documents" disabled title="Бланки"><i class="fa fa-file-text-o"></i></b-nav-item>
           <b-nav-item to="/calculator" disabled title="Калькулятор"><i class="fa fa-calculator"></i></b-nav-item>
           <b-nav-item to="/calendar" disabled title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
@@ -172,5 +172,8 @@ export default {
 
 .search-query:focus + button {
   z-index: 3;
+}
+.container {
+  min-width: 900px;
 }
 </style>

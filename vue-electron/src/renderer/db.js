@@ -90,17 +90,65 @@ var Department = new Schema({
   vacancies: [Vacancy]
 })
 
+var Address = new Schema({
+  city: String,
+  district: String,
+  region: String,
+  country: String,
+  fact: String
+})
+
+var Registration = new Schema({
+  address: String,
+  date_from: Date,
+  date_to: Date
+})
+
+var Document = new Schema({
+  // type
+  series: String,
+  document_no: String,
+  given_by: String,
+  given_at: Date,
+  registration: Registration
+})
+
+var Person = new Schema({
+  first_name: String,
+  second_name: String,
+  last_name: String,
+  address: Address,
+  sex_id: [0, 1],
+  birthday: Date,
+  document: Document,
+  phone: String
+})
+
 var Position = new Schema({
+  tab_no: String,
+  person: Person,
   department: Department,
   job: Job,
   // Sovmeshenie
   vacancies: { type: Number, default: 0.00 },
   wages: { type: Number, default: 0.00 },
   // Schedule
-  orderNo: String,
-  orderFrom: Date,
-  workFrom: Date,
-  base: String
+  order_no: String,
+  order_from: Date,
+  work_from: Date,
+  base: String,
+  comment: String
+})
+
+Position.virtual('order').get(function () {
+  let order = ''
+  if (this.order_from) {
+    order = 'от ' + this.order_from
+  }
+  if (this.order_no) {
+    return this.order_no + ' ' + order
+  }
+  return order
 })
 
 // validation
@@ -115,6 +163,7 @@ module.exports.JobModel = mongoose.model('Job', Job)
 module.exports.VacancyModel = mongoose.model('Vacancy', Vacancy)
 module.exports.DepartmentModel = mongoose.model('Department', Department)
 module.exports.PositionModel = mongoose.model('Position', Position)
+module.exports.PersonModel = mongoose.model('Person', Person)
 module.exports.connection = db
 module.exports.connect = connect
 module.exports.disconnect = disconnect

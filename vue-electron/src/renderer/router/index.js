@@ -23,11 +23,19 @@ export default new Router({
       // component: HelloWorld
     },
     {
+      path: '/positions',
+      name: 'positions-list',
+      component: require('@/components/Position/PositionsList').default
+    },
+    {
       path: '/position/edit/:id',
-      // alias: '/department/new',
+      name: 'add-position',
+      component: require('@/components/Position/AddPosition').default
+    },
+    {
+      path: '/person/edit/:id',
       name: 'edit-position',
       component: require('@/components/Position/EditPosition').default
-      // component: HelloWorld
     },
 
     /**

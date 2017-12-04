@@ -4,24 +4,33 @@
       <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
     </div>
     <div class="overtab">
-      <b-table striped hover :items="positions" :fields="fields">
-        <template slot="actions" scope="row">
-          <b-button-group v-if="row.item">
-            <b-btn size="sm" variant="primary" title="Изменить" :to="'/position/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
-            <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelByIndex(row.index, row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
-          </b-button-group>
-          <b-button-group v-else>
-            <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
-          </b-button-group>
-        </template>
-        <template slot="isFulltime" scope="row">Постоянный</template>
-        <template slot="tabN" scope="row">1543</template>
-        <template slot="last_name" scope="row">Анохина</template>
-        <template slot="first_name" scope="row">Любовь</template>
-        <template slot="middle_name" scope="row">Валентиновна</template>
-        <template slot="job" scope="row">{{row.item.job.title}}</template>
-        <template slot="department" scope="row">{{row.item.department.title}}</template>
-      </b-table>
+      {{ positions.length }}
+      <div v-if="positions.length > 0">
+        <b-table striped hover :items="positions" :fields="fields">
+          <template slot="actions" scope="row">
+            <b-button-group v-if="row.item">
+              <b-btn size="sm" variant="primary" title="Изменить" :to="'/person/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+              <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelByIndex(row.index, row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+            </b-button-group>
+            <b-button-group v-else>
+              <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+            </b-button-group>
+          </template>
+          <template slot="is_fulltime" scope="row">Постоянный</template>
+          <template slot="tab_no" scope="row"><span v-if="row.item.person">{{ row.item.person.tab_no }}</span><span v-else>&nbsp;</span></template>
+          <template slot="last_name" scope="row"><span v-if="row.item.person">{{ row.item.person.last_name }}</span><span v-else>&nbsp;</span></template>
+          <template slot="first_name" scope="row"><span v-if="row.item.person">{{ row.item.person.first_name }}</span><span v-else>&nbsp;</span></template>
+          <template slot="second_name" scope="row"><span v-if="row.item.person">{{ row.item.person.second_name }}</span><span v-else>&nbsp;</span></template>
+          <template slot="job" scope="row"><span v-if="row.item.job">{{row.item.job.title}}</span><span v-else>&nbsp;</span></template>
+          <template slot="department" scope="row"><span v-if="row.item.department">{{row.item.department.title}}</span><span v-else>&nbsp;</span></template>
+        </b-table>
+      </div>
+      <div v-else>
+        <b-jumbotron header="Данные отсутствуют" lead="Вы еще не добавили ни одного работника" >
+          <b-btn size="lg" variant="primary" title="Добавить" to="/position/edit/0">Добавить</b-btn>
+          <b-button size="lg" variant="primary" title="Обновить"  @click="fetchData">Обновить</b-button>
+        </b-jumbotron>        
+      </div>
       {{ positions }}
       <b-table striped hover :items="items2" :fields="fields2"></b-table>
       <b-table striped hover id="personal-cards-table" :busy.sync="isBusy" :items="items" :fields="fields">
@@ -81,12 +90,12 @@ export default {
           label: '&nbsp;'
         },
         {
-          key: 'isFulltime',
+          key: 'is_fulltime',
           label: 'Совместительство',
           sortable: true
         },
         {
-          key: 'tabN',
+          key: 'tab_no',
           label: 'Таб. №',
           sortable: true
         },
@@ -101,12 +110,12 @@ export default {
           sortable: true
         },
         {
-          key: 'middle_name',
+          key: 'second_name',
           label: 'Отчество',
           sortable: true
         },
         {
-          key: 'workFrom',
+          key: 'work_from',
           label: 'Дата приема',
           sortable: true
         },
