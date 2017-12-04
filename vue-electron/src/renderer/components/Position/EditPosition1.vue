@@ -2,6 +2,7 @@
   <b-container>
     <main>
       <b-form @submit="addModel" v-if="model">
+        M: {{ model }}
         <b-button-toolbar class="form-toolbar">
           <b-button-group>
             <b-button type="submit" variant="primary">Сохранить</b-button>
@@ -206,8 +207,7 @@
                 <b-tabs small card ref="tabs" v-model="tabIndexPass">
                   <b-tab title="Личность">
                     <div class="main-tab pass-tab">
-                      <b-card v-if="model.person">
-                        {{ model.person }}
+                      <b-card>
                         <b-row>
                           <b-col>
                             <b-form-group horizontal label="Фамилия:" label-for="last_name">
@@ -276,7 +276,7 @@
                       </b-row>
                     </div>
                   </b-tab>
-                  <b-tab title="Документ" :disabled="!model.person.document">
+                  <b-tab title="Документ">
                     <div class="main-tab pass-tab" v-if="model.person.document">
                       <b-card>
                         <b-form-group horizontal label="Серия:" label-for="series">
@@ -317,7 +317,93 @@
                 </b-tabs>
               </b-card>
             </b-tab>
-            
+            <b-tab title="Образование" disabled>
+              <b-tabs small card v-model="tabIndexEducation">
+                <b-tab title="Карточки">
+                  <div>department-vacancies</div>
+                </b-tab>
+              </b-tabs>
+            </b-tab>
+            <b-tab title="ВУ" disabled>
+              <div>department-contracts</div>
+            </b-tab>
+            <b-tab title="Поощрения" disabled>
+              <b-tabs small card v-model="tabIndexBonus">
+                <b-tab title="Карточки">
+                  <div>department-vacancies</div>
+                </b-tab>
+              </b-tabs>
+            </b-tab>
+            <b-tab title="Разное" disabled>
+              <b-tabs small card v-model="tabIndexOther">
+                <b-tab title="Карточки">
+                  <div>department-vacancies</div>
+                </b-tab>
+              </b-tabs>
+            </b-tab>
+            <b-tab title="Трудовые" disabled>
+              <div>department-contracts</div>
+            </b-tab>
+            <b-tab title="Дополнительно" disabled>
+              <div>department-contracts</div>
+
+              <b-form-group v-if="departments.length > 0" label="Отдел:" label-for="department">
+                <b-row>
+                  <b-col md="8">
+                    <b-form-select id="department" v-model="departmentId" placeholder="Отдел">
+                      <option v-for="department in departments" :value="department.id">{{department.title}}</option>
+                    </b-form-select>
+                  </b-col>
+                  <b-button variant="primary" to="/department/edit/0" class="col-2">Новый</b-button>
+                  <b-button variant="primary" to="/departments" class="col-2">Справочник</b-button>
+                </b-row>
+                <b-row v-if="model">
+                  <div v-if="model.department">
+                    Отдел: {{ model.department.title }}
+                  </div>
+                </b-row>
+              </b-form-group>
+              <b-form-group v-if="jobs.length > 0" label="Должность:" label-for="job">
+                <b-row>
+                  <b-col md="8">
+                    <b-form-select id="job" type="text" v-model="jobId" placeholder="Должность">
+                      <option v-for="job in jobs" :value="job.id">{{job.title}}</option>
+                    </b-form-select>
+                  </b-col>
+                  <b-button variant="primary" to="/job/edit/0" class="col-2">Новая</b-button>
+                  <b-button variant="primary" to="/jobs" class="col-2">Справочник</b-button>
+                </b-row>
+                <b-row v-if="model">
+                  <div v-if="model.job">
+                    Должность: {{ model.job.category.title }}
+                  </div>
+                </b-row>
+              </b-form-group>
+
+              <!-- // Sovmeshenie -->
+
+              <b-form-group label="Вакансий:" label-for="vacancies">
+                <b-form-input id="vacancies" type="number" step="0.25" v-model="model.vacancies"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Оклад:" label-for="wages">
+                <b-form-input id="wages" type="number" step="0.25" v-model="model.wages"></b-form-input>
+              </b-form-group>
+
+              <!-- // Schedule -->
+
+              <b-form-group label="Приказ:" label-for="orderNo">
+                <b-form-input id="orderNo" type="text" v-model="model.order_no"></b-form-input>
+                <span>от</span>
+                <b-form-input id="orderFrom" type="date" v-model="model.order_from"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Дата выхода на работу:" label-for="workFrom">
+                <b-form-input id="workFrom" type="date" v-model="model.work_from"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Основание:" label-for="base">
+                <b-form-input id="base" type="text" v-model="model.base"></b-form-input>
+              </b-form-group>
+
+            </b-tab>
           </b-tabs>
           </div>
         </b-card>
