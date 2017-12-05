@@ -235,10 +235,27 @@
                       <br>
                       <b-row>
                         <b-col>
-                          *
+                          <b-card>
+                            *
+                          </b-card>
                         </b-col>
                         <b-col>
-                          *
+                          <b-card>
+                            <b-form-group horizontal label="Пол:" label-for="sex">
+                              <b-form-select id="sex" v-model="model.person.sex_id">
+                                <option value="0">М</option>
+                                <option value="1">Ж</option>
+                              </b-form-select>
+                            </b-form-group>                              
+                            <hr>                         
+                            <b-form-group horizontal label="Дата рождения:" label-for="birthday">
+                              <b-form-input id="birthday" type="date" v-model="model.person.birthday"></b-form-input>
+                            </b-form-group>                              
+                            <div v-if="model.person.birthday">
+                              <b-table striped hover :items="model.person" :fields="fields">
+                              </b-table>
+                            </div>                              
+                          </b-card>
                         </b-col>
                       </b-row>                          
                     </div>
