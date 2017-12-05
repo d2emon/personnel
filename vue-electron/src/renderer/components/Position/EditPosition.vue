@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <main>
-      <b-form @submit="addModel" v-if="model">
+      <b-form @submit="saveModel" v-if="model">
         <b-button-toolbar class="form-toolbar">
           <b-button-group>
             <b-button type="submit" variant="primary">Сохранить</b-button>
@@ -207,7 +207,6 @@
                   <b-tab title="Личность">
                     <div class="main-tab pass-tab">
                       <b-card v-if="model.person">
-                        {{ model.person }}
                         <b-row>
                           <b-col>
                             <b-form-group horizontal label="Фамилия:" label-for="last_name">
@@ -231,81 +230,23 @@
                               <b-form-input id="second_name" v-model="model.person.second_name"></b-form-input>
                             </b-form-group>
                           </b-col>
-                        </b-row>                        
+                        </b-row>
                       </b-card>
                       <br>
                       <b-row>
                         <b-col>
-                          <b-card title="Место" v-if="model.person.address">
-                            <b-form-group horizontal label="Город:" label-for="city">
-                              <b-form-input id="city" v-model="model.person.address.city"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Район:" label-for="district">
-                              <b-form-input id="district" v-model="model.person.address.district"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Область:" label-for="region">
-                              <b-form-input id="region" v-model="model.person.address.region"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Страна:" label-for="country">
-                              <b-form-input id="country" v-model="model.person.address.country"></b-form-input>
-                            </b-form-group>
-                            <hr>                         
-                            <b-form-group horizontal label="Проживает:" label-for="fact">
-                              <b-form-input id="fact" v-model="model.person.address.fact"></b-form-input>
-                            </b-form-group>
-                          </b-card>
+                          *
                         </b-col>
                         <b-col>
-                          <b-card>
-                            <b-form-group horizontal label="Пол:" label-for="sex">
-                              <b-form-select id="sex" v-model="model.person.sex_id">
-                                <option value="0">М</option>
-                                <option value="1">Ж</option>
-                              </b-form-select>
-                            </b-form-group>                              
-                            <hr>                         
-                            <b-form-group horizontal label="Дата рождения:" label-for="birthday">
-                              <b-form-input id="birthday" type="date" v-model="model.person.birthday"></b-form-input>
-                            </b-form-group>                              
-                            <div v-if="model.person.birthday">
-                              <b-table striped hover :items="model.person" :fields="fields">
-                              </b-table>
-                            </div>                              
-                          </b-card>
+                          *
                         </b-col>
-                      </b-row>
+                      </b-row>                          
                     </div>
                   </b-tab>
+
                   <b-tab title="Документ" :disabled="!model.person.document">
                     <div class="main-tab pass-tab" v-if="model.person.document">
-                      <b-card>
-                        <b-form-group horizontal label="Серия:" label-for="series">
-                          <b-form-input id="series" v-model="model.person.document.series"></b-form-input>
-                        </b-form-group>
-                        <b-form-group horizontal label="Номер:" label-for="document_no">
-                          <b-form-input id="document_no" v-model="model.person.document.document_no"></b-form-input>
-                        </b-form-group>
-                        <b-form-group horizontal label="Кем выдан:" label-for="given_by">
-                          <b-form-input id="given_by" v-model="model.person.document.given_by"></b-form-input>
-                        </b-form-group>
-                        <b-form-group horizontal label="Дата выдачи:" label-for="given_at">
-                          <b-form-input id="given_at" type="date" v-model="model.document.given_at"></b-form-input>
-                        </b-form-group>                                                      
-                      </b-card>
-                      <b-card title="Регистрация" v-if="model.person.document.registration">
-                        <b-form-group horizontal label="Адрес:" label-for="address">
-                          <b-form-input id="address" v-model="model.person.document.registration.address"></b-form-input>
-                        </b-form-group>
-                        <b-form-group horizontal label="Дата с:" label-for="date_from">
-                          <b-form-input id="date_from" type="date" v-model="model.person.document.registration.date_from"></b-form-input>
-                        </b-form-group>                                                      
-                        <b-form-group horizontal label="Дата по:" label-for="date_to">
-                          <b-form-input id="date_to" type="date" v-model="model.person.document.registration.date_to"></b-form-input>
-                        </b-form-group>                                                      
-                        <b-form-group horizontal label="Телефон:" label-for="phone">
-                          <b-form-input id="phone" v-model="model.person.phone"></b-form-input>
-                        </b-form-group>
-                      </b-card>
+                      *
                     </div>
                   </b-tab>
                   <b-tab title="Семейное положение">
@@ -334,10 +275,11 @@
                         <b-form-input id="phone" v-model="model.person.phone"></b-form-input>
                       </b-form-group>
                     </div>
-                  </b-tab>
+                  </b-tab>                  
                 </b-tabs>
+
               </b-card>
-            </b-tab>
+            </b-tab> 
             <b-tab title="Образование" disabled>
               <b-card no-body>
                 ввв
@@ -370,6 +312,7 @@
               </b-card>
             </b-tab>
             --> 
+
           </b-tabs>
           </div>
         </b-card>
@@ -429,19 +372,21 @@ export default {
             model = new Db.PositionModel()
           }
 
+          doc.model = model
+          console.log('Position')
+          console.log(model)
           if (!model.person) {
             model.person = new Db.PersonModel()
           }
-
-          doc.model = model
-          /*
-          if (!model.address) {
-            model.address = new Db.AddressModel()
+          if (!model.person.address) {
+            model.person.address = new Db.AddressModel()
           }
-          if (!model.document) {
-            model.document = new Db.DocumentModel()
+          if (!model.person.document) {
+            model.person.document = new Db.DocumentModel()
           }
-          */
+          if (!model.person.document.registration) {
+            model.person.document.registration = new Db.RegistrationModel()
+          }
 
           let job = model.job
           if (job) {
@@ -488,7 +433,7 @@ export default {
         doc.jobs = models
       })
     },
-    addModel: function (e) {
+    saveModel: function (e) {
       e.preventDefault()
 
       let doc = this

@@ -166,6 +166,7 @@ module.exports.PositionModel = mongoose.model('Position', Position)
 module.exports.PersonModel = mongoose.model('Person', Person)
 module.exports.AddressModel = mongoose.model('Address', Address)
 module.exports.DocumentModel = mongoose.model('Document', Document)
+module.exports.RegistrationModel = mongoose.model('Registration', Registration)
 module.exports.connection = db
 module.exports.connect = connect
 module.exports.disconnect = disconnect
