@@ -309,15 +309,60 @@
                     </div>
                   </b-tab>
                   <b-tab title="Семейное положение">
-                    <div class="main-tab pass-tab">department-vacancies</div>
+                    <div class="main-tab pass-tab">
+                      <b-form-group horizontal label="Семейное положение:" label-for="family">
+                        <b-form-select id="family" v-model="model.person.sex_id">
+                          <option value="0">М</option>
+                          <option value="1">Ж</option>
+                        </b-form-select>
+                      </b-form-group>                              
+                      <div v-if="model.vacations">
+                        <b-table striped hover :items="model.vacations" :fields="fields">
+                        </b-table>
+                      </div>
+                      <div v-else>
+                        <h5>Родственники отсутствуют</h5>
+                      </div>
+                    </div>
                   </b-tab>
                   <b-tab title="Страховое">
-                    <div class="main-tab pass-tab">department-vacancies</div>
+                    <div class="main-tab pass-tab">
+                      <b-form-group horizontal label="№ страхового свидетельства:" label-for="phone">
+                        <b-form-input id="phone" v-model="model.person.phone"></b-form-input>
+                      </b-form-group>
+                      <b-form-group horizontal label="ИНН:" label-for="phone">
+                        <b-form-input id="phone" v-model="model.person.phone"></b-form-input>
+                      </b-form-group>
+                    </div>
                   </b-tab>
                 </b-tabs>
               </b-card>
             </b-tab>
-            
+            <b-tab title="Образование" disabled>
+              <b-card no-body>
+                ввв
+              </b-card>
+            </b-tab>            
+            <b-tab title="ВУ" disabled>
+              <b-card no-body>
+                ввв
+              </b-card>
+            </b-tab>            
+            <b-tab title="Поощрения" disabled>
+              <b-card no-body>
+                ввв
+              </b-card>
+            </b-tab>            
+            <b-tab title="Разное" disabled>
+              <b-card no-body>
+                ввв
+              </b-card>
+            </b-tab>            
+            <b-tab title="Трудовые" disabled>
+              <b-card no-body>
+                ввв
+              </b-card>
+            </b-tab>  
           </b-tabs>
           </div>
         </b-card>
@@ -366,6 +411,8 @@ export default {
 
       if (this.$route.params.id !== '0') {
         Db.PositionModel.findById(this.$route.params.id).exec(function (err, model) {
+          doc.isBusy = false
+
           if (err) {
             alert(err)
             return
@@ -380,7 +427,14 @@ export default {
           }
 
           doc.model = model
-          doc.isBusy = false
+          /*
+          if (!model.address) {
+            model.address = new Db.AddressModel()
+          }
+          if (!model.document) {
+            model.document = new Db.DocumentModel()
+          }
+          */
 
           let job = model.job
           if (job) {

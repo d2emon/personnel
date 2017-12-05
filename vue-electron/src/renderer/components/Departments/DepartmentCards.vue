@@ -4,7 +4,6 @@
       <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
     </div>
     <div class="overtab">
-      {{ positions.length }}
       <div v-if="positions.length > 0">
         <b-table striped hover :items="positions" :fields="fields">
           <template slot="actions" scope="row">
@@ -31,7 +30,6 @@
           <b-button size="lg" variant="primary" title="Обновить"  @click="fetchData">Обновить</b-button>
         </b-jumbotron>        
       </div>
-      {{ positions }}
       <b-table striped hover :items="items2" :fields="fields2"></b-table>
       <b-table striped hover id="personal-cards-table" :busy.sync="isBusy" :items="items" :fields="fields">
         <template slot="show_details" scope="row" sm="3">
