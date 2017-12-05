@@ -362,7 +362,14 @@
               <b-card no-body>
                 ввв
               </b-card>
-            </b-tab>  
+            </b-tab> 
+            <!--
+            <b-tab title="Дополнительно" disabled>
+              <b-card no-body>
+                ввв
+              </b-card>
+            </b-tab>
+            --> 
           </b-tabs>
           </div>
         </b-card>
