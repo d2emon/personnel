@@ -235,8 +235,23 @@
                       <br>
                       <b-row>
                         <b-col>
-                          <b-card>
-                            *
+                          <b-card title="Место">
+                            <b-form-group horizontal label="Город:" label-for="city">
+                              <b-form-input id="city" v-model="model.person.address.city"></b-form-input>
+                            </b-form-group>
+                            <b-form-group horizontal label="Район:" label-for="district">
+                              <b-form-input id="district" v-model="model.person.address.district"></b-form-input>
+                            </b-form-group>
+                            <b-form-group horizontal label="Область:" label-for="region">
+                              <b-form-input id="region" v-model="model.person.address.region"></b-form-input>
+                            </b-form-group>
+                            <b-form-group horizontal label="Страна:" label-for="country">
+                              <b-form-input id="country" v-model="model.person.address.country"></b-form-input>
+                            </b-form-group>
+                            <hr>                         
+                            <b-form-group horizontal label="Проживает:" label-for="fact">
+                              <b-form-input id="fact" v-model="model.person.address.fact"></b-form-input>
+                            </b-form-group>
                           </b-card>
                         </b-col>
                         <b-col>
