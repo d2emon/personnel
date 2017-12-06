@@ -2,6 +2,9 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 
+// import moment from 'moment'
+// import VueMomentJS from 'vue-momentjs'
+
 import App from './App'
 import router from './router'
 import store from './store'
@@ -23,6 +26,7 @@ Vue.component = function (name, definition) {
 }
 
 Vue.use(BootstrapVue)
+// Vue.use(VueMomentJS, moment)
 Vue.component = originalVueComponent
 
 /* eslint-disable no-new */

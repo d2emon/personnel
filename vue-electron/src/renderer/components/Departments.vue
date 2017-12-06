@@ -13,7 +13,6 @@
     </b-modal>
 
     <b-container class="main-body">
-    <b-card no-body class="main-card">
       <b-row>
         <b-col md="3">
           <departments-list @select="selectModel"></departments-list>
@@ -27,7 +26,6 @@
           <department-details :model="selected"  @reset="fetchData"></department-details>
         </b-col>
       </b-row>
-    </b-card>
     </b-container>
   </main>
 </template>

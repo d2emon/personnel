@@ -17,7 +17,7 @@
                 <b-col md="8">
                   <b-card>
                     <b-form-group horizontal label="Табельный номер:" label-for="tab_no">
-                      <b-form-input id="tab_no" type="number"></b-form-input>
+                      <b-form-input id="tab_no" type="number" v-model="model.tab_no"></b-form-input>
                     </b-form-group>
                     <div v-if="model.person">
                       <b-form-group horizontal label="Фамилия:" label-for="last_name">
@@ -46,8 +46,13 @@
                     <b-form-group horizontal label="Приказ:" label-for="orderNo">
                       <b-form-input id="orderNo" plaintext type="text" v-model="model.order"></b-form-input>
                     </b-form-group>
+                    <b-form-group label="Приказ:" label-for="orderNo">
+                      <b-form-input id="orderNo" type="text" v-model="model.orderNo"></b-form-input>
+                      <span>от</span>
+                      <b-form-input id="orderFrom" type="date" v-model="model.orderFrom"></b-form-input>
+                    </b-form-group>                    
                     <b-form-group horizontal label="Дата выхода на работу:" label-for="workFrom">
-                      <b-form-input id="workFrom" plaintext type="date" v-model="model.work_from"></b-form-input>
+                      <b-form-input id="workFrom" type="date" v-model="model.work_from"></b-form-input>
                     </b-form-group>
                   </b-card>
                 </b-col>
@@ -62,256 +67,8 @@
               </b-form-group>
               </div>
             </b-tab>
-            <b-tab title="Работа">
-              <b-card no-body>
-              <b-tabs small card ref="tabs" v-model="tabIndexJob">
-                <b-tab title="Назначения" class="main-tab pass-tab">
-                  <div v-if="model.positions">
-                    <b-table striped hover :items="model.positions" :fields="fields">
-                    </b-table>
-                  </div>
-                  <div v-else>
-                    <h5>Назначения отсутствуют</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Контракты" class="main-tab pass-tab">
-                  <div v-if="model.contracts">
-                    <b-table striped hover :items="model.contracts" :fields="fields">
-                    </b-table>
-                  </div>
-                  <div v-else>
-                    <h5>Контракты отсутствуют</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="ПМР/Стаж" class="main-tab pass-tab">
-                  <div v-if="model.jobs">
-                    <b-table striped hover :items="model.jobs" :fields="fields">
-                    </b-table>
-                    <b-card>
-                      <b-row>
-                        <b-col>Общий стаж работы на сегодня</b-col>
-                        <b-col><b-row><b-col>25</b-col><b-col>0</b-col><b-col>4</b-col></b-row></b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col>
-                          <b-form-group label="Непрерывный стаж работы с:" label-for="workFrom">
-                            <b-form-input id="workFrom" type="date" v-model="model.work_from"></b-form-input>
-                          </b-form-group>
-                        </b-col>
-                        <b-col><b-row><b-col>25</b-col><b-col>0</b-col><b-col>4</b-col></b-row></b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col>
-                          <b-form-group label="Стаж на предприятии с:" label-for="workFrom">
-                            <b-form-input id="workFrom" type="date" v-model="model.work_from"></b-form-input>
-                          </b-form-group>
-                        </b-col>
-                        <b-col><b-row><b-col>25</b-col><b-col>10</b-col><b-col>4</b-col></b-row></b-col>
-                      </b-row>
-                    </b-card>
-                  </div>
-                  <div v-else>
-                    <h5>Стаж не введен</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Отпуска" class="main-tab pass-tab">
-                  <div v-if="model.vacations">
-                    <b-table striped hover :items="model.vacations" :fields="fields">
-                    </b-table>
-                  </div>
-                  <div v-else>
-                    <h5>Отпуска не введены</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Пл/дней" class="main-tab pass-tab">
-                  <b-row>
-                    <b-col>
-                      <b-card>
-                        <div v-if="model.vacations">
-                          <b-table striped hover :items="model.vacations" :fields="fields">
-                          </b-table>
-                        </div>
-                        <div v-else>
-                          <h5>Отпуска не введены</h5>
-                        </div>
-                      </b-card>
-                    </b-col>
-                    <b-col>
-                      <b-card>
-                        <div v-if="model.vacations">
-                          <b-table striped hover :items="model.vacations" :fields="fields">
-                          </b-table>
-                        </div>
-                        <div v-else>
-                          <h5>Отпуска не введены</h5>
-                        </div>
-                      </b-card>
-                    </b-col>
-                  </b-row>
-                </b-tab>
-                <b-tab title="Зарплата" class="main-tab pass-tab">
-                  <b-form-group label="Оклад:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25" v-model="model.wages"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Оклад с надбавкой:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Надбавка:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Процент надбаки:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Почасовая ставка:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Почасовая ставка с надбавкой:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                </b-tab>
-                <b-tab title="Проф. стаж" class="main-tab pass-tab">
-                  <div v-if="model.jobs">
-                    <b-table striped hover :items="model.jobs" :fields="fields">
-                    </b-table>
-                    <b-card>
-                      <h5>Профессиональный стаж</h5>
-                      <b-row>
-                        <b-col>
-                          <b-row>
-                            <b-col>Всего</b-col>
-                            <b-col><b-row><b-col>25</b-col><b-col>0</b-col><b-col>4</b-col></b-row></b-col>
-                          </b-row>
-                        </b-col>
-                        <b-col>
-                          <b-row>
-                            <b-col>На предприятии</b-col>
-                            <b-col><b-row><b-col>25</b-col><b-col>0</b-col><b-col>4</b-col></b-row></b-col>
-                          </b-row>
-                        </b-col>
-                      </b-row>
-                    </b-card>
-                  </div>
-                  <div v-else>
-                    <h5>Стаж не введен</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Уволен" :disabled="true" class="main-tab pass-tab">
-                  <div>department-vacancies</div>
-                </b-tab>
-              </b-tabs>
-              </b-card>
-            </b-tab>
-            <b-tab title="Паспорт">
-              <b-card no-body>
-                <b-tabs small card ref="tabs" v-model="tabIndexPass">
-                  <b-tab title="Личность">
-                    <div class="main-tab pass-tab">
-                      <b-card v-if="model.person">
-                        <b-row>
-                          <b-col>
-                            <b-form-group horizontal label="Фамилия:" label-for="last_name">
-                              <b-form-input id="last_name" v-model="model.person.last_name"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Имя:" label-for="first_name">
-                              <b-form-input id="first_name" v-model="model.person.first_name"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Отчество:" label-for="second_name">
-                              <b-form-input id="second_name" v-model="model.person.second_name"></b-form-input>
-                            </b-form-group>
-                          </b-col>
-                          <b-col>
-                            <b-form-group horizontal label="Фамилия:" label-for="last_name">
-                              <b-form-input id="last_name" v-model="model.person.last_name"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Имя:" label-for="first_name">
-                              <b-form-input id="first_name" v-model="model.person.first_name"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Отчество:" label-for="second_name">
-                              <b-form-input id="second_name" v-model="model.person.second_name"></b-form-input>
-                            </b-form-group>
-                          </b-col>
-                        </b-row>
-                      </b-card>
-                      <br>
-                      <b-row>
-                        <b-col>
-                          <b-card title="Место">
-                            <b-form-group horizontal label="Город:" label-for="city">
-                              <b-form-input id="city" v-model="model.person.address.city"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Район:" label-for="district">
-                              <b-form-input id="district" v-model="model.person.address.district"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Область:" label-for="region">
-                              <b-form-input id="region" v-model="model.person.address.region"></b-form-input>
-                            </b-form-group>
-                            <b-form-group horizontal label="Страна:" label-for="country">
-                              <b-form-input id="country" v-model="model.person.address.country"></b-form-input>
-                            </b-form-group>
-                            <hr>                         
-                            <b-form-group horizontal label="Проживает:" label-for="fact">
-                              <b-form-input id="fact" v-model="model.person.address.fact"></b-form-input>
-                            </b-form-group>
-                          </b-card>
-                        </b-col>
-                        <b-col>
-                          <b-card>
-                            <b-form-group horizontal label="Пол:" label-for="sex">
-                              <b-form-select id="sex" v-model="model.person.sex_id">
-                                <option value="0">М</option>
-                                <option value="1">Ж</option>
-                              </b-form-select>
-                            </b-form-group>                              
-                            <hr>                         
-                            <b-form-group horizontal label="Дата рождения:" label-for="birthday">
-                              <b-form-input id="birthday" type="date" v-model="model.person.birthday"></b-form-input>
-                            </b-form-group>                              
-                            <div v-if="model.person.birthday">
-                              <b-table striped hover :items="model.person" :fields="fields">
-                              </b-table>
-                            </div>                              
-                          </b-card>
-                        </b-col>
-                      </b-row>                          
-                    </div>
-                  </b-tab>
-
-                  <b-tab title="Документ" :disabled="!model.person.document">
-                    <div class="main-tab pass-tab" v-if="model.person.document">
-                      *
-                    </div>
-                  </b-tab>
-                  <b-tab title="Семейное положение">
-                    <div class="main-tab pass-tab">
-                      <b-form-group horizontal label="Семейное положение:" label-for="family">
-                        <b-form-select id="family" v-model="model.person.sex_id">
-                          <option value="0">М</option>
-                          <option value="1">Ж</option>
-                        </b-form-select>
-                      </b-form-group>                              
-                      <div v-if="model.vacations">
-                        <b-table striped hover :items="model.vacations" :fields="fields">
-                        </b-table>
-                      </div>
-                      <div v-else>
-                        <h5>Родственники отсутствуют</h5>
-                      </div>
-                    </div>
-                  </b-tab>
-                  <b-tab title="Страховое">
-                    <div class="main-tab pass-tab">
-                      <b-form-group horizontal label="№ страхового свидетельства:" label-for="phone">
-                        <b-form-input id="phone" v-model="model.person.phone"></b-form-input>
-                      </b-form-group>
-                      <b-form-group horizontal label="ИНН:" label-for="phone">
-                        <b-form-input id="phone" v-model="model.person.phone"></b-form-input>
-                      </b-form-group>
-                    </div>
-                  </b-tab>                  
-                </b-tabs>
-
-              </b-card>
-            </b-tab> 
+            <!-- Job -->
+            <!-- Pass -->
             <b-tab title="Образование" disabled>
               <b-card no-body>
                 ввв
@@ -505,7 +262,7 @@ export default {
 <style>
 .overtab {
   overflow: auto;
-  height: calc(100vh - 70px);
+  /* height: calc(100vh - 70px); */
   font-size: 14px;
 }
 .overtab .col-form-legend {

@@ -17,7 +17,7 @@
     <b-card no-body>
         <b-tabs small card ref="tabs" v-model="tabIndex">
           <b-tab title="Личные карточки">
-            <department-cards></department-cards>
+            <department-cards :department="selectedDepartment"></department-cards>
           </b-tab>
           <b-tab title="Штат">
             <vacancies :department="selectedDepartment" @refresh="refreshModels"></vacancies>

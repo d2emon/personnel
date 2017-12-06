@@ -1,4 +1,6 @@
 var mongoose = require('mongoose')
+var moment = require('moment')
+
 // var log         = require('./log')(module);
 var mongoUrl = 'mongodb://localhost:27017/personnel'
 
@@ -113,25 +115,13 @@ var Document = new Schema({
   registration: Registration
 })
 
-var Person = new Schema({
-  first_name: String,
-  second_name: String,
-  last_name: String,
-  address: Address,
-  sex_id: [0, 1],
-  birthday: Date,
-  document: Document,
-  phone: String
-})
-
 var Position = new Schema({
   tab_no: String,
-  person: Person,
   department: Department,
   job: Job,
   // Sovmeshenie
   vacancies: { type: Number, default: 0.00 },
-  wages: { type: Number, default: 0.00 },
+  salary: { type: Number, default: 0.00 },
   // Schedule
   order_no: String,
   order_from: Date,
@@ -149,6 +139,22 @@ Position.virtual('order').get(function () {
     return this.order_no + ' ' + order
   }
   return order
+})
+
+Position.virtual('work_from_text').get(function () {
+  moment(this.work_from).format('dd.mm.yyyy')
+})
+
+var Person = new Schema({
+  position: Position,
+  first_name: String,
+  second_name: String,
+  last_name: String,
+  address: Address,
+  sex_id: [0, 1],
+  birthday: Date,
+  document: Document,
+  phone: String
 })
 
 // validation
