@@ -2,15 +2,19 @@
   <b-card no-body>
     <b-tabs small card ref="tabs" v-model="tabIndex">
       <b-tab card title="Назначения" class="pass-tab">
+        <p>M: {{ model }}</p>
+
         <div v-if="model.positions">
           <div class="toolbar">
             <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
           </div>
           <b-card class="overtab" no-body>
-            <b-table striped hover :items="model.positions" :fields="positionFields">
+            <p>P: {{ model.positions }}</p>
+            <p>i: {{ row.item.position.id }}</p>
+            <b-table striped hover v-if="model.positions" :items="model.positions" :fields="positionFields">
               <template slot="actions" scope="row">
                   <b-button-group v-if="row.item">
-                    <b-btn size="sm" variant="primary" title="Изменить" :to="'/person/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+                    <b-btn  size="sm" variant="primary" title="Изменить" :to="'/person/edit/' + row.item.department.id + '/' + row.item.id + '/' + 'row.item.position.id'"><i class="fa fa-sm fa-edit"></i></b-btn>
                     <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelByIndex(row.index, row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
                   </b-button-group>
                   <b-button-group v-else>
