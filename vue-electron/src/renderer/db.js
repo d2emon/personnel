@@ -116,6 +116,7 @@ var Document = new Schema({
 })
 
 var Position = new Schema({
+  partnership_id: Number,
   tab_no: String,
   department: Department,
   job: Job,
@@ -133,20 +134,25 @@ var Position = new Schema({
 Position.virtual('order').get(function () {
   let order = ''
   if (this.order_from) {
-    order = 'от ' + this.order_from
+    order = 'от ' + moment(this.order_from).format('DD.MM.YYYY')
   }
   if (this.order_no) {
-    return this.order_no + ' ' + order
+    return '№' + this.order_no + ' ' + order
   }
   return order
 })
 
+Position.virtual('order_from_text').get(function () {
+  return moment(this.order_from).format('DD.MM.YYYY')
+})
+
 Position.virtual('work_from_text').get(function () {
-  moment(this.work_from).format('dd.mm.yyyy')
+  return moment(this.work_from).format('DD.MM.YYYY')
 })
 
 var Person = new Schema({
   position: Position,
+  positions: [Position],
   first_name: String,
   second_name: String,
   last_name: String,

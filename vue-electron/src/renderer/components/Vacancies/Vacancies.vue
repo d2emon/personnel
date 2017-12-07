@@ -20,7 +20,7 @@
                 <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
               </b-button-group>
             </template>
-            <template slot="job_id" scope="row">{{ row.item.job.job_code }} ({{ row.item.id }})</template>
+            <template slot="job_id" scope="row">{{ row.item.job.job_code }}</template>
             <template slot="job_title" scope="row">{{ row.item.job.title }}</template>
             <template slot="category_title" scope="row">{{ row.item.job.category.title }}</template>
           </b-table>

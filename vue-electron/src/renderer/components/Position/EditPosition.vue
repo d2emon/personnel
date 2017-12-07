@@ -8,51 +8,54 @@
             <b-button type="reset" variant="secondary" @click="closeEditor">Отмена</b-button>                        
           </b-button-group>
         </b-button-toolbar>
-        <b-card no-body class="overtab">
+        <b-card no-body class="overtab position">
           <div class="main-tabs">
           <b-tabs small card ref="tabs" v-model="tabIndex">
             <b-tab title="Карточки">
-              <div class="main-tab">
+              <b-card class="main-tab">
               <b-row>
                 <b-col md="8">
                   <b-card>
                     <b-form-group horizontal label="Табельный номер:" label-for="tab_no">
-                      <b-form-input id="tab_no" type="number" v-model="model.tab_no"></b-form-input>
+                      <b-form-input id="tab_no" size="sm" type="number" v-model="model.position.tab_no"></b-form-input>
                     </b-form-group>
                     <div v-if="model.person">
                       <b-form-group horizontal label="Фамилия:" label-for="last_name">
-                        <b-form-input id="last_name" plaintext v-model="model.person.last_name"></b-form-input>
+                        <b-form-input id="last_name" size="sm" plaintext v-model="model.last_name"></b-form-input>
                       </b-form-group>
                       <b-form-group horizontal label="Имя:" label-for="first_name">
-                        <b-form-input id="first_name" plaintext v-model="model.person.first_name"></b-form-input>
+                        <b-form-input id="first_name" size="sm" plaintext v-model="model.first_name"></b-form-input>
                       </b-form-group>
                       <b-form-group horizontal label="Отчество:" label-for="second_name">
-                        <b-form-input id="second_name" plaintext v-model="model.person.second_name"></b-form-input>
+                        <b-form-input id="second_name" size="sm" plaintext v-model="model.second_name"></b-form-input>
                       </b-form-group>                      
                     </div>
                   </b-card>
+                  <br>
                   <b-card>
-                    <b-form-group horizontal label="Отдел:" label-for="department" v-if="model.department">
-                      <b-form-input id="department" plaintext v-model="model.department.title"></b-form-input>
+                    <b-form-group horizontal label="Отдел:" label-for="department" v-if="model.position.department">
+                      <b-form-input id="department" size="sm" plaintext v-model="model.position.department.title"></b-form-input>
                     </b-form-group>
-                    <b-form-group horizontal label="Должность:" label-for="job" v-if="model.job">
-                      <b-form-input id="department" plaintext v-model="model.job.title"></b-form-input>
+                    {{ model.position.job }}
+                    <b-form-group horizontal label="Должность:" label-for="job" v-if="model.position.job">
+                      <b-form-input id="job" size="sm" plaintext v-model="model.position.job.title"></b-form-input>
                     </b-form-group>
-                    <b-form-group horizontal label="Совместительство:" label-for="department" v-if="model.department">
-                      <b-form-input id="department" plaintext v-model="model.department.title"></b-form-input>
+                    <b-form-group horizontal label="Совместительство:" label-for="partnership">
+                      <b-form-select id="partnership" v-model="model.position.partnership_id">
+                        <option v-for="partnership, id in partnerships" :value="id">{{partnership}}</option>
+                      </b-form-select>
+                    </b-form-group>                              
+                    <b-form-group horizontal label="Совместительство:" label-for="department" v-if="model.position.department">
+                      <b-form-input id="department" size="sm" plaintext v-model="partnerships[model.position.partnership_id]"></b-form-input>
                     </b-form-group>
                   </b-card>
+                  <br>
                   <b-card>
                     <b-form-group horizontal label="Приказ:" label-for="orderNo">
-                      <b-form-input id="orderNo" plaintext type="text" v-model="model.order"></b-form-input>
+                      <b-form-input id="orderNo" plaintext type="text" v-model="model.position.order"></b-form-input>
                     </b-form-group>
-                    <b-form-group label="Приказ:" label-for="orderNo">
-                      <b-form-input id="orderNo" type="text" v-model="model.orderNo"></b-form-input>
-                      <span>от</span>
-                      <b-form-input id="orderFrom" type="date" v-model="model.orderFrom"></b-form-input>
-                    </b-form-group>                    
                     <b-form-group horizontal label="Дата выхода на работу:" label-for="workFrom">
-                      <b-form-input id="workFrom" type="date" v-model="model.work_from"></b-form-input>
+                      <b-form-input id="workFrom" size="sm" type="date" v-model="work_from"></b-form-input>
                     </b-form-group>
                   </b-card>
                 </b-col>
@@ -62,11 +65,15 @@
                   </b-card>
                 </b-col>
               </b-row>
+              <br>
               <b-form-group horizontal label="Комментарий:" label-for="comment">
                 <b-form-input id="comment" type="text" v-model="model.comment"></b-form-input>
               </b-form-group>
-              </div>
+              </b-card>
             </b-tab>
+            <b-tab title="Работа">
+              <position-job :model="model"></position-job>
+            </b-tab>            
             <!-- Job -->
             <!-- Pass -->
             <b-tab title="Образование" disabled>
@@ -112,10 +119,16 @@
 </template>
 
 <script>
+import PositionJob from './PositionJob'
+
 var Db = require('../../db.js')
+var moment = require('moment')
 
 export default {
   name: 'vacancy',
+  components: {
+    PositionJob
+  },
   data: function () {
     var model = null
     // this.departmentId = this.$route.params.id
@@ -135,12 +148,25 @@ export default {
       tabIndex: 0,
       tabIndexJob: 0,
       tabIndexPass: 0,
+
       model: model,
+
+      partnerships: [
+        'Постоянный',
+        'Совместитель',
+        'Договорник'
+      ],
+
       departments: [],
       jobs: [],
       department: null,
       jobId: null,
-      departmentId: null
+      departmentId: null,
+
+      order_from: moment().format('YYYY-MM-DD'),
+      work_from: moment().format('YYYY-MM-DD'),
+
+      moment: moment
     }
   },
   methods: {
@@ -148,8 +174,20 @@ export default {
       var doc = this
       this.isBusy = true
 
+      console.log('Fetch positions')
+      console.log({
+        title: 'Params',
+        params: this.$route.params
+      })
+
       if (this.$route.params.id !== '0') {
-        Db.PositionModel.findById(this.$route.params.id).exec(function (err, model) {
+        // Db.PersonModel.find({}).exec(function (err, model) {
+        Db.PersonModel.findById(this.$route.params.id).exec(function (err, model) {
+          console.log({
+            title: 'Person found',
+            id: doc.$route.params.id,
+            person: model
+          })
           doc.isBusy = false
 
           if (err) {
@@ -158,24 +196,25 @@ export default {
           }
 
           if (!model) {
-            model = new Db.PositionModel()
+            model = new Db.PersonModel()
           }
 
           doc.model = model
           console.log('Position')
           console.log(model)
-          if (!model.person) {
-            model.person = new Db.PersonModel()
+          if (!model.address) {
+            model.address = new Db.AddressModel()
           }
-          if (!model.person.address) {
-            model.person.address = new Db.AddressModel()
+          if (!model.document) {
+            model.document = new Db.DocumentModel()
           }
-          if (!model.person.document) {
-            model.person.document = new Db.DocumentModel()
+          if (!model.document.registration) {
+            model.document.registration = new Db.RegistrationModel()
           }
-          if (!model.person.document.registration) {
-            model.person.document.registration = new Db.RegistrationModel()
-          }
+
+          doc.order_from = moment(model.position.order_from).format('YYYY-MM-DD')
+          doc.work_from = moment(model.position.work_from).format('YYYY-MM-DD')
+          doc.position = model.position
 
           let job = model.job
           if (job) {
@@ -188,7 +227,7 @@ export default {
           }
         })
       } else {
-        this.model = new Db.PositionModel()
+        this.model = new Db.PersonModel()
       }
 
       if (this.$route.params.department !== '0') {
@@ -240,6 +279,19 @@ export default {
             return
           }
 
+          let positionId = doc.model.positions.length - 1
+          let partnershipId = doc.model.position.partnership_id
+          if (positionId < 0) {
+            if (!doc.model.position) {
+              doc.model.position = new Db.PositionModel()
+            }
+            doc.model.positions.push(doc.model.position)
+          }
+          doc.model.position = doc.model.positions[doc.model.positions.length - 1]
+          doc.model.position.order_from = doc.order_from
+          doc.model.position.work_from = doc.work_from
+          doc.model.position.partnership_id = partnershipId
+
           doc.model.department = department
           doc.model.save()
 
@@ -262,18 +314,20 @@ export default {
 <style>
 .overtab {
   overflow: auto;
-  /* height: calc(100vh - 70px); */
   font-size: 14px;
 }
 .overtab .col-form-legend {
   font-size: 14px;
+}
+.position {
+  height: calc(100vh - 125px);  
 }
 .main-tabs {
   min-width: 800px;
 }
 .main-tab {
   overflow: auto;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 215px);
   /* width: 650px; */
   width: 100%;
   padding: 0px 20px;

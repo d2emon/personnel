@@ -28,7 +28,7 @@ export default new Router({
       component: require('@/components/Position/PositionsList').default
     },
     {
-      path: '/position/add/:departmentId',
+      path: '/position/edit/:departmentId/:personId/:id',
       name: 'add-position',
       component: require('@/components/Position/AddPosition').default
     },

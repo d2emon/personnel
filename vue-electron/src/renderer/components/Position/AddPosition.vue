@@ -165,15 +165,24 @@ export default {
       } else {
         this.model.position.department = new Db.DepartmentModel()
       }
-
-      if (this.$route.params.department !== '0') {
-        Db.DepartmentModel.findById(this.$route.params.department, function (err, model) {
+      if (this.$route.params.personId !== '0') {
+        Db.PersonModel.findById(this.$route.params.personId).exec(function (err, model) {
           if (err) {
             alert(err)
             return
           }
 
-          doc.department = model
+          doc.model = model
+        })
+      }
+      if (this.$route.params.id !== '0') {
+        Db.PositionModel.findById(this.$route.params.id).exec(function (err, model) {
+          if (err) {
+            alert(err)
+            return
+          }
+
+          doc.model.position = model
         })
       }
 
@@ -218,8 +227,8 @@ export default {
           doc.model.department = department
           doc.model.save()
 
-          // doc.$router.push('/department/edit/' + doc.department.id)
-          doc.$router.go(-1)
+          doc.$router.push('/person/edit/' + doc.model.id)
+          // doc.$router.go(-1)
         })
       })
     },

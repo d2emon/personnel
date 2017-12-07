@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="toolbar">
-      <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
+      <b-button size="sm" variant="outline-primary" :to="'/position/edit/' + selectedDepartmentId + '/0/0'"><i class="fa fa-sm fa-plus"></i></b-button>
     </div>
     <div class="overtab">
       <div v-if="positions.length > 0">
@@ -14,20 +14,18 @@
             <b-button-group v-else>
               <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
             </b-button-group>
-            {{ row.item }}
+            {{ row.item.id }}
           </template>
-          <template slot="is_fulltime" scope="row">Постоянный</template>
-          <template slot="last_name" scope="row">{{ row.item.last_name }}</template>
-          <template slot="first_name" scope="row">{{ row.item.first_name }}</template>
-          <template slot="second_name" scope="row">{{ row.item.second_name }}</template>
-          <template slot="work_from_text" scope="row">{{row.item.position.work_from}}::{{row.item.position.work_from_text}}</template>
-          <template slot="job" scope="row">{{row.item.position}}::<span v-if="row.item.position.job">{{row.item.position.job.title}}</span><span v-else>&nbsp;</span></template>
+          <template slot="is_fulltime" scope="row">{{ partnerships[row.item.position.partnership_id] }}</template>
+          <template slot="tab_no" scope="row">{{ row.item.position.tab_no }}</template>
+          <template slot="work_from_text" scope="row">{{ workFromText(row.item.position) }}</template>
+          <template slot="job" scope="row">{{row.item.position.job}}::<span v-if="row.item.position.job">{{row.item.position.job.title}}</span><span v-else>&nbsp;</span></template>
           <template slot="department" scope="row"><span v-if="row.item.position.department">{{row.item.position.department.title}}</span><span v-else>&nbsp;</span></template>
         </b-table>
       </div>
       <div v-else>
         <b-jumbotron header="Данные отсутствуют" lead="Вы еще не добавили ни одного работника" >
-          <b-btn size="lg" variant="primary" title="Добавить" :to="'/position/add/' + selectedDepartmentId" v-if="selectedDepartmentId">Добавить</b-btn>
+          <b-btn size="lg" variant="primary" title="Добавить" :to="'/position/edit/' + selectedDepartmentId + '/0/0'" v-if="selectedDepartmentId">Добавить</b-btn>
           <b-button size="lg" variant="primary" title="Обновить"  @click="fetchData">Обновить</b-button>
         </b-jumbotron>        
       </div>
@@ -37,6 +35,7 @@
 
 <script>
 var Db = require('../../db.js')
+var moment = require('moment')
 
 // var items = []
 
@@ -63,6 +62,11 @@ export default {
       selectedDepartment: null, // this.model,
       isBusy: false,
 
+      partnerships: [
+        'Постоянный',
+        'Совместитель',
+        'Договорник'
+      ],
       fields: [
         {
           key: 'actions',
@@ -132,6 +136,10 @@ export default {
         console.log(models)
         doc.positions = models
       })
+    },
+    workFromText: function (item) {
+      return moment(item.work_from).format('DD.MM.YYYY')
+      //
     }
   },
   created: function () {

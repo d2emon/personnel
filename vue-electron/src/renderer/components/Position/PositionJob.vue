@@ -1,27 +1,46 @@
 <template>
-            <b-tab title="Работа">
-              <b-card no-body>
-              <b-tabs small card ref="tabs" v-model="tabIndexJob">
-                <b-tab title="Назначения" class="main-tab pass-tab">
-                  <div v-if="model.positions">
-                    <b-table striped hover :items="model.positions" :fields="fields">
-                    </b-table>
-                  </div>
-                  <div v-else>
-                    <h5>Назначения отсутствуют</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Контракты" class="main-tab pass-tab">
-                  <div v-if="model.contracts">
-                    <b-table striped hover :items="model.contracts" :fields="fields">
-                    </b-table>
-                  </div>
-                  <div v-else>
-                    <h5>Контракты отсутствуют</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="ПМР/Стаж" class="main-tab pass-tab">
-                  <div v-if="model.jobs">
+  <b-card no-body>
+    <b-tabs small card ref="tabs" v-model="tabIndex">
+      <b-tab card title="Назначения" class="pass-tab">
+        <div v-if="model.positions">
+          <div class="toolbar">
+            <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
+          </div>
+          <b-card class="overtab" no-body>
+            <b-table striped hover :items="model.positions" :fields="positionFields">
+              <template slot="actions" scope="row">
+                  <b-button-group v-if="row.item">
+                    <b-btn size="sm" variant="primary" title="Изменить" :to="'/person/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
+                    <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelByIndex(row.index, row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+                  </b-button-group>
+                  <b-button-group v-else>
+                    <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
+                  </b-button-group>
+              </template>                
+              <template slot="work_from" scope="row">{{row.item.work_from_text}}</template>
+              <template slot="department" scope="row"><span v-if="row.item.department">{{row.item.department.title}}</span><span v-else>&nbsp;</span></template>
+              <template slot="job" scope="row">{{row.item}}::{{row.item.job}}::<span v-if="row.item.job">{{row.item.job.title}}</span><span v-else>&nbsp;</span></template>
+              <template slot="order_from" scope="row">{{row.item.order_from_text}}</template>
+            </b-table>
+          </b-card>
+        </div>
+        <div v-else>
+          <b-jumbotron header="Назначения отсутствуют">
+            <b-btn size="lg" variant="primary" title="Добавить" :to="'/position/add/' + selectedDepartmentId" v-if="selectedDepartmentId">Добавить</b-btn>
+          </b-jumbotron>        
+        </div>
+      </b-tab>
+      <b-tab title="Контракты" class="pass-tab">
+        <div v-if="model.contracts">
+          <b-table striped hover :items="model.contracts" :fields="fields">
+          </b-table>
+        </div>
+        <div v-else>
+          <h5>Контракты отсутствуют</h5>
+        </div>
+      </b-tab>
+      <b-tab title="ПМР/Стаж" class="pass-tab">
+        <div v-if="model.jobs">
                     <b-table striped hover :items="model.jobs" :fields="fields">
                     </b-table>
                     <b-card>
@@ -46,23 +65,23 @@
                         <b-col><b-row><b-col>25</b-col><b-col>10</b-col><b-col>4</b-col></b-row></b-col>
                       </b-row>
                     </b-card>
-                  </div>
-                  <div v-else>
-                    <h5>Стаж не введен</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Отпуска" class="main-tab pass-tab">
-                  <div v-if="model.vacations">
-                    <b-table striped hover :items="model.vacations" :fields="fields">
-                    </b-table>
-                  </div>
-                  <div v-else>
-                    <h5>Отпуска не введены</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Пл/дней" class="main-tab pass-tab">
-                  <b-row>
-                    <b-col>
+        </div>
+        <div v-else>
+          <h5>Стаж не введен</h5>
+        </div>
+      </b-tab>
+      <b-tab title="Отпуска" class="pass-tab">
+        <div v-if="model.vacations">
+          <b-table striped hover :items="model.vacations" :fields="fields">
+          </b-table>
+        </div>
+        <div v-else>
+          <h5>Отпуска не введены</h5>
+        </div>
+      </b-tab>
+      <b-tab title="Пл/дней" class="pass-tab">
+        <b-row>
+          <b-col>
                       <b-card>
                         <div v-if="model.vacations">
                           <b-table striped hover :items="model.vacations" :fields="fields">
@@ -72,8 +91,8 @@
                           <h5>Отпуска не введены</h5>
                         </div>
                       </b-card>
-                    </b-col>
-                    <b-col>
+          </b-col>
+          <b-col>
                       <b-card>
                         <div v-if="model.vacations">
                           <b-table striped hover :items="model.vacations" :fields="fields">
@@ -83,31 +102,31 @@
                           <h5>Отпуска не введены</h5>
                         </div>
                       </b-card>
-                    </b-col>
-                  </b-row>
-                </b-tab>
-                <b-tab title="Зарплата" class="main-tab pass-tab">
-                  <b-form-group label="Оклад:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25" v-model="model.wages"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Оклад с надбавкой:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Надбавка:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Процент надбаки:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Почасовая ставка:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                  <b-form-group label="Почасовая ставка с надбавкой:" label-for="wages">
-                    <b-form-input id="wages" type="number" step="0.25"></b-form-input>
-                  </b-form-group>
-                </b-tab>
-                <b-tab title="Проф. стаж" class="main-tab pass-tab">
-                  <div v-if="model.jobs">
+          </b-col>
+        </b-row>
+      </b-tab>
+      <b-tab title="Зарплата" class="pass-tab">
+        <b-form-group horizontal label="Оклад:" label-for="wages">
+          <b-form-input id="wages" type="number" step="0.25" v-model="model.wages"></b-form-input>
+        </b-form-group>
+        <b-form-group horizontal label="Оклад с надбавкой:" label-for="wages">
+          <b-form-input id="wages" type="number" step="0.25"></b-form-input>
+        </b-form-group>
+        <b-form-group horizontal label="Надбавка:" label-for="wages">
+          <b-form-input id="wages" type="number" step="0.25"></b-form-input>
+        </b-form-group>
+        <b-form-group horizontal label="Процент надбаки:" label-for="wages">
+          <b-form-input id="wages" type="number" step="0.25"></b-form-input>
+        </b-form-group>
+        <b-form-group horizontal label="Почасовая ставка:" label-for="wages">
+          <b-form-input id="wages" type="number" step="0.25"></b-form-input>
+        </b-form-group>
+        <b-form-group horizontal label="Почасовая ставка с надбавкой:" label-for="wages">
+          <b-form-input id="wages" type="number" step="0.25"></b-form-input>
+        </b-form-group>
+      </b-tab>
+      <b-tab title="Проф. стаж" class="pass-tab">
+        <div v-if="model.jobs">
                     <b-table striped hover :items="model.jobs" :fields="fields">
                     </b-table>
                     <b-card>
@@ -127,45 +146,74 @@
                         </b-col>
                       </b-row>
                     </b-card>
-                  </div>
-                  <div v-else>
-                    <h5>Стаж не введен</h5>
-                  </div>
-                </b-tab>
-                <b-tab title="Уволен" :disabled="true" class="main-tab pass-tab">
-                  <div>department-vacancies</div>
-                </b-tab>
-              </b-tabs>
-              </b-card>
-            </b-tab>
-
+        </div>
+        <div v-else>
+          <h5>Стаж не введен</h5>
+        </div>
+      </b-tab>
+      <b-tab title="Уволен" :disabled="true" class="pass-tab">
+        <div>department-vacancies</div>
+      </b-tab>
+    </b-tabs>
+  </b-card>
 </template>
 
 <script>
 var Db = require('../../db.js')
 
 export default {
-  name: 'vacancy',
+  name: 'position-job',
+  props: [
+    'model'
+  ],
   data: function () {
-    var model = null
-    // this.departmentId = this.$route.params.id
-
-    /*
-    if (this.value) {
-      model = this.value
-    } else {
-      model = new Db.EmploymentModel()
-    }
-    */
-
-    this.fetchData()
-
     return {
       isBusy: true,
       tabIndex: 0,
-      tabIndexJob: 0,
-      tabIndexPass: 0,
-      model: model,
+      person: null,
+
+      positionFields: [
+        {
+          key: 'actions',
+          label: '&nbsp;'
+        },
+        {
+          key: 'work_from',
+          label: 'Дата',
+          sortable: true
+        },
+        {
+          key: 'department',
+          label: 'Отдел',
+          sortable: true
+        },
+        {
+          key: 'job',
+          label: 'Должность',
+          sortable: true
+        },
+        {
+          key: 'vacancies',
+          label: 'Вакансии',
+          sortable: true
+        },
+        {
+          key: 'salary',
+          label: 'Оклад',
+          sortable: true
+        },
+        {
+          key: 'order_no',
+          label: '№ приказа',
+          sortable: true
+        },
+        {
+          key: 'order_from',
+          label: 'Дата приказа',
+          sortable: true
+        }
+      ],
+
       departments: [],
       jobs: [],
       department: null,
@@ -174,84 +222,6 @@ export default {
     }
   },
   methods: {
-    fetchData: function () {
-      var doc = this
-      this.isBusy = true
-
-      if (this.$route.params.id !== '0') {
-        Db.PositionModel.findById(this.$route.params.id).exec(function (err, model) {
-          doc.isBusy = false
-
-          if (err) {
-            alert(err)
-            return
-          }
-
-          if (!model) {
-            model = new Db.PositionModel()
-          }
-
-          doc.model = model
-          console.log('Position')
-          console.log(model)
-          if (!model.person) {
-            model.person = new Db.PersonModel()
-          }
-          if (!model.person.address) {
-            model.person.address = new Db.AddressModel()
-          }
-          if (!model.person.document) {
-            model.person.document = new Db.DocumentModel()
-          }
-          if (!model.person.document.registration) {
-            model.person.document.registration = new Db.RegistrationModel()
-          }
-
-          let job = model.job
-          if (job) {
-            doc.jobId = job.id
-          }
-
-          let department = model.department
-          if (department) {
-            doc.departmentId = department.id
-          }
-        })
-      } else {
-        this.model = new Db.PositionModel()
-      }
-
-      if (this.$route.params.department !== '0') {
-        Db.DepartmentModel.findById(this.$route.params.department, function (err, model) {
-          if (err) {
-            alert(err)
-            return
-          }
-
-          doc.department = model
-        })
-      }
-
-      this.departments = []
-      Db.DepartmentModel.find({}, function (err, models) {
-        if (err) {
-          alert(err)
-          return
-        }
-
-        doc.departments = models
-      })
-
-      this.jobs = []
-      Db.JobModel.find({}, function (err, models) {
-        if (err) {
-          alert(err)
-          return
-        }
-
-        doc.jobs = models
-      })
-    },
     saveModel: function (e) {
       e.preventDefault()
 
@@ -283,37 +253,22 @@ export default {
       this.$router.go(-1)
     }
   },
-  created: function () {
-    this.fetchData()
+  watch: {
+    model: function (val) {
+      console.log({
+        title: 'Person',
+        val: val,
+        person: this.person
+      })
+      this.person = val
+    }
   }
 }
 </script>
 
 <style>
-.overtab {
-  overflow: auto;
-  height: calc(100vh - 70px);
-  font-size: 14px;
-}
-.overtab .col-form-legend {
-  font-size: 14px;
-}
-.main-tabs {
-  min-width: 800px;
-}
-.main-tab {
-  overflow: auto;
-  height: calc(100vh - 180px);
-  /* width: 650px; */
-  width: 100%;
-  padding: 0px 20px;
-  /* height: 100%; */
-}
 .pass-tab {
   height: calc(100vh - 250px);
-}
-.photo-block {
-  height: 100%;
 }
 .form-toolbar {
   padding: 10px 0px;  
