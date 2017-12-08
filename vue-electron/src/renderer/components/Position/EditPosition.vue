@@ -36,15 +36,14 @@
                     <b-form-group horizontal label="Отдел:" label-for="department" v-if="model.position.department">
                       <b-form-input id="department" size="sm" plaintext v-model="model.position.department.title"></b-form-input>
                     </b-form-group>
-                    {{ model.position.job }}
                     <b-form-group horizontal label="Должность:" label-for="job" v-if="model.position.job">
                       <b-form-input id="job" size="sm" plaintext v-model="model.position.job.title"></b-form-input>
                     </b-form-group>
-                    <b-form-group horizontal label="Совместительство:" label-for="partnership">
-                      <b-form-select id="partnership" v-model="model.position.partnership_id">
-                        <option v-for="partnership, id in partnerships" :value="id">{{partnership}}</option>
-                      </b-form-select>
-                    </b-form-group>                              
+                    <div v-if="model.position.job">
+                      <b-form-group horizontal label="Категория:" label-for="job" v-if="model.position.job.category">
+                        <b-form-input id="job" size="sm" plaintext v-model="model.position.job.category.title"></b-form-input>
+                      </b-form-group>
+                    </div>
                     <b-form-group horizontal label="Совместительство:" label-for="department" v-if="model.position.department">
                       <b-form-input id="department" size="sm" plaintext v-model="partnerships[model.position.partnership_id]"></b-form-input>
                     </b-form-group>
@@ -55,7 +54,7 @@
                       <b-form-input id="orderNo" plaintext type="text" v-model="model.position.order"></b-form-input>
                     </b-form-group>
                     <b-form-group horizontal label="Дата выхода на работу:" label-for="workFrom">
-                      <b-form-input id="workFrom" size="sm" type="date" v-model="work_from"></b-form-input>
+                      <b-form-input id="workFrom" size="sm" plaintext v-model="model.position.work_from_text"></b-form-input>
                     </b-form-group>
                   </b-card>
                 </b-col>
@@ -141,7 +140,7 @@ export default {
     }
     */
 
-    this.fetchData()
+    // this.fetchData()
 
     return {
       isBusy: true,
@@ -295,8 +294,8 @@ export default {
           doc.model.department = department
           doc.model.save()
 
-          // doc.$router.push('/department/edit/' + doc.department.id)
-          doc.$router.go(-1)
+          doc.$router.push('/positions')
+          // doc.$router.go(-1)
         })
       })
     },

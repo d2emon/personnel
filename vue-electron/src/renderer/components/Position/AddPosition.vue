@@ -26,18 +26,18 @@
                     <b-button to="/jobs">Справочник</b-button>
                   </b-input-group-button>  
                 </b-input-group>
-                <b-row v-if="model">
-                  <div v-if="model.job">
-                    Должность: {{ model.job.title }}
+                <b-row v-if="position">
+                  <div v-if="position.job">
+                    Должность: {{ position.job.title }}
                   </div>
-                  <div v-if="model.job">
-                    Должность: {{ model.job.category.title }}
+                  <div v-if="position.job">
+                    Должность: {{ position.job.category.title }}
                   </div>
                 </b-row>
               </b-form-group>
 
               <b-form-group horizontal label="Совмещение:" label-for="connection">
-                <b-form-select id="connection" size="sm" value="0">
+                <b-form-select id="connection" size="sm" v-model="position.partnership_id">
                   <option value="0">Постоянный</option>
                   <option value="1">Совмещение</option>
                   <option value="2">Договорник</option>
@@ -45,10 +45,10 @@
               </b-form-group>
 
               <b-form-group horizontal label="Вакансий:" label-for="vacancies">
-                <b-form-input id="vacancies" size="sm" type="number" step="0.25" v-model="model.position.vacancies"></b-form-input>
+                <b-form-input id="vacancies" size="sm" type="number" step="0.25" v-model="position.vacancies"></b-form-input>
               </b-form-group>
               <b-form-group horizontal label="Оклад:" label-for="salary">
-                <b-form-input id="salary" size="sm" type="number" step="0.25" v-model="model.position.salary"></b-form-input>
+                <b-form-input id="salary" size="sm" type="number" step="0.25" v-model="position.salary"></b-form-input>
               </b-form-group>
 
               <b-form-group horizontal label="Режим работы:" label-for="schedule">
@@ -62,16 +62,17 @@
               <b-form-group horizontal label="Приказ:" label-for="orderNo">
                 <b-input-group>
                   <span class="col-md-1">№</span>
-                  <b-form-input id="orderNo" size="sm" type="text" v-model="model.position.order_no" md="5"></b-form-input>
+                  <b-form-input id="orderNo" size="sm" type="text" v-model="position.order_no" md="5"></b-form-input>
                   <span class="col-md-1">от</span>
-                  <b-form-input id="orderFrom" size="sm" type="date" v-model="model.position.order_from" md="5"></b-form-input>
+                  <b-form-input id="orderFrom" size="sm" type="date" v-model="orderFrom" md="5"></b-form-input>
                 </b-input-group>
               </b-form-group>
+              {{ position.order_from }} :: {{ position.work_from }}
               <b-form-group horizontal label="Дата выхода на работу:" label-for="workFrom">
-                <b-form-input id="workFrom" size="sm" type="date" v-model="model.position.work_from"></b-form-input>
+                <b-form-input id="workFrom" size="sm" type="date" v-model="workFrom"></b-form-input>
               </b-form-group>
               <b-form-group horizontal label="Основание:" label-for="base">
-                <b-form-input id="base" size="sm" type="text" v-model="model.position.base"></b-form-input>
+                <b-form-input id="base" size="sm" type="text" v-model="position.base"></b-form-input>
               </b-form-group>
             </b-tab>
             <b-tab title="Комментарий">
@@ -90,6 +91,7 @@
 
 <script>
 var Db = require('../../db.js')
+var moment = require('moment')
 
 export default {
   name: 'add-position',
@@ -105,10 +107,21 @@ export default {
     */
 
     this.fetchData()
+    var person = new Db.PersonModel()
+    var position = new Db.PositionModel()
+    if (person.positions.length > 0) {
+      position = person.positions[person.positions.length - 1]
+    } else {
+      person.positions.push(position)
+    }
 
     return {
       isBusy: true,
-      model: new Db.PersonModel(),
+      model: person,
+      position: position,
+      orderFrom: moment(position.order_from).format('YYYY-MM-DD'),
+      workFrom: moment(position.work_from).format('YYYY-MM-DD'),
+
       departments: [],
       jobs: [],
       department: null,
@@ -124,9 +137,6 @@ export default {
       if (!this.model) {
         this.model = new Db.PersonModel()
       }
-      if (!this.model.position) {
-        this.model.position = new Db.PositionModel()
-      }
       if (!this.model.address) {
         this.model.address = new Db.AddressModel()
       }
@@ -134,56 +144,93 @@ export default {
         this.model.document = new Db.DocumentModel()
       }
 
-      if (this.$route.params.departmentId !== '0') {
-        Db.DepartmentModel.findById(this.$route.params.departmentId).exec(function (err, model) {
-          if (err) {
-            alert(err)
-            return
-          }
+      console.log('Params')
+      console.log(this.$route.params)
 
-          if (!model) {
-            model = new Db.DepartmentModel()
-          }
-
-          doc.isBusy = false
-
-          doc.model.position.department = model
-          doc.departmentId = model.id
-
-          /*
-          let job = model.job
-          if (job) {
-            doc.jobId = job.id
-          }
-
-          let department = model.department
-          if (department) {
-            doc.departmentId = department.id
-          }
-          */
-        })
-      } else {
-        this.model.position.department = new Db.DepartmentModel()
-      }
-      if (this.$route.params.personId !== '0') {
+      if (doc.$route.params.personId !== '0') {
         Db.PersonModel.findById(this.$route.params.personId).exec(function (err, model) {
           if (err) {
             alert(err)
             return
           }
 
-          doc.model = model
-        })
-      }
-      if (this.$route.params.id !== '0') {
-        Db.PositionModel.findById(this.$route.params.id).exec(function (err, model) {
-          if (err) {
-            alert(err)
-            return
+          console.log('Model')
+          console.log(model)
+
+          if (model) {
+            doc.model = model
+          } else {
+            doc.model = new Db.PersonModel()
+          }
+          if (model.position && model.position.job) {
+            doc.jobId = model.position.job.id
           }
 
-          doc.model.position = model
+          doc.isBusy = false
+
+          if (doc.$route.params.id !== '0') {
+            let position = doc.model.positions.id(doc.$route.params.id)
+
+            console.log('Position')
+            console.log(position)
+
+            doc.position = position
+            doc.orderFrom = moment(position.order_from).format('YYYY-MM-DD')
+            doc.workFrom = moment(position.work_from).format('YYYY-MM-DD')
+          } else {
+            doc.position = new Db.PositionModel()
+            doc.orderFrom = moment(doc.position.order_from).format('YYYY-MM-DD')
+            doc.workFrom = moment(doc.position.work_from).format('YYYY-MM-DD')
+            doc.model.positions.push(doc.position)
+          }
+
+          if (doc.$route.params.departmentId !== '0') {
+            Db.DepartmentModel.findById(doc.$route.params.departmentId).exec(function (err, model) {
+              if (err) {
+                alert(err)
+                return
+              }
+
+              console.log('Department')
+              console.log(model)
+
+              if (!model) {
+                model = new Db.DepartmentModel()
+              }
+
+              doc.position.department = model
+              doc.departmentId = model.id
+            })
+          } else {
+            doc.model.position.department = new Db.DepartmentModel()
+          }
         })
+      } else {
+        doc.isBusy = false
+
+        doc.model = new Db.PersonModel()
+        doc.model.positions.push(new Db.PositionModel())
+        doc.position = doc.model.position
+        doc.orderFrom = moment(doc.position.order_from).format('YYYY-MM-DD')
+        doc.workFrom = moment(doc.position.work_from).format('YYYY-MM-DD')
+
+        if (doc.$route.params.departmentId !== '0') {
+          Db.DepartmentModel.findById(doc.$route.params.departmentId).exec(function (err, model) {
+            if (err) {
+              alert(err)
+              return
+            }
+
+            if (!model) {
+              model = new Db.DepartmentModel()
+            }
+
+            doc.position.department = model
+            doc.departmentId = model.id
+          })
+        } else {
+          doc.model.position.department = new Db.DepartmentModel()
+        }
       }
 
       this.departments = []
@@ -210,13 +257,15 @@ export default {
       e.preventDefault()
 
       let doc = this
+      this.model.position.order_from = this.orderFrom
+      this.model.position.work_from = this.workFrom
       Db.JobModel.findById(this.jobId, function (err, job) {
         if (err) {
           alert(err)
           return
         }
 
-        doc.model.job = job
+        doc.position.job = job
 
         Db.DepartmentModel.findById(doc.departmentId, function (err, department) {
           if (err) {
@@ -224,8 +273,12 @@ export default {
             return
           }
 
-          doc.model.department = department
+          doc.position.department = department
           doc.model.save()
+
+          // alert(doc.model)
+          // alert(doc.model.positions)
+          // alert(doc.position)
 
           doc.$router.push('/person/edit/' + doc.model.id)
           // doc.$router.go(-1)

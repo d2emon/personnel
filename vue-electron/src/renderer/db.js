@@ -150,8 +150,9 @@ Position.virtual('work_from_text').get(function () {
   return moment(this.work_from).format('DD.MM.YYYY')
 })
 
+var PositionModel = mongoose.model('Position', Position)
+
 var Person = new Schema({
-  position: Position,
   positions: [Position],
   first_name: String,
   second_name: String,
@@ -161,6 +162,13 @@ var Person = new Schema({
   birthday: Date,
   document: Document,
   phone: String
+})
+
+Person.virtual('position').get(function () {
+  if (this.positions.length <= 0) {
+    return new PositionModel()
+  }
+  return this.positions[this.positions.length - 1]
 })
 
 // validation
@@ -174,7 +182,7 @@ module.exports.JobCategoryModel = mongoose.model('JobCategory', JobCategory)
 module.exports.JobModel = mongoose.model('Job', Job)
 module.exports.VacancyModel = mongoose.model('Vacancy', Vacancy)
 module.exports.DepartmentModel = mongoose.model('Department', Department)
-module.exports.PositionModel = mongoose.model('Position', Position)
+module.exports.PositionModel = PositionModel
 module.exports.PersonModel = mongoose.model('Person', Person)
 module.exports.AddressModel = mongoose.model('Address', Address)
 module.exports.DocumentModel = mongoose.model('Document', Document)

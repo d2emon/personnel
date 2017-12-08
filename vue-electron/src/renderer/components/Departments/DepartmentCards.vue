@@ -4,8 +4,8 @@
       <b-button size="sm" variant="outline-primary" :to="'/position/edit/' + selectedDepartmentId + '/0/0'"><i class="fa fa-sm fa-plus"></i></b-button>
     </div>
     <div class="overtab">
-      <div v-if="positions.length > 0">
-        <b-table striped hover :items="positions" :fields="fields">
+      <div v-if="persons.length > 0">
+        <b-table striped hover :items="persons" :fields="fields">
           <template slot="actions" scope="row">
             <b-button-group v-if="row.item">
               <b-btn size="sm" variant="primary" title="Изменить" :to="'/person/edit/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
@@ -14,12 +14,11 @@
             <b-button-group v-else>
               <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
             </b-button-group>
-            {{ row.item.id }}
           </template>
-          <template slot="is_fulltime" scope="row">{{ partnerships[row.item.position.partnership_id] }}</template>
-          <template slot="tab_no" scope="row">{{ row.item.position.tab_no }}</template>
+          <template slot="is_fulltime" scope="row"><div v-if="row.item.position">{{ partnerships[row.item.position.partnership_id] }}</div></template>
+          <template slot="tab_no" scope="row"><div v-if="row.item.position">{{ row.item.position.tab_no }}</div></template>
           <template slot="work_from_text" scope="row">{{ workFromText(row.item.position) }}</template>
-          <template slot="job" scope="row">{{row.item.position.job}}::<span v-if="row.item.position.job">{{row.item.position.job.title}}</span><span v-else>&nbsp;</span></template>
+          <template slot="job" scope="row"><span v-if="row.item.position.job">{{row.item.position.job.title}}</span><span v-else>&nbsp;</span></template>
           <template slot="department" scope="row"><span v-if="row.item.position.department">{{row.item.position.department.title}}</span><span v-else>&nbsp;</span></template>
         </b-table>
       </div>
@@ -118,7 +117,7 @@ export default {
           sortable: true
         }
       ],
-      positions: []
+      persons: []
     }
   },
   methods: {
@@ -134,10 +133,26 @@ export default {
 
         console.log('Persons loaded')
         console.log(models)
-        doc.positions = models
+        doc.persons = models
+
+        var a = Db.PersonModel.aggregate([
+          {$unwind: '$positions'}
+        ], function (err, models) {
+          if (err) {
+            alert(err)
+            return
+          }
+
+          console.log('aggregate')
+          console.log(models)
+        })
+        console.log(a)
       })
     },
     workFromText: function (item) {
+      if (!item) {
+        return moment().format('DD.MM.YYYY')
+      }
       return moment(item.work_from).format('DD.MM.YYYY')
       //
     }

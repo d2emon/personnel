@@ -2,28 +2,25 @@
   <b-card no-body>
     <b-tabs small card ref="tabs" v-model="tabIndex">
       <b-tab card title="Назначения" class="pass-tab">
-        <p>M: {{ model }}</p>
-
         <div v-if="model.positions">
           <div class="toolbar">
-            <b-button size="sm" variant="outline-primary" to="/position/edit/0"><i class="fa fa-sm fa-plus"></i></b-button>
+            <b-button size="sm" variant="outline-primary" :to="'/position/edit/0/' + model.id + '/0'"><i class="fa fa-sm fa-plus"></i></b-button>
           </div>
           <b-card class="overtab" no-body>
-            <p>P: {{ model.positions }}</p>
-            <p>i: {{ row.item.position.id }}</p>
             <b-table striped hover v-if="model.positions" :items="model.positions" :fields="positionFields">
               <template slot="actions" scope="row">
-                  <b-button-group v-if="row.item">
-                    <b-btn  size="sm" variant="primary" title="Изменить" :to="'/person/edit/' + row.item.department.id + '/' + row.item.id + '/' + 'row.item.position.id'"><i class="fa fa-sm fa-edit"></i></b-btn>
+                  <b-button-group v-if="row.item.department">
+                    <b-btn  size="sm" variant="primary" title="Изменить" :to="'/position/edit/' + row.item.department.id + '/' + model.id + '/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
                     <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelByIndex(row.index, row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
                   </b-button-group>
                   <b-button-group v-else>
+                    <b-btn  size="sm" variant="primary" title="Изменить" :to="'/position/edit/0/' + model.id + '/' + row.item.id"><i class="fa fa-sm fa-edit"></i></b-btn>
                     <b-btn size="sm" variant="primary" title="Удалить" @click.stop="queryDelModel(row.item)"><i class="fa fa-sm fa-trash"></i></b-btn>
                   </b-button-group>
               </template>                
               <template slot="work_from" scope="row">{{row.item.work_from_text}}</template>
               <template slot="department" scope="row"><span v-if="row.item.department">{{row.item.department.title}}</span><span v-else>&nbsp;</span></template>
-              <template slot="job" scope="row">{{row.item}}::{{row.item.job}}::<span v-if="row.item.job">{{row.item.job.title}}</span><span v-else>&nbsp;</span></template>
+              <template slot="job" scope="row"><span v-if="row.item.job">{{row.item.job.title}}</span><span v-else>&nbsp;</span></template>
               <template slot="order_from" scope="row">{{row.item.order_from_text}}</template>
             </b-table>
           </b-card>
