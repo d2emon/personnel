@@ -116,12 +116,11 @@ var Document = new Schema({
 })
 
 var Position = new Schema({
-  partnership_id: Number,
   tab_no: String,
   department: Department,
   job: Job,
-  // Sovmeshenie
-  vacancies: { type: Number, default: 0.00 },
+  partnership_id: { type: Number, default: 1 },
+  vacancies: { type: Number, default: 1.00 },
   salary: { type: Number, default: 0.00 },
   // Schedule
   order_no: String,
@@ -158,7 +157,7 @@ var Person = new Schema({
   second_name: String,
   last_name: String,
   address: Address,
-  sex_id: [0, 1],
+  sex_id: Number,
   birthday: Date,
   document: Document,
   phone: String

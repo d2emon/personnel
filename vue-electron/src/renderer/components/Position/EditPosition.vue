@@ -19,7 +19,7 @@
                     <b-form-group horizontal label="Табельный номер:" label-for="tab_no">
                       <b-form-input id="tab_no" size="sm" type="number" v-model="model.position.tab_no"></b-form-input>
                     </b-form-group>
-                    <div v-if="model.person">
+                    <div>
                       <b-form-group horizontal label="Фамилия:" label-for="last_name">
                         <b-form-input id="last_name" size="sm" plaintext v-model="model.last_name"></b-form-input>
                       </b-form-group>
@@ -72,9 +72,10 @@
             </b-tab>
             <b-tab title="Работа">
               <position-job :model="model"></position-job>
-            </b-tab>            
-            <!-- Job -->
-            <!-- Pass -->
+            </b-tab>    
+            <b-tab title="Паспорт">
+              <position-pass :model="model"></position-pass>
+            </b-tab> 
             <b-tab title="Образование" disabled>
               <b-card no-body>
                 ввв
@@ -119,6 +120,7 @@
 
 <script>
 import PositionJob from './PositionJob'
+import PositionPass from './PositionPass'
 
 var Db = require('../../db.js')
 var moment = require('moment')
@@ -126,7 +128,8 @@ var moment = require('moment')
 export default {
   name: 'vacancy',
   components: {
-    PositionJob
+    PositionJob,
+    PositionPass
   },
   data: function () {
     var model = null
