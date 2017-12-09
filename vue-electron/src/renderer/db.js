@@ -1,8 +1,9 @@
 var mongoose = require('mongoose')
 var moment = require('moment')
+var config = require('@/config')
 
 // var log         = require('./log')(module);
-var mongoUrl = 'mongodb://localhost:27017/personnel'
+var mongoUrl = config.database
 
 function connect () {
   console.log('connect()')
