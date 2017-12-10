@@ -36,8 +36,8 @@
 <script>
 import JobCategories from './components/JobCategory/JobCategories'
 
-var Db = require('./db.js')
-var connection = Db.connection
+var database = require('@/store/db')
+var connection = database.connection
 
 export default {
   name: 'personnel',
@@ -65,17 +65,17 @@ export default {
       var doc = this
 
       if (!connection) {
-        connection = Db.connect()
+        connection = database.connect()
         return
       }
 
       connection.once('disconnected', function () {
-        Db.connect()
+        database.connect()
       })
       connection.once('open', function callback () {
         doc.showDbInfo('БД подключена!')
       })
-      Db.disconnect()
+      database.disconnect()
     }
   },
   created: function () {

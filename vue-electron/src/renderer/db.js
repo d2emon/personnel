@@ -1,58 +1,5 @@
 var mongoose = require('mongoose')
 var moment = require('moment')
-var config = require('@/config')
-
-// var log         = require('./log')(module);
-var mongoUrl = config.database
-
-function connect () {
-  console.log('connect()')
-  /**
-   * mongoose.connect(mongoUrl, function (err) {
-   *   if (err) {
-   *     console.error('Failed to connect to mongo on startup - retrying in 5 sec', err)
-   *     setTimeout(connect, 5000)
-   *   }
-   * })
-   * return mongoose.connection
-   */
-
-  /**
-   * mongoose.connect(mongoUrl, { server: { reconnectTries: Number.MAX_VALUE } })
-   * return mongoose.connection
-   */
-
-  // var connection = mongoose.createConnection(mongoUrl, {
-  mongoose.connect(mongoUrl, {
-    server: {
-      useMongoClient: true,
-      reconnectTries: Number.MAX_VALUE,
-      reconnectInterval: 5000
-    }
-  }).then(
-    () => {
-      console.log('Connected to database')
-      // console.log(mongoose.connection)
-      return mongoose.connection
-    },
-    err => {
-      console.log('Connection error')
-      alert('Error Promise ' + err)
-    }
-  )
-
-  // console.log(connection)
-  // console.log(mongoose.connection)
-
-  return mongoose.connection
-}
-
-function disconnect () {
-  mongoose.disconnect()
-  console.log('Connection closed!')
-}
-
-var db = connect()
 
 /**
  * db.on('open', function () {
@@ -187,6 +134,3 @@ module.exports.PersonModel = mongoose.model('Person', Person)
 module.exports.AddressModel = mongoose.model('Address', Address)
 module.exports.DocumentModel = mongoose.model('Document', Document)
 module.exports.RegistrationModel = mongoose.model('Registration', Registration)
-module.exports.connection = db
-module.exports.connect = connect
-module.exports.disconnect = disconnect
