@@ -105,7 +105,7 @@
                      </b-card>
                     </div>
                   </b-tab>
-                  <b-tab title="Семейное положение" disabled="true">
+                  <b-tab title="Семейное положение" :disabled="true">
                     <div class="main-tab pass-tab">
                       <b-form-group horizontal label="Семейное положение:" label-for="family">
                         <!-- b-form-select id="family" v-model="model.sex_id">
@@ -122,7 +122,7 @@
                       </div>
                     </div>
                   </b-tab>
-                  <b-tab title="Страховое" disabled="true">
+                  <b-tab title="Страховое" :disabled="true">
                     <div class="main-tab pass-tab">
                       <b-form-group horizontal label="№ страхового свидетельства:" label-for="phone">
                         <b-form-input id="phone" v-model="model.phone"></b-form-input>

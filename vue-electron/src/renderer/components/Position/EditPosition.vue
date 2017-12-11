@@ -61,6 +61,7 @@
                 <b-col md="4">
                   <b-card class="photo-block">
                     <div>ФОТО</div>
+                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
                   </b-card>
                 </b-col>
               </b-row>
@@ -76,27 +77,27 @@
             <b-tab title="Паспорт">
               <position-pass :model="model"></position-pass>
             </b-tab> 
-            <b-tab title="Образование" disabled>
+            <b-tab title="Образование" :disabled="true">
               <b-card no-body>
                 ввв
               </b-card>
             </b-tab>            
-            <b-tab title="ВУ" disabled>
+            <b-tab title="ВУ" :disabled="true">
               <b-card no-body>
                 ввв
               </b-card>
             </b-tab>            
-            <b-tab title="Поощрения" disabled>
+            <b-tab title="Поощрения" :disabled="true">
               <b-card no-body>
                 ввв
               </b-card>
             </b-tab>            
-            <b-tab title="Разное" disabled>
+            <b-tab title="Разное" :disabled="true">
               <b-card no-body>
                 ввв
               </b-card>
             </b-tab>            
-            <b-tab title="Трудовые" disabled>
+            <b-tab title="Трудовые" :disabled="true">
               <b-card no-body>
                 ввв
               </b-card>
@@ -122,6 +123,9 @@
 import PositionJob from './PositionJob'
 import PositionPass from './PositionPass'
 
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.css'
+
 var Db = require('../../db.js')
 var moment = require('moment')
 
@@ -129,7 +133,8 @@ export default {
   name: 'vacancy',
   components: {
     PositionJob,
-    PositionPass
+    PositionPass,
+    vueDropzone: vue2Dropzone
   },
   data: function () {
     var model = null
@@ -167,6 +172,15 @@ export default {
 
       order_from: moment().format('YYYY-MM-DD'),
       work_from: moment().format('YYYY-MM-DD'),
+
+      dropzoneOptions: {
+        // url: 'https://httpbin.org/post',
+        url: 'localhost',
+        thumbnailWidth: 150,
+        maxFilesize: 0.5,
+        clickable: true,
+        headers: { 'My-Awesome-Header': 'header value' }
+      },
 
       moment: moment
     }
