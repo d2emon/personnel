@@ -7,6 +7,7 @@
       <b-collapse is-nav id="nav_collapse">
 
         <b-navbar-nav class="mr-auto">
+          <b-nav-item @click="goBack" title="Назад" href="#"><i class="fa fa-arrow-circle-left"></i></b-nav-item>
           <b-nav-item to="/departments" title="Отделы"><i class="fa fa-sitemap"></i></b-nav-item>
           <b-nav-item to="/positions" title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
           <b-nav-item to="/documents" disabled title="Бланки"><i class="fa fa-file-text-o"></i></b-nav-item>
@@ -76,6 +77,9 @@ export default {
         doc.showDbInfo('БД подключена!')
       })
       database.disconnect()
+    },
+    goBack: function () {
+      this.$router.go(-1)
     }
   },
   created: function () {
