@@ -101,4 +101,13 @@ export default {
 .container {
   min-width: 900px;
 }
+
+.jumbotron {
+  height: calc(100% - 35px);
+}
+
+main .container {
+  overflow: auto;
+  height: calc(100vh - 70px);
+}
 </style>
