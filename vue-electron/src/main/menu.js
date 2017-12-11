@@ -1,5 +1,6 @@
 'use strict'
 
+// import Menu from 'electron'
 import { Menu, shell } from 'electron'
 // const {app, Menu, shell} = require('electron');
 
@@ -57,7 +58,24 @@ const template = [
     ]
   },
   {
-    label: 'Отчеты'
+    label: 'Отчеты',
+    submenu: [
+      { label: 'Бланк', enabled: false },
+      { label: 'Журнал регистрации', enabled: false },
+      { label: 'Сохранить', enabled: false },
+      { label: 'Добавить', enabled: false },
+      { label: 'Закрыть', enabled: false },
+      { label: 'Печать', enabled: false },
+      {type: 'separator'},
+      { label: 'Экспорт', enabled: false },
+      {type: 'separator'},
+      { label: 'Численность сотрудников по годам', enabled: false },
+      { label: 'Штатное расписание', enabled: false },
+      { label: 'Штатное расписание (иерарх.)', enabled: false },
+      { label: 'Регистрация трудовых книжек', enabled: false },
+      { label: 'Книга учета ЛК', enabled: false },
+      { label: 'Журнал б/листов', enabled: false }
+    ]
   },
   {
     label: 'Вид',
@@ -95,6 +113,37 @@ const template = [
     ]
   },
   {
+    label: 'Фильтры',
+    submenu: [
+      {
+        label: 'Уволенные',
+        enabled: false
+      },
+      {type: 'separator'},
+      {
+        label: 'Все сотрудники',
+        enabled: false
+      },
+      {
+        label: 'Постоянные',
+        enabled: false
+      },
+      {
+        label: 'Совместители',
+        enabled: false
+      },
+      {
+        label: 'Договорники',
+        enabled: false
+      },
+      {type: 'separator'},
+      {
+        label: 'Последняя выборка',
+        enabled: false
+      }
+    ]
+  },
+  {
     label: 'Справочники',
     submenu: [
       {label: 'Отделы', click: loadPage('/departments')},
@@ -123,10 +172,37 @@ const template = [
     ]
   },
   {
-    label: 'Сервис'
+    label: 'Сервис',
+    submenu: [
+      {label: 'Редактор бланков', enabled: false},
+      {type: 'separator'},
+      {label: 'Календарь сообщений', enabled: false},
+      {label: 'Калькулятор', enabled: false},
+      {label: 'Календарь', enabled: false},
+      {type: 'separator'},
+      {label: 'Пароль', enabled: false},
+      {label: 'Администратор', enabled: false},
+      {label: 'Архивация', enabled: false},
+      {label: 'Ремонт базы', enabled: false},
+      {type: 'separator'},
+      {label: 'Рабочая дата', enabled: false},
+      {type: 'separator'},
+      {label: 'Настройка', enabled: false},
+      {label: 'Пересчет оклада', enabled: false},
+      {label: 'Конвертор', enabled: false},
+      {label: 'Табель', enabled: false},
+      {label: 'Слияние', enabled: false},
+      {label: 'Уволенные', enabled: false}
+    ]
   },
   {
-    label: 'Формат'
+    label: 'Формат',
+    submenu: [
+      {
+        label: 'Свойства',
+        enabled: false
+      }
+    ]
   },
   {
     label: 'Окно',
@@ -145,8 +221,9 @@ const template = [
     label: 'Помощь',
     submenu: [
       {
-        label: 'Learn More',
+        label: 'Electron.js',
         click () { shell.openExternal('https://electron.atom.io') }
+        // click () { alert('В случае неполадок стучите в стену') }
       }
     ]
   }
