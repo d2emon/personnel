@@ -147,7 +147,7 @@ const template = [
     label: 'Справочники',
     submenu: [
       {label: 'Отделы', click: loadPage('/departments')},
-      {label: 'Личные карточки', enabled: false},
+      {label: 'Личные карточки', click: loadPage('/positions')},
       {label: 'Фильтры', enabled: false},
       {type: 'separator'},
       {label: 'Должности', click: loadPage('/jobs')},
