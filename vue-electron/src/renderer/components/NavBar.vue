@@ -10,8 +10,8 @@
         <b-nav-item to="/departments" title="Отделы"><i class="fa fa-sitemap"></i></b-nav-item>
         <b-nav-item to="/positions" title="Личные карточки"><i class="fa fa-id-card-o"></i></b-nav-item>
         <b-nav-item to="/documents" disabled title="Бланки"><i class="fa fa-file-text-o"></i></b-nav-item>
-        <b-nav-item to="/calculator" disabled title="Калькулятор"><i class="fa fa-calculator"></i></b-nav-item>
-        <b-nav-item to="/calendar" disabled title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
+        <b-nav-item to="/calculator" title="Калькулятор"><i class="fa fa-calculator"></i></b-nav-item>
+        <b-nav-item to="/calendar" title="Календарь"><i class="fa fa-calendar"></i></b-nav-item>
         <b-nav-item to="/work-date" disabled title="Рабочая дата"><i class="fa fa-calendar-check-o"></i></b-nav-item>
         <b-nav-item to="/settings" disabled title="Настройки"><i class="fa fa-cog"></i></b-nav-item>
         <b-nav-item @click="reconnect" title="Переподключить БД"><i class="fa fa-refresh"></i></b-nav-item>

@@ -73,6 +73,20 @@ export default new Router({
       name: 'Edit Vacancy',
       component: require('@/components/Vacancy').default
     },
+
+    // Pages
+    {
+      path: '/calculator',
+      name: 'Calculator',
+      component: require('@/components/pages/Calculator').default
+    },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: require('@/components/pages/Calendar').default
+    },
+
+    // Other
     {
       path: '*',
       redirect: '/departments'
