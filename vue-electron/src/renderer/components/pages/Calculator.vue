@@ -8,7 +8,9 @@
           <!--       <p>{{ display }}:{{ prevOps }}:{{ decimalAdded }}:{{ total }}</br>CurrentNum=> {{ currentNum }}</p> -->
           <div class="containerBox">
             <b-row class="btn-row">
-              <b-col cols="12" class="cTop">{{ display }}</b-col>
+              <b-col cols="12" class="cInput">
+                <b-form-input v-model="display" type="text" readonly></b-form-input><br>
+              </b-col>
             </b-row>
             <b-row class="btn-row">
               <b-col cols="3"><b-btn @click="clear">C</b-btn></b-col>
@@ -295,6 +297,17 @@ export default {
 
 .cBox-na:hover {
   background: #ACD0C0 !important;
+}
+
+.cInput {
+  padding: 0px;  
+}
+
+.cInput input {
+  text-align: right;
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid rgba(95, 95, 95, 0.2);  
 }
 
 .cTop {
