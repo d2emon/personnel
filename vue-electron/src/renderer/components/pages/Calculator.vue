@@ -3,9 +3,7 @@
     <div class="header">
       <b-container>
         <div class="calculator">
-        <h1 class="cover-heading">Калькулятор</h1>
         <div class="appBox" id="calApp">
-          <!--       <p>{{ display }}:{{ prevOps }}:{{ decimalAdded }}:{{ total }}</br>CurrentNum=> {{ currentNum }}</p> -->
           <div class="containerBox">
             <b-row class="btn-row">
               <b-col cols="12" class="cInput">
@@ -13,10 +11,10 @@
               </b-col>
             </b-row>
             <b-row class="btn-row">
-              <b-col cols="3"><b-btn @click="clear">C</b-btn></b-col>
+              <b-col cols="3"><b-btn @click="clear" variant="danger">C</b-btn></b-col>
               <b-col cols="3"><b-btn @click="enterOps(4)">÷</b-btn></b-col>
               <b-col cols="3"><b-btn @click="enterOps(3)">X</b-btn></b-col>
-              <b-col cols="3"><b-btn @click="del">DEL</b-btn></b-col>
+              <b-col cols="3"><b-btn @click="del"><span class="fa fa-caret-left"></span></b-btn></b-col>
             </b-row>
             <b-row class="btn-row">
               <b-col cols="3"><b-btn @click="enterNum(7)">7</b-btn></b-col>
@@ -226,20 +224,8 @@ export default {
 }
 
 .calculator {
-  width: 250px;
+  width: 310px;
   margin: 0px auto;
-}
-
-.calculator h1 {
-  /* width: 400px; */
-  /* font-size: 46px; */
-  /* color: #4F6457; */
-  /* margin-bottom: 2.6rem; */
-  text-shadow: 1px 1px 5px rgba(125, 125, 125, 0.1),
-               2px 2px 5px rgba(125, 125, 125, 0.1),
-               3px 3px 5px rgba(125, 125, 125, 0.1),
-               4px 4px 5px rgba(125, 125, 125, 0.1),
-               5px 5px 5px rgba(125, 125, 125, 0.1);
 }
 
 .header p {
@@ -268,11 +254,16 @@ export default {
 
 .btn-row {
   height: 40px;
-  /* padding: 15px 0px; */
+  /* padding: 0px 15px; */
 }
 
 .btn-row .btn {
   width: 55px;
+  margin-right: 5px;
+}
+
+.btn-row:last .btn {
+  margin-right: 0;
 }
 
 /* */
@@ -300,7 +291,7 @@ export default {
 }
 
 .cInput {
-  padding: 0px;  
+  padding: 0px 15px;  
 }
 
 .cInput input {
