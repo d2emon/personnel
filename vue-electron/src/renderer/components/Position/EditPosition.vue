@@ -60,8 +60,8 @@
                 </b-col>
                 <b-col md="4">
                   <b-card class="photo-block">
-                    <div>ФОТО</div>
-                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+                    <div>ФОТО:"{{model.image_file}}"</div>
+                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto"></vue-dropzone>
                   </b-card>
                 </b-col>
               </b-row>
@@ -175,8 +175,8 @@ export default {
 
       dropzoneOptions: {
         // url: 'https://httpbin.org/post',
-        url: 'localhost',
-        thumbnailWidth: 150,
+        url: '/',
+        thumbnailWidth: 100,
         maxFilesize: 0.5,
         clickable: true,
         headers: { 'My-Awesome-Header': 'header value' }
@@ -315,6 +315,41 @@ export default {
           // doc.$router.go(-1)
         })
       })
+    },
+    uploadFoto: function (file) {
+      alert(file.path)
+      console.log(file)
+
+      var fs = require('fs')
+      var dest = 'images/' + this.model.id + '.jpg'
+
+      var rd = fs.createReadStream(file.path)
+      /*
+      rd.on("error", function(err) {
+        done(err)
+      })
+      */
+      var wr = fs.createWriteStream(dest)
+      /*
+      wr.on("error", function(err) {
+        done(err)
+      })
+      */
+      /*
+      wr.on("close", function(ex) {
+        done()
+      })
+      */
+      rd.pipe(wr)
+
+      /*
+      function done(err) {
+        if (!cbCalled) {
+          cb(err);
+          cbCalled = true;
+        }
+      }
+      */
     },
     closeEditor: function (e) {
       e.preventDefault()

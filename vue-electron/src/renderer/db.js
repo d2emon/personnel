@@ -118,6 +118,15 @@ Person.virtual('position').get(function () {
   return this.positions[this.positions.length - 1]
 })
 
+Person.virtual('image_file').get(function () {
+  var fs = require('fs')
+  var filename = 'images/' + this.id + '.jpg'
+  if (fs.existsSync(filename)) {
+    return filename
+  } else {
+    return 'noname'
+  }
+})
 // validation
 /**
  * Article.path('title').validate(function (v) {
