@@ -60,8 +60,10 @@
                 </b-col>
                 <b-col md="4">
                   <b-card class="photo-block">
+                    <div ref="testRef">gg</div>
                     <div>ФОТО:"{{model.image_file}}"</div>
-                    <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto"></vue-dropzone>
+                    <img :src="model.image_file">
+                    <vue-dropzone ref="fotoDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto"></vue-dropzone>
                   </b-card>
                 </b-col>
               </b-row>
@@ -210,6 +212,16 @@ export default {
             alert(err)
             return
           }
+
+          let filename = 'images/' + model.id + '.jpg'
+          console.log('Upload fotos')
+          console.log(filename)
+          console.log(doc.$refs)
+          /*
+          doc.$refs.fotoDropzone.manuallyAddFile(filename, '', function () {
+            console.log('Foto uploaded')
+          })
+          */
 
           if (!model) {
             model = new Db.PersonModel()
