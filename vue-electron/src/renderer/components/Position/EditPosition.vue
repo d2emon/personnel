@@ -62,7 +62,7 @@
                   <b-card class="photo-block">
                     <div ref="testRef">gg</div>
                     <div>ФОТО:"{{model.image_file}}"</div>
-                    <img :src="model.image_file">
+                    <b-btn @click="uploadImages">Reload</b-btn>
                     <vue-dropzone ref="fotoDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto"></vue-dropzone>
                   </b-card>
                 </b-col>
@@ -213,16 +213,6 @@ export default {
             return
           }
 
-          let filename = 'images/' + model.id + '.jpg'
-          console.log('Upload fotos')
-          console.log(filename)
-          console.log(doc.$refs)
-          /*
-          doc.$refs.fotoDropzone.manuallyAddFile(filename, '', function () {
-            console.log('Foto uploaded')
-          })
-          */
-
           if (!model) {
             model = new Db.PersonModel()
           }
@@ -253,6 +243,8 @@ export default {
           if (department) {
             doc.departmentId = department.id
           }
+
+          doc.uploadImages()
         })
       } else {
         this.model = new Db.PersonModel()
@@ -288,6 +280,23 @@ export default {
 
         doc.jobs = models
       })
+    },
+    uploadImages: function () {
+      let filename = 'images/' + this.model.id + '.jpg'
+      console.log('Upload fotos')
+      console.log(this.model)
+      console.log(filename)
+      console.log(this.$refs)
+      if (this.$refs.fotoDropzone) {
+        console.log('found')
+        this.$refs.fotoDropzone.manuallyAddFile(filename, '', function () {
+          console.log('Foto uploaded')
+        })
+      } else {
+        console.log('not found')
+      }
+      console.log(this.$refs.tabs)
+      /*  */
     },
     saveModel: function (e) {
       e.preventDefault()
@@ -368,7 +377,7 @@ export default {
       this.$router.go(-1)
     }
   },
-  created: function () {
+  mounted: function () {
     this.fetchData()
   }
 }
