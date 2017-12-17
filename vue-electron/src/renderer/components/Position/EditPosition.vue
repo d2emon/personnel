@@ -60,8 +60,7 @@
                 </b-col>
                 <b-col md="4">
                   <b-card class="photo-block">
-                    <div ref="testRef">gg</div>
-                    <div>ФОТО:"{{model.image_file}}"</div>
+                    <div>ФОТО</div>
                     <b-btn @click="uploadImages">Reload</b-btn>
                     <vue-dropzone ref="fotoDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto" @mounted="uploadImages"></vue-dropzone>
                   </b-card>
