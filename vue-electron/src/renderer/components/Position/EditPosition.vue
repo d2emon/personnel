@@ -61,7 +61,7 @@
                 <b-col md="4">
                   <b-card class="photo-block">
                     <div>ФОТО <b-btn size="sm" @click="uploadImages" title="Обновить"><i class="fa fa-refresh"></i></b-btn></div>
-                    <vue-dropzone ref="fotoDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto" @vdropzone-mounted="uploadImages" @vdropzone-max-files-exceeded="newImage"></vue-dropzone>
+                    <vue-dropzone ref="fotoDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto" @vdropzone-mounted="uploadImages" @vdropzone-max-files-exceeded="newImage" @vdropzone-sending="sendImage"></vue-dropzone>
                   </b-card>
                 </b-col>
               </b-row>
@@ -175,12 +175,13 @@ export default {
 
       dropzoneOptions: {
         // url: 'https://httpbin.org/post',
-        url: '/',
+        url: '#',
         thumbnailWidth: 100,
+        thumbnailHeight: 100,
         // maxFilesize: 0.5,
         maxFiles: 1,
-        clickable: true
-        // headers: { 'My-Awesome-Header': 'header value' }
+        // clickable: true
+        headers: { 'My-Awesome-Header': 'header value' }
       },
 
       moment: moment
@@ -311,6 +312,9 @@ export default {
     newImage: function (file) {
       this.$refs.fotoDropzone.removeAllFiles()
       this.$refs.fotoDropzone.addFile(file)
+    },
+    sendImage: function (file, xhr, formData) {
+      console.log({ file: file, xhr: xhr, formData: formData })
     },
     saveModel: function (e) {
       e.preventDefault()
