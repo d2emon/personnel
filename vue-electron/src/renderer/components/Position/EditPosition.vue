@@ -60,9 +60,8 @@
                 </b-col>
                 <b-col md="4">
                   <b-card class="photo-block">
-                    <div>ФОТО</div>
-                    <b-btn @click="uploadImages">Reload</b-btn>
-                    <vue-dropzone ref="fotoDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto" @mounted="uploadImages"></vue-dropzone>
+                    <div>ФОТО <b-btn size="sm" @click="uploadImages" title="Обновить"><i class="fa fa-refresh"></i></b-btn></div>
+                    <vue-dropzone ref="fotoDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-file-added="uploadFoto" @vdropzone-mounted="uploadImages" @vdropzone-max-files-exceeded="newImage"></vue-dropzone>
                   </b-card>
                 </b-col>
               </b-row>
@@ -178,9 +177,10 @@ export default {
         // url: 'https://httpbin.org/post',
         url: '/',
         thumbnailWidth: 100,
-        maxFilesize: 0.5,
-        clickable: true,
-        headers: { 'My-Awesome-Header': 'header value' }
+        // maxFilesize: 0.5,
+        maxFiles: 1,
+        clickable: true
+        // headers: { 'My-Awesome-Header': 'header value' }
       },
 
       moment: moment
@@ -285,28 +285,28 @@ export default {
         console.log('No model')
         return
       }
-
-      // var file = { size: 123, name: 'Фото' }
-      var file = { name: 'Фото' }
-      var filename = 'images/' + this.model.id + '.jpg'
-      console.log('Upload fotos')
-      console.log(this.model)
-      console.log(filename)
-      console.log(this.$refs)
-      console.log(this.$refs.fotoDropzone)
-
       if (!this.$refs.fotoDropzone) {
-        console.log('not found')
+        // console.log('not found')
         return
       }
 
-      console.log('found')
-      this.$refs.fotoDropzone.manuallyAddFile(file, filename)
+      // var file = { size: 123, name: 'Фото' }
+      var filename = this.model.id + '.jpg'
+      var filepath = 'images/' + filename
+      var file = { name: filename }
+
+      this.$refs.fotoDropzone.removeAllFiles()
+      console.log({file: file, filename: filepath})
+      this.$refs.fotoDropzone.manuallyAddFile(file, filepath)
       /*
       this.$refs.fotoDropzone.manuallyAddFile(file, filename, function () {
         console.log('Foto uploaded')
       })
       */
+    },
+    newImage: function (file) {
+      this.$refs.fotoDropzone.removeAllFiles()
+      this.$refs.fotoDropzone.addFile(file)
     },
     saveModel: function (e) {
       e.preventDefault()
@@ -348,8 +348,9 @@ export default {
       })
     },
     uploadFoto: function (file) {
-      alert(file.path)
-      console.log(file)
+      if (!file.path) {
+        return
+      }
 
       var fs = require('fs')
       var dest = 'images/' + this.model.id + '.jpg'
