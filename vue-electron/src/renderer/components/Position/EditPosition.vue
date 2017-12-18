@@ -290,10 +290,14 @@ export default {
         return
       }
 
+      var fs = require('fs')
+
       // var file = { size: 123, name: 'Фото' }
       var filename = this.model.id + '.jpg'
       var filepath = 'images/' + filename
-      var file = { name: filename }
+      var stats = fs.statSync(filepath)
+      var filesize = stats.size
+      var file = { name: filename, size: filesize }
 
       this.$refs.fotoDropzone.removeAllFiles()
       console.log({file: file, filename: filepath})
